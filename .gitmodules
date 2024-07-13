@@ -1,0 +1,3 @@
+[submodule "upstream/obs-websocket"]
+	path = upstream/obs-websocket
+	url = https://github.com/obsproject/obs-websocket

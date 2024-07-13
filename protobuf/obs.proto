@@ -1,0 +1,1485 @@
+syntax = "proto3";
+import public "objects.proto";
+option go_package = "go/obs_grpc";
+
+enum EventSubscription {
+	None = 0;
+	General = 1;
+	Config = 2;
+	Scenes = 4;
+	Inputs = 8;
+	Transitions = 16;
+	Filters = 32;
+	Outputs = 64;
+	SceneItems = 128;
+	MediaInputs = 256;
+	Vendors = 512;
+	Ui = 1024;
+	All = 2047;
+	InputVolumeMeters = 65536;
+	InputActiveStateChanged = 131072;
+	InputShowStateChanged = 262144;
+	SceneItemTransformChanged = 524288;
+}
+enum RequestBatchExecutionType {
+	SerialRealtime = 0;
+	_None = -1;
+	SerialFrame = 1;
+	Parallel = 2;
+}
+enum RequestStatus {
+	Unknown = 0;
+	NoError = 10;
+	Success = 100;
+	MissingRequestType = 203;
+	UnknownRequestType = 204;
+	GenericError = 205;
+	UnsupportedRequestBatchExecutionType = 206;
+	NotReady = 207;
+	MissingRequestField = 300;
+	MissingRequestData = 301;
+	InvalidRequestField = 400;
+	InvalidRequestFieldType = 401;
+	RequestFieldOutOfRange = 402;
+	RequestFieldEmpty = 403;
+	TooManyRequestFields = 404;
+	OutputRunning = 500;
+	OutputNotRunning = 501;
+	OutputPaused = 502;
+	OutputNotPaused = 503;
+	OutputDisabled = 504;
+	StudioModeActive = 505;
+	StudioModeNotActive = 506;
+	ResourceNotFound = 600;
+	ResourceAlreadyExists = 601;
+	InvalidResourceType = 602;
+	NotEnoughResources = 603;
+	InvalidResourceState = 604;
+	InvalidInputKind = 605;
+	ResourceNotConfigurable = 606;
+	InvalidFilterKind = 607;
+	ResourceCreationFailed = 700;
+	ResourceActionFailed = 701;
+	RequestProcessingFailed = 702;
+	CannotAct = 703;
+}
+enum ObsOutputState {
+	OBS_WEBSOCKET_OUTPUT_UNKNOWN = 0;
+	OBS_WEBSOCKET_OUTPUT_STARTING = 1;
+	OBS_WEBSOCKET_OUTPUT_STARTED = 2;
+	OBS_WEBSOCKET_OUTPUT_STOPPING = 3;
+	OBS_WEBSOCKET_OUTPUT_STOPPED = 4;
+	OBS_WEBSOCKET_OUTPUT_RECONNECTING = 5;
+	OBS_WEBSOCKET_OUTPUT_RECONNECTED = 6;
+	OBS_WEBSOCKET_OUTPUT_PAUSED = 7;
+	OBS_WEBSOCKET_OUTPUT_RESUMED = 8;
+}
+enum ObsMediaInputAction {
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NONE = 0;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY = 1;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE = 2;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP = 3;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART = 4;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT = 5;
+	OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS = 6;
+}
+enum WebSocketCloseCode {
+	DontClose = 0;
+	UnknownReason = 4000;
+	MessageDecodeError = 4002;
+	MissingDataField = 4003;
+	InvalidDataFieldType = 4004;
+	InvalidDataFieldValue = 4005;
+	UnknownOpCode = 4006;
+	NotIdentified = 4007;
+	AlreadyIdentified = 4008;
+	AuthenticationFailed = 4009;
+	UnsupportedRpcVersion = 4010;
+	SessionInvalidated = 4011;
+	UnsupportedFeature = 4012;
+}
+enum WebSocketOpCode {
+	Hello = 0;
+	Identify = 1;
+	Identified = 2;
+	Reidentify = 3;
+	Event = 5;
+	Request = 6;
+	RequestResponse = 7;
+	RequestBatch = 8;
+	RequestBatchResponse = 9;
+}
+message EventCurrentSceneCollectionChanging {
+	string sceneCollectionName = 1;
+}
+message EventCurrentSceneCollectionChanged {
+	string sceneCollectionName = 1;
+}
+message EventSceneCollectionListChanged {
+	repeated bytes sceneCollections = 1;
+}
+message EventCurrentProfileChanging {
+	string profileName = 1;
+}
+message EventCurrentProfileChanged {
+	string profileName = 1;
+}
+message EventProfileListChanged {
+	repeated bytes profiles = 1;
+}
+message EventSourceFilterListReindexed {
+	string sourceName = 1;
+	repeated Filter filters = 2;
+}
+message EventSourceFilterCreated {
+	string sourceName = 1;
+	string filterName = 2;
+	string filterKind = 3;
+	int64 filterIndex = 4;
+	FilterSettings filterSettings = 5;
+	DefaultFilterSettings defaultFilterSettings = 6;
+}
+message EventSourceFilterRemoved {
+	string sourceName = 1;
+	string filterName = 2;
+}
+message EventSourceFilterNameChanged {
+	string sourceName = 1;
+	string oldFilterName = 2;
+	string filterName = 3;
+}
+message EventSourceFilterSettingsChanged {
+	string sourceName = 1;
+	string filterName = 2;
+	FilterSettings filterSettings = 3;
+}
+message EventSourceFilterEnableStateChanged {
+	string sourceName = 1;
+	string filterName = 2;
+	bool filterEnabled = 3;
+}
+message EventExitStarted {
+}
+message EventInputCreated {
+	string inputName = 1;
+	string inputUUID = 2;
+	string inputKind = 3;
+	string unversionedInputKind = 4;
+	InputSettings inputSettings = 5;
+	DefaultInputSettings defaultInputSettings = 6;
+}
+message EventInputRemoved {
+	string inputName = 1;
+	string inputUUID = 2;
+}
+message EventInputNameChanged {
+	string inputUUID = 1;
+	string oldInputName = 2;
+	string inputName = 3;
+}
+message EventInputSettingsChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	InputSettings inputSettings = 3;
+}
+message EventInputActiveStateChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	bool videoActive = 3;
+}
+message EventInputShowStateChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	bool videoShowing = 3;
+}
+message EventInputMuteStateChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	bool inputMuted = 3;
+}
+message EventInputVolumeChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	int64 inputVolumeMul = 3;
+	int64 inputVolumeDb = 4;
+}
+message EventInputAudioBalanceChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	int64 inputAudioBalance = 3;
+}
+message EventInputAudioSyncOffsetChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	int64 inputAudioSyncOffset = 3;
+}
+message EventInputAudioTracksChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	InputAudioTracks inputAudioTracks = 3;
+}
+message EventInputAudioMonitorTypeChanged {
+	string inputName = 1;
+	string inputUUID = 2;
+	bytes monitorType = 3;
+}
+message EventInputVolumeMeters {
+	repeated Input inputs = 1;
+}
+message EventMediaInputPlaybackStarted {
+	string inputName = 1;
+	string inputUUID = 2;
+}
+message EventMediaInputPlaybackEnded {
+	string inputName = 1;
+	string inputUUID = 2;
+}
+message EventMediaInputActionTriggered {
+	string inputName = 1;
+	string inputUUID = 2;
+	string mediaAction = 3;
+}
+message EventStreamStateChanged {
+	bool outputActive = 1;
+	bytes outputState = 2;
+}
+message EventRecordStateChanged {
+	bool outputActive = 1;
+	bytes outputState = 2;
+	string outputPath = 3;
+}
+message EventRecordFileChanged {
+	string newOutputPath = 1;
+}
+message EventReplayBufferStateChanged {
+	bool outputActive = 1;
+	bytes outputState = 2;
+}
+message EventVirtualcamStateChanged {
+	bool outputActive = 1;
+	bytes outputState = 2;
+}
+message EventReplayBufferSaved {
+	string savedReplayPath = 1;
+}
+message EventSceneItemCreated {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	string sourceName = 3;
+	string sourceUUID = 4;
+	int64 sceneItemId = 5;
+	int64 sceneItemIndex = 6;
+}
+message EventSceneItemRemoved {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	string sourceName = 3;
+	string sourceUUID = 4;
+	int64 sceneItemId = 5;
+}
+message EventSceneItemListReindexed {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	repeated SceneItem sceneItems = 3;
+}
+message EventSceneItemEnableStateChanged {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	bool sceneItemEnabled = 4;
+}
+message EventSceneItemLockStateChanged {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	bool sceneItemLocked = 4;
+}
+message EventSceneItemSelected {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message EventSceneItemTransformChanged {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	SceneItemTransform sceneItemTransform = 4;
+}
+message EventSceneCreated {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	bool isGroup = 3;
+}
+message EventSceneRemoved {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	bool isGroup = 3;
+}
+message EventSceneNameChanged {
+	string sceneUUID = 1;
+	string oldSceneName = 2;
+	string sceneName = 3;
+}
+message EventCurrentProgramSceneChanged {
+	string sceneName = 1;
+	string sceneUUID = 2;
+}
+message EventCurrentPreviewSceneChanged {
+	string sceneName = 1;
+	string sceneUUID = 2;
+}
+message EventSceneListChanged {
+	repeated Scene scenes = 1;
+}
+message EventCurrentSceneTransitionChanged {
+	string transitionName = 1;
+	string transitionUUID = 2;
+}
+message EventCurrentSceneTransitionDurationChanged {
+	int64 transitionDuration = 1;
+}
+message EventSceneTransitionStarted {
+	string transitionName = 1;
+	string transitionUUID = 2;
+}
+message EventSceneTransitionEnded {
+	string transitionName = 1;
+	string transitionUUID = 2;
+}
+message EventSceneTransitionVideoEnded {
+	string transitionName = 1;
+	string transitionUUID = 2;
+}
+message EventStudioModeStateChanged {
+	bool studioModeEnabled = 1;
+}
+message EventScreenshotSaved {
+	string savedScreenshotPath = 1;
+}
+message EventVendorEvent {
+	string vendorName = 1;
+	bytes eventType = 2;
+	EventData eventData = 3;
+}
+message EventCustomEvent {
+	EventData eventData = 1;
+}
+service OBS {
+	rpc GetPersistentData(GetPersistentDataRequest) returns (GetPersistentDataResponse) {}
+	rpc SetPersistentData(SetPersistentDataRequest) returns (SetPersistentDataResponse) {}
+	rpc GetSceneCollectionList(GetSceneCollectionListRequest) returns (GetSceneCollectionListResponse) {}
+	rpc SetCurrentSceneCollection(SetCurrentSceneCollectionRequest) returns (SetCurrentSceneCollectionResponse) {}
+	rpc CreateSceneCollection(CreateSceneCollectionRequest) returns (CreateSceneCollectionResponse) {}
+	rpc GetProfileList(GetProfileListRequest) returns (GetProfileListResponse) {}
+	rpc SetCurrentProfile(SetCurrentProfileRequest) returns (SetCurrentProfileResponse) {}
+	rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse) {}
+	rpc RemoveProfile(RemoveProfileRequest) returns (RemoveProfileResponse) {}
+	rpc GetProfileParameter(GetProfileParameterRequest) returns (GetProfileParameterResponse) {}
+	rpc SetProfileParameter(SetProfileParameterRequest) returns (SetProfileParameterResponse) {}
+	rpc GetVideoSettings(GetVideoSettingsRequest) returns (GetVideoSettingsResponse) {}
+	rpc SetVideoSettings(SetVideoSettingsRequest) returns (SetVideoSettingsResponse) {}
+	rpc GetStreamServiceSettings(GetStreamServiceSettingsRequest) returns (GetStreamServiceSettingsResponse) {}
+	rpc SetStreamServiceSettings(SetStreamServiceSettingsRequest) returns (SetStreamServiceSettingsResponse) {}
+	rpc GetRecordDirectory(GetRecordDirectoryRequest) returns (GetRecordDirectoryResponse) {}
+	rpc SetRecordDirectory(SetRecordDirectoryRequest) returns (SetRecordDirectoryResponse) {}
+	rpc GetSourceFilterKindList(GetSourceFilterKindListRequest) returns (GetSourceFilterKindListResponse) {}
+	rpc GetSourceFilterList(GetSourceFilterListRequest) returns (GetSourceFilterListResponse) {}
+	rpc GetSourceFilterDefaultSettings(GetSourceFilterDefaultSettingsRequest) returns (GetSourceFilterDefaultSettingsResponse) {}
+	rpc CreateSourceFilter(CreateSourceFilterRequest) returns (CreateSourceFilterResponse) {}
+	rpc RemoveSourceFilter(RemoveSourceFilterRequest) returns (RemoveSourceFilterResponse) {}
+	rpc SetSourceFilterName(SetSourceFilterNameRequest) returns (SetSourceFilterNameResponse) {}
+	rpc GetSourceFilter(GetSourceFilterRequest) returns (GetSourceFilterResponse) {}
+	rpc SetSourceFilterIndex(SetSourceFilterIndexRequest) returns (SetSourceFilterIndexResponse) {}
+	rpc SetSourceFilterSettings(SetSourceFilterSettingsRequest) returns (SetSourceFilterSettingsResponse) {}
+	rpc SetSourceFilterEnabled(SetSourceFilterEnabledRequest) returns (SetSourceFilterEnabledResponse) {}
+	rpc GetVersion(GetVersionRequest) returns (GetVersionResponse) {}
+	rpc GetStats(GetStatsRequest) returns (GetStatsResponse) {}
+	rpc BroadcastCustomEvent(BroadcastCustomEventRequest) returns (BroadcastCustomEventResponse) {}
+	rpc CallVendorRequest(CallVendorRequestRequest) returns (CallVendorRequestResponse) {}
+	rpc GetHotkeyList(GetHotkeyListRequest) returns (GetHotkeyListResponse) {}
+	rpc TriggerHotkeyByName(TriggerHotkeyByNameRequest) returns (TriggerHotkeyByNameResponse) {}
+	rpc TriggerHotkeyByKeySequence(TriggerHotkeyByKeySequenceRequest) returns (TriggerHotkeyByKeySequenceResponse) {}
+	rpc Sleep(SleepRequest) returns (SleepResponse) {}
+	rpc GetInputList(GetInputListRequest) returns (GetInputListResponse) {}
+	rpc GetInputKindList(GetInputKindListRequest) returns (GetInputKindListResponse) {}
+	rpc GetSpecialInputs(GetSpecialInputsRequest) returns (GetSpecialInputsResponse) {}
+	rpc CreateInput(CreateInputRequest) returns (CreateInputResponse) {}
+	rpc RemoveInput(RemoveInputRequest) returns (RemoveInputResponse) {}
+	rpc SetInputName(SetInputNameRequest) returns (SetInputNameResponse) {}
+	rpc GetInputDefaultSettings(GetInputDefaultSettingsRequest) returns (GetInputDefaultSettingsResponse) {}
+	rpc GetInputSettings(GetInputSettingsRequest) returns (GetInputSettingsResponse) {}
+	rpc SetInputSettings(SetInputSettingsRequest) returns (SetInputSettingsResponse) {}
+	rpc GetInputMute(GetInputMuteRequest) returns (GetInputMuteResponse) {}
+	rpc SetInputMute(SetInputMuteRequest) returns (SetInputMuteResponse) {}
+	rpc ToggleInputMute(ToggleInputMuteRequest) returns (ToggleInputMuteResponse) {}
+	rpc GetInputVolume(GetInputVolumeRequest) returns (GetInputVolumeResponse) {}
+	rpc SetInputVolume(SetInputVolumeRequest) returns (SetInputVolumeResponse) {}
+	rpc GetInputAudioBalance(GetInputAudioBalanceRequest) returns (GetInputAudioBalanceResponse) {}
+	rpc SetInputAudioBalance(SetInputAudioBalanceRequest) returns (SetInputAudioBalanceResponse) {}
+	rpc GetInputAudioSyncOffset(GetInputAudioSyncOffsetRequest) returns (GetInputAudioSyncOffsetResponse) {}
+	rpc SetInputAudioSyncOffset(SetInputAudioSyncOffsetRequest) returns (SetInputAudioSyncOffsetResponse) {}
+	rpc GetInputAudioMonitorType(GetInputAudioMonitorTypeRequest) returns (GetInputAudioMonitorTypeResponse) {}
+	rpc SetInputAudioMonitorType(SetInputAudioMonitorTypeRequest) returns (SetInputAudioMonitorTypeResponse) {}
+	rpc GetInputAudioTracks(GetInputAudioTracksRequest) returns (GetInputAudioTracksResponse) {}
+	rpc SetInputAudioTracks(SetInputAudioTracksRequest) returns (SetInputAudioTracksResponse) {}
+	rpc GetInputPropertiesListPropertyItems(GetInputPropertiesListPropertyItemsRequest) returns (GetInputPropertiesListPropertyItemsResponse) {}
+	rpc PressInputPropertiesButton(PressInputPropertiesButtonRequest) returns (PressInputPropertiesButtonResponse) {}
+	rpc GetMediaInputStatus(GetMediaInputStatusRequest) returns (GetMediaInputStatusResponse) {}
+	rpc SetMediaInputCursor(SetMediaInputCursorRequest) returns (SetMediaInputCursorResponse) {}
+	rpc OffsetMediaInputCursor(OffsetMediaInputCursorRequest) returns (OffsetMediaInputCursorResponse) {}
+	rpc TriggerMediaInputAction(TriggerMediaInputActionRequest) returns (TriggerMediaInputActionResponse) {}
+	rpc GetVirtualCamStatus(GetVirtualCamStatusRequest) returns (GetVirtualCamStatusResponse) {}
+	rpc ToggleVirtualCam(ToggleVirtualCamRequest) returns (ToggleVirtualCamResponse) {}
+	rpc StartVirtualCam(StartVirtualCamRequest) returns (StartVirtualCamResponse) {}
+	rpc StopVirtualCam(StopVirtualCamRequest) returns (StopVirtualCamResponse) {}
+	rpc GetReplayBufferStatus(GetReplayBufferStatusRequest) returns (GetReplayBufferStatusResponse) {}
+	rpc ToggleReplayBuffer(ToggleReplayBufferRequest) returns (ToggleReplayBufferResponse) {}
+	rpc StartReplayBuffer(StartReplayBufferRequest) returns (StartReplayBufferResponse) {}
+	rpc StopReplayBuffer(StopReplayBufferRequest) returns (StopReplayBufferResponse) {}
+	rpc SaveReplayBuffer(SaveReplayBufferRequest) returns (SaveReplayBufferResponse) {}
+	rpc GetLastReplayBufferReplay(GetLastReplayBufferReplayRequest) returns (GetLastReplayBufferReplayResponse) {}
+	rpc GetOutputList(GetOutputListRequest) returns (GetOutputListResponse) {}
+	rpc GetOutputStatus(GetOutputStatusRequest) returns (GetOutputStatusResponse) {}
+	rpc ToggleOutput(ToggleOutputRequest) returns (ToggleOutputResponse) {}
+	rpc StartOutput(StartOutputRequest) returns (StartOutputResponse) {}
+	rpc StopOutput(StopOutputRequest) returns (StopOutputResponse) {}
+	rpc GetOutputSettings(GetOutputSettingsRequest) returns (GetOutputSettingsResponse) {}
+	rpc SetOutputSettings(SetOutputSettingsRequest) returns (SetOutputSettingsResponse) {}
+	rpc GetRecordStatus(GetRecordStatusRequest) returns (GetRecordStatusResponse) {}
+	rpc ToggleRecord(ToggleRecordRequest) returns (ToggleRecordResponse) {}
+	rpc StartRecord(StartRecordRequest) returns (StartRecordResponse) {}
+	rpc StopRecord(StopRecordRequest) returns (StopRecordResponse) {}
+	rpc ToggleRecordPause(ToggleRecordPauseRequest) returns (ToggleRecordPauseResponse) {}
+	rpc PauseRecord(PauseRecordRequest) returns (PauseRecordResponse) {}
+	rpc ResumeRecord(ResumeRecordRequest) returns (ResumeRecordResponse) {}
+	rpc SplitRecordFile(SplitRecordFileRequest) returns (SplitRecordFileResponse) {}
+	rpc CreateRecordChapter(CreateRecordChapterRequest) returns (CreateRecordChapterResponse) {}
+	rpc GetSceneItemList(GetSceneItemListRequest) returns (GetSceneItemListResponse) {}
+	rpc GetGroupSceneItemList(GetGroupSceneItemListRequest) returns (GetGroupSceneItemListResponse) {}
+	rpc GetSceneItemId(GetSceneItemIdRequest) returns (GetSceneItemIdResponse) {}
+	rpc GetSceneItemSource(GetSceneItemSourceRequest) returns (GetSceneItemSourceResponse) {}
+	rpc CreateSceneItem(CreateSceneItemRequest) returns (CreateSceneItemResponse) {}
+	rpc RemoveSceneItem(RemoveSceneItemRequest) returns (RemoveSceneItemResponse) {}
+	rpc DuplicateSceneItem(DuplicateSceneItemRequest) returns (DuplicateSceneItemResponse) {}
+	rpc GetSceneItemTransform(GetSceneItemTransformRequest) returns (GetSceneItemTransformResponse) {}
+	rpc SetSceneItemTransform(SetSceneItemTransformRequest) returns (SetSceneItemTransformResponse) {}
+	rpc GetSceneItemEnabled(GetSceneItemEnabledRequest) returns (GetSceneItemEnabledResponse) {}
+	rpc SetSceneItemEnabled(SetSceneItemEnabledRequest) returns (SetSceneItemEnabledResponse) {}
+	rpc GetSceneItemLocked(GetSceneItemLockedRequest) returns (GetSceneItemLockedResponse) {}
+	rpc SetSceneItemLocked(SetSceneItemLockedRequest) returns (SetSceneItemLockedResponse) {}
+	rpc GetSceneItemIndex(GetSceneItemIndexRequest) returns (GetSceneItemIndexResponse) {}
+	rpc SetSceneItemIndex(SetSceneItemIndexRequest) returns (SetSceneItemIndexResponse) {}
+	rpc GetSceneItemBlendMode(GetSceneItemBlendModeRequest) returns (GetSceneItemBlendModeResponse) {}
+	rpc SetSceneItemBlendMode(SetSceneItemBlendModeRequest) returns (SetSceneItemBlendModeResponse) {}
+	rpc GetSceneList(GetSceneListRequest) returns (GetSceneListResponse) {}
+	rpc GetGroupList(GetGroupListRequest) returns (GetGroupListResponse) {}
+	rpc GetCurrentProgramScene(GetCurrentProgramSceneRequest) returns (GetCurrentProgramSceneResponse) {}
+	rpc SetCurrentProgramScene(SetCurrentProgramSceneRequest) returns (SetCurrentProgramSceneResponse) {}
+	rpc GetCurrentPreviewScene(GetCurrentPreviewSceneRequest) returns (GetCurrentPreviewSceneResponse) {}
+	rpc SetCurrentPreviewScene(SetCurrentPreviewSceneRequest) returns (SetCurrentPreviewSceneResponse) {}
+	rpc CreateScene(CreateSceneRequest) returns (CreateSceneResponse) {}
+	rpc RemoveScene(RemoveSceneRequest) returns (RemoveSceneResponse) {}
+	rpc SetSceneName(SetSceneNameRequest) returns (SetSceneNameResponse) {}
+	rpc GetSceneSceneTransitionOverride(GetSceneSceneTransitionOverrideRequest) returns (GetSceneSceneTransitionOverrideResponse) {}
+	rpc SetSceneSceneTransitionOverride(SetSceneSceneTransitionOverrideRequest) returns (SetSceneSceneTransitionOverrideResponse) {}
+	rpc GetSourceActive(GetSourceActiveRequest) returns (GetSourceActiveResponse) {}
+	rpc GetSourceScreenshot(GetSourceScreenshotRequest) returns (GetSourceScreenshotResponse) {}
+	rpc SaveSourceScreenshot(SaveSourceScreenshotRequest) returns (SaveSourceScreenshotResponse) {}
+	rpc GetStreamStatus(GetStreamStatusRequest) returns (GetStreamStatusResponse) {}
+	rpc ToggleStream(ToggleStreamRequest) returns (ToggleStreamResponse) {}
+	rpc StartStream(StartStreamRequest) returns (StartStreamResponse) {}
+	rpc StopStream(StopStreamRequest) returns (StopStreamResponse) {}
+	rpc SendStreamCaption(SendStreamCaptionRequest) returns (SendStreamCaptionResponse) {}
+	rpc GetTransitionKindList(GetTransitionKindListRequest) returns (GetTransitionKindListResponse) {}
+	rpc GetSceneTransitionList(GetSceneTransitionListRequest) returns (GetSceneTransitionListResponse) {}
+	rpc GetCurrentSceneTransition(GetCurrentSceneTransitionRequest) returns (GetCurrentSceneTransitionResponse) {}
+	rpc SetCurrentSceneTransition(SetCurrentSceneTransitionRequest) returns (SetCurrentSceneTransitionResponse) {}
+	rpc SetCurrentSceneTransitionDuration(SetCurrentSceneTransitionDurationRequest) returns (SetCurrentSceneTransitionDurationResponse) {}
+	rpc SetCurrentSceneTransitionSettings(SetCurrentSceneTransitionSettingsRequest) returns (SetCurrentSceneTransitionSettingsResponse) {}
+	rpc GetCurrentSceneTransitionCursor(GetCurrentSceneTransitionCursorRequest) returns (GetCurrentSceneTransitionCursorResponse) {}
+	rpc TriggerStudioModeTransition(TriggerStudioModeTransitionRequest) returns (TriggerStudioModeTransitionResponse) {}
+	rpc SetTBarPosition(SetTBarPositionRequest) returns (SetTBarPositionResponse) {}
+	rpc GetStudioModeEnabled(GetStudioModeEnabledRequest) returns (GetStudioModeEnabledResponse) {}
+	rpc SetStudioModeEnabled(SetStudioModeEnabledRequest) returns (SetStudioModeEnabledResponse) {}
+	rpc OpenInputPropertiesDialog(OpenInputPropertiesDialogRequest) returns (OpenInputPropertiesDialogResponse) {}
+	rpc OpenInputFiltersDialog(OpenInputFiltersDialogRequest) returns (OpenInputFiltersDialogResponse) {}
+	rpc OpenInputInteractDialog(OpenInputInteractDialogRequest) returns (OpenInputInteractDialogResponse) {}
+	rpc GetMonitorList(GetMonitorListRequest) returns (GetMonitorListResponse) {}
+	rpc OpenVideoMixProjector(OpenVideoMixProjectorRequest) returns (OpenVideoMixProjectorResponse) {}
+	rpc OpenSourceProjector(OpenSourceProjectorRequest) returns (OpenSourceProjectorResponse) {}
+}
+message GetPersistentDataRequest {
+	bytes realm = 1;
+	string slotName = 2;
+}
+message GetPersistentDataResponse {
+	Any slotValue = 1;
+}
+message SetPersistentDataRequest {
+	bytes realm = 1;
+	string slotName = 2;
+	Any slotValue = 3;
+}
+message SetPersistentDataResponse {
+}
+message GetSceneCollectionListRequest {
+}
+message GetSceneCollectionListResponse {
+	string currentSceneCollectionName = 1;
+	repeated bytes sceneCollections = 2;
+}
+message SetCurrentSceneCollectionRequest {
+	string sceneCollectionName = 1;
+}
+message SetCurrentSceneCollectionResponse {
+}
+message CreateSceneCollectionRequest {
+	string sceneCollectionName = 1;
+}
+message CreateSceneCollectionResponse {
+}
+message GetProfileListRequest {
+}
+message GetProfileListResponse {
+	string currentProfileName = 1;
+	repeated bytes profiles = 2;
+}
+message SetCurrentProfileRequest {
+	string profileName = 1;
+}
+message SetCurrentProfileResponse {
+}
+message CreateProfileRequest {
+	string profileName = 1;
+}
+message CreateProfileResponse {
+}
+message RemoveProfileRequest {
+	string profileName = 1;
+}
+message RemoveProfileResponse {
+}
+message GetProfileParameterRequest {
+	bytes parameterCategory = 1;
+	string parameterName = 2;
+}
+message GetProfileParameterResponse {
+	bytes parameterValue = 1;
+	bytes defaultParameterValue = 2;
+}
+message SetProfileParameterRequest {
+	bytes parameterCategory = 1;
+	string parameterName = 2;
+	bytes parameterValue = 3;
+}
+message SetProfileParameterResponse {
+}
+message GetVideoSettingsRequest {
+}
+message GetVideoSettingsResponse {
+	int64 fpsNumerator = 1;
+	int64 fpsDenominator = 2;
+	int64 baseWidth = 3;
+	int64 baseHeight = 4;
+	int64 outputWidth = 5;
+	int64 outputHeight = 6;
+}
+message SetVideoSettingsRequest {
+	optional int64 fpsNumerator = 1;
+	optional int64 fpsDenominator = 2;
+	optional int64 baseWidth = 3;
+	optional int64 baseHeight = 4;
+	optional int64 outputWidth = 5;
+	optional int64 outputHeight = 6;
+}
+message SetVideoSettingsResponse {
+}
+message GetStreamServiceSettingsRequest {
+}
+message GetStreamServiceSettingsResponse {
+	bytes streamServiceType = 1;
+	StreamServiceSettings streamServiceSettings = 2;
+}
+message SetStreamServiceSettingsRequest {
+	bytes streamServiceType = 1;
+	StreamServiceSettings streamServiceSettings = 2;
+}
+message SetStreamServiceSettingsResponse {
+}
+message GetRecordDirectoryRequest {
+}
+message GetRecordDirectoryResponse {
+	bytes recordDirectory = 1;
+}
+message SetRecordDirectoryRequest {
+	bytes recordDirectory = 1;
+}
+message SetRecordDirectoryResponse {
+}
+message GetSourceFilterKindListRequest {
+}
+message GetSourceFilterKindListResponse {
+	repeated string sourceFilterKinds = 1;
+}
+message GetSourceFilterListRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+}
+message GetSourceFilterListResponse {
+	repeated Filter filters = 1;
+}
+message GetSourceFilterDefaultSettingsRequest {
+	string filterKind = 1;
+}
+message GetSourceFilterDefaultSettingsResponse {
+	DefaultFilterSettings defaultFilterSettings = 1;
+}
+message CreateSourceFilterRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+	string filterKind = 4;
+	optional FilterSettings filterSettings = 5;
+}
+message CreateSourceFilterResponse {
+}
+message RemoveSourceFilterRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+}
+message RemoveSourceFilterResponse {
+}
+message SetSourceFilterNameRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+	string newFilterName = 4;
+}
+message SetSourceFilterNameResponse {
+}
+message GetSourceFilterRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+}
+message GetSourceFilterResponse {
+	bool filterEnabled = 1;
+	int64 filterIndex = 2;
+	string filterKind = 3;
+	FilterSettings filterSettings = 4;
+}
+message SetSourceFilterIndexRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+	int64 filterIndex = 4;
+}
+message SetSourceFilterIndexResponse {
+}
+message SetSourceFilterSettingsRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+	FilterSettings filterSettings = 4;
+	optional bool overlay = 5;
+}
+message SetSourceFilterSettingsResponse {
+}
+message SetSourceFilterEnabledRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	string filterName = 3;
+	bool filterEnabled = 4;
+}
+message SetSourceFilterEnabledResponse {
+}
+message GetVersionRequest {
+}
+message GetVersionResponse {
+	bytes obsVersion = 1;
+	bytes obsWebSocketVersion = 2;
+	int64 rpcVersion = 3;
+	repeated bytes availableRequests = 4;
+	repeated bytes supportedImageFormats = 5;
+	bytes platform = 6;
+	bytes platformDescription = 7;
+}
+message GetStatsRequest {
+}
+message GetStatsResponse {
+	int64 cpuUsage = 1;
+	int64 memoryUsage = 2;
+	int64 availableDiskSpace = 3;
+	int64 activeFps = 4;
+	int64 averageFrameRenderTime = 5;
+	int64 renderSkippedFrames = 6;
+	int64 renderTotalFrames = 7;
+	int64 outputSkippedFrames = 8;
+	int64 outputTotalFrames = 9;
+	int64 webSocketSessionIncomingMessages = 10;
+	int64 webSocketSessionOutgoingMessages = 11;
+}
+message BroadcastCustomEventRequest {
+	EventData eventData = 1;
+}
+message BroadcastCustomEventResponse {
+}
+message CallVendorRequestRequest {
+	string vendorName = 1;
+	bytes requestType = 2;
+	optional RequestData requestData = 3;
+}
+message CallVendorRequestResponse {
+	string vendorName = 1;
+	bytes requestType = 2;
+	ResponseData responseData = 3;
+}
+message GetHotkeyListRequest {
+}
+message GetHotkeyListResponse {
+	repeated bytes hotkeys = 1;
+}
+message TriggerHotkeyByNameRequest {
+	string hotkeyName = 1;
+	optional string contextName = 2;
+}
+message TriggerHotkeyByNameResponse {
+}
+message TriggerHotkeyByKeySequenceRequest {
+	optional string keyId = 1;
+	optional KeyModifiers keyModifiers = 2;
+	optional bool keyModifiers_shift = 3;
+	optional bool keyModifiers_control = 4;
+	optional bool keyModifiers_alt = 5;
+	optional bool keyModifiers_command = 6;
+}
+message TriggerHotkeyByKeySequenceResponse {
+}
+message SleepRequest {
+	optional int64 sleepMillis = 1;
+	optional int64 sleepFrames = 2;
+}
+message SleepResponse {
+}
+message GetInputListRequest {
+	optional string inputKind = 1;
+}
+message GetInputListResponse {
+	repeated Input inputs = 1;
+}
+message GetInputKindListRequest {
+	optional bool unversioned = 1;
+}
+message GetInputKindListResponse {
+	repeated string inputKinds = 1;
+}
+message GetSpecialInputsRequest {
+}
+message GetSpecialInputsResponse {
+	bytes desktop1 = 1;
+	bytes desktop2 = 2;
+	bytes mic1 = 3;
+	bytes mic2 = 4;
+	bytes mic3 = 5;
+	bytes mic4 = 6;
+}
+message CreateInputRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	string inputName = 3;
+	string inputKind = 4;
+	optional InputSettings inputSettings = 5;
+	optional bool sceneItemEnabled = 6;
+}
+message CreateInputResponse {
+	string inputUUID = 1;
+	int64 sceneItemId = 2;
+}
+message RemoveInputRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message RemoveInputResponse {
+}
+message SetInputNameRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	string newInputName = 3;
+}
+message SetInputNameResponse {
+}
+message GetInputDefaultSettingsRequest {
+	string inputKind = 1;
+}
+message GetInputDefaultSettingsResponse {
+	DefaultInputSettings defaultInputSettings = 1;
+}
+message GetInputSettingsRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputSettingsResponse {
+	InputSettings inputSettings = 1;
+	string inputKind = 2;
+}
+message SetInputSettingsRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	InputSettings inputSettings = 3;
+	optional bool overlay = 4;
+}
+message SetInputSettingsResponse {
+}
+message GetInputMuteRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputMuteResponse {
+	bool inputMuted = 1;
+}
+message SetInputMuteRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	bool inputMuted = 3;
+}
+message SetInputMuteResponse {
+}
+message ToggleInputMuteRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message ToggleInputMuteResponse {
+	bool inputMuted = 1;
+}
+message GetInputVolumeRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputVolumeResponse {
+	int64 inputVolumeMul = 1;
+	int64 inputVolumeDb = 2;
+}
+message SetInputVolumeRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	optional int64 inputVolumeMul = 3;
+	optional int64 inputVolumeDb = 4;
+}
+message SetInputVolumeResponse {
+}
+message GetInputAudioBalanceRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputAudioBalanceResponse {
+	int64 inputAudioBalance = 1;
+}
+message SetInputAudioBalanceRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	int64 inputAudioBalance = 3;
+}
+message SetInputAudioBalanceResponse {
+}
+message GetInputAudioSyncOffsetRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputAudioSyncOffsetResponse {
+	int64 inputAudioSyncOffset = 1;
+}
+message SetInputAudioSyncOffsetRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	int64 inputAudioSyncOffset = 3;
+}
+message SetInputAudioSyncOffsetResponse {
+}
+message GetInputAudioMonitorTypeRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputAudioMonitorTypeResponse {
+	bytes monitorType = 1;
+}
+message SetInputAudioMonitorTypeRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	bytes monitorType = 3;
+}
+message SetInputAudioMonitorTypeResponse {
+}
+message GetInputAudioTracksRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetInputAudioTracksResponse {
+	InputAudioTracks inputAudioTracks = 1;
+}
+message SetInputAudioTracksRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	InputAudioTracks inputAudioTracks = 3;
+}
+message SetInputAudioTracksResponse {
+}
+message GetInputPropertiesListPropertyItemsRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	string propertyName = 3;
+}
+message GetInputPropertiesListPropertyItemsResponse {
+	repeated PropertyItem propertyItems = 1;
+}
+message PressInputPropertiesButtonRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	string propertyName = 3;
+}
+message PressInputPropertiesButtonResponse {
+}
+message GetMediaInputStatusRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message GetMediaInputStatusResponse {
+	bytes mediaState = 1;
+	int64 mediaDuration = 2;
+	int64 mediaCursor = 3;
+}
+message SetMediaInputCursorRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	int64 mediaCursor = 3;
+}
+message SetMediaInputCursorResponse {
+}
+message OffsetMediaInputCursorRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	int64 mediaCursorOffset = 3;
+}
+message OffsetMediaInputCursorResponse {
+}
+message TriggerMediaInputActionRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+	string mediaAction = 3;
+}
+message TriggerMediaInputActionResponse {
+}
+message GetVirtualCamStatusRequest {
+}
+message GetVirtualCamStatusResponse {
+	bool outputActive = 1;
+}
+message ToggleVirtualCamRequest {
+}
+message ToggleVirtualCamResponse {
+	bool outputActive = 1;
+}
+message StartVirtualCamRequest {
+}
+message StartVirtualCamResponse {
+}
+message StopVirtualCamRequest {
+}
+message StopVirtualCamResponse {
+}
+message GetReplayBufferStatusRequest {
+}
+message GetReplayBufferStatusResponse {
+	bool outputActive = 1;
+}
+message ToggleReplayBufferRequest {
+}
+message ToggleReplayBufferResponse {
+	bool outputActive = 1;
+}
+message StartReplayBufferRequest {
+}
+message StartReplayBufferResponse {
+}
+message StopReplayBufferRequest {
+}
+message StopReplayBufferResponse {
+}
+message SaveReplayBufferRequest {
+}
+message SaveReplayBufferResponse {
+}
+message GetLastReplayBufferReplayRequest {
+}
+message GetLastReplayBufferReplayResponse {
+	string savedReplayPath = 1;
+}
+message GetOutputListRequest {
+}
+message GetOutputListResponse {
+	repeated Output outputs = 1;
+}
+message GetOutputStatusRequest {
+	string outputName = 1;
+}
+message GetOutputStatusResponse {
+	bool outputActive = 1;
+	bool outputReconnecting = 2;
+	bytes outputTimecode = 3;
+	int64 outputDuration = 4;
+	int64 outputCongestion = 5;
+	int64 outputBytes = 6;
+	int64 outputSkippedFrames = 7;
+	int64 outputTotalFrames = 8;
+}
+message ToggleOutputRequest {
+	string outputName = 1;
+}
+message ToggleOutputResponse {
+	bool outputActive = 1;
+}
+message StartOutputRequest {
+	string outputName = 1;
+}
+message StartOutputResponse {
+}
+message StopOutputRequest {
+	string outputName = 1;
+}
+message StopOutputResponse {
+}
+message GetOutputSettingsRequest {
+	string outputName = 1;
+}
+message GetOutputSettingsResponse {
+	OutputSettings outputSettings = 1;
+}
+message SetOutputSettingsRequest {
+	string outputName = 1;
+	OutputSettings outputSettings = 2;
+}
+message SetOutputSettingsResponse {
+}
+message GetRecordStatusRequest {
+}
+message GetRecordStatusResponse {
+	bool outputActive = 1;
+	bool outputPaused = 2;
+	bytes outputTimecode = 3;
+	int64 outputDuration = 4;
+	int64 outputBytes = 5;
+}
+message ToggleRecordRequest {
+}
+message ToggleRecordResponse {
+	bool outputActive = 1;
+}
+message StartRecordRequest {
+}
+message StartRecordResponse {
+}
+message StopRecordRequest {
+}
+message StopRecordResponse {
+	string outputPath = 1;
+}
+message ToggleRecordPauseRequest {
+}
+message ToggleRecordPauseResponse {
+}
+message PauseRecordRequest {
+}
+message PauseRecordResponse {
+}
+message ResumeRecordRequest {
+}
+message ResumeRecordResponse {
+}
+message SplitRecordFileRequest {
+}
+message SplitRecordFileResponse {
+}
+message CreateRecordChapterRequest {
+	optional string chapterName = 1;
+}
+message CreateRecordChapterResponse {
+}
+message GetSceneItemListRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message GetSceneItemListResponse {
+	repeated SceneItem sceneItems = 1;
+}
+message GetGroupSceneItemListRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message GetGroupSceneItemListResponse {
+	repeated SceneItem sceneItems = 1;
+}
+message GetSceneItemIdRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	string sourceName = 3;
+	optional int64 searchOffset = 4;
+}
+message GetSceneItemIdResponse {
+	int64 sceneItemId = 1;
+}
+message GetSceneItemSourceRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemSourceResponse {
+	string sourceName = 1;
+	string sourceUUID = 2;
+}
+message CreateSceneItemRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	optional string sourceName = 3;
+	optional string sourceUUID = 4;
+	optional bool sceneItemEnabled = 5;
+}
+message CreateSceneItemResponse {
+	int64 sceneItemId = 1;
+}
+message RemoveSceneItemRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message RemoveSceneItemResponse {
+}
+message DuplicateSceneItemRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	optional string destinationSceneName = 4;
+	optional string destinationSceneUUID = 5;
+}
+message DuplicateSceneItemResponse {
+	int64 sceneItemId = 1;
+}
+message GetSceneItemTransformRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemTransformResponse {
+	SceneItemTransform sceneItemTransform = 1;
+}
+message SetSceneItemTransformRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	SceneItemTransform sceneItemTransform = 4;
+}
+message SetSceneItemTransformResponse {
+}
+message GetSceneItemEnabledRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemEnabledResponse {
+	bool sceneItemEnabled = 1;
+}
+message SetSceneItemEnabledRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	bool sceneItemEnabled = 4;
+}
+message SetSceneItemEnabledResponse {
+}
+message GetSceneItemLockedRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemLockedResponse {
+	bool sceneItemLocked = 1;
+}
+message SetSceneItemLockedRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	bool sceneItemLocked = 4;
+}
+message SetSceneItemLockedResponse {
+}
+message GetSceneItemIndexRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemIndexResponse {
+	int64 sceneItemIndex = 1;
+}
+message SetSceneItemIndexRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	int64 sceneItemIndex = 4;
+}
+message SetSceneItemIndexResponse {
+}
+message GetSceneItemBlendModeRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+}
+message GetSceneItemBlendModeResponse {
+	bytes sceneItemBlendMode = 1;
+}
+message SetSceneItemBlendModeRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	int64 sceneItemId = 3;
+	bytes sceneItemBlendMode = 4;
+}
+message SetSceneItemBlendModeResponse {
+}
+message GetSceneListRequest {
+}
+message GetSceneListResponse {
+	string currentProgramSceneName = 1;
+	string currentProgramSceneUUID = 2;
+	string currentPreviewSceneName = 3;
+	string currentPreviewSceneUUID = 4;
+	repeated Scene scenes = 5;
+}
+message GetGroupListRequest {
+}
+message GetGroupListResponse {
+	repeated bytes groups = 1;
+}
+message GetCurrentProgramSceneRequest {
+}
+message GetCurrentProgramSceneResponse {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	string currentProgramSceneName = 3;
+	string currentProgramSceneUUID = 4;
+}
+message SetCurrentProgramSceneRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message SetCurrentProgramSceneResponse {
+}
+message GetCurrentPreviewSceneRequest {
+}
+message GetCurrentPreviewSceneResponse {
+	string sceneName = 1;
+	string sceneUUID = 2;
+	string currentPreviewSceneName = 3;
+	string currentPreviewSceneUUID = 4;
+}
+message SetCurrentPreviewSceneRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message SetCurrentPreviewSceneResponse {
+}
+message CreateSceneRequest {
+	string sceneName = 1;
+}
+message CreateSceneResponse {
+	string sceneUUID = 1;
+}
+message RemoveSceneRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message RemoveSceneResponse {
+}
+message SetSceneNameRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	string newSceneName = 3;
+}
+message SetSceneNameResponse {
+}
+message GetSceneSceneTransitionOverrideRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+}
+message GetSceneSceneTransitionOverrideResponse {
+	string transitionName = 1;
+	int64 transitionDuration = 2;
+}
+message SetSceneSceneTransitionOverrideRequest {
+	optional string sceneName = 1;
+	optional string sceneUUID = 2;
+	optional string transitionName = 3;
+	optional int64 transitionDuration = 4;
+}
+message SetSceneSceneTransitionOverrideResponse {
+}
+message GetSourceActiveRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+}
+message GetSourceActiveResponse {
+	bool videoActive = 1;
+	bool videoShowing = 2;
+}
+message GetSourceScreenshotRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	bytes imageFormat = 3;
+	optional int64 imageWidth = 4;
+	optional int64 imageHeight = 5;
+	optional int64 imageCompressionQuality = 6;
+}
+message GetSourceScreenshotResponse {
+	bytes imageData = 1;
+}
+message SaveSourceScreenshotRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	bytes imageFormat = 3;
+	string imageFilePath = 4;
+	optional int64 imageWidth = 5;
+	optional int64 imageHeight = 6;
+	optional int64 imageCompressionQuality = 7;
+}
+message SaveSourceScreenshotResponse {
+}
+message GetStreamStatusRequest {
+}
+message GetStreamStatusResponse {
+	bool outputActive = 1;
+	bool outputReconnecting = 2;
+	bytes outputTimecode = 3;
+	int64 outputDuration = 4;
+	int64 outputCongestion = 5;
+	int64 outputBytes = 6;
+	int64 outputSkippedFrames = 7;
+	int64 outputTotalFrames = 8;
+}
+message ToggleStreamRequest {
+}
+message ToggleStreamResponse {
+	bool outputActive = 1;
+}
+message StartStreamRequest {
+}
+message StartStreamResponse {
+}
+message StopStreamRequest {
+}
+message StopStreamResponse {
+}
+message SendStreamCaptionRequest {
+	bytes captionText = 1;
+}
+message SendStreamCaptionResponse {
+}
+message GetTransitionKindListRequest {
+}
+message GetTransitionKindListResponse {
+	repeated string transitionKinds = 1;
+}
+message GetSceneTransitionListRequest {
+}
+message GetSceneTransitionListResponse {
+	string currentSceneTransitionName = 1;
+	string currentSceneTransitionUUID = 2;
+	string currentSceneTransitionKind = 3;
+	repeated Transition transitions = 4;
+}
+message GetCurrentSceneTransitionRequest {
+}
+message GetCurrentSceneTransitionResponse {
+	string transitionName = 1;
+	string transitionUUID = 2;
+	string transitionKind = 3;
+	bool transitionFixed = 4;
+	int64 transitionDuration = 5;
+	bool transitionConfigurable = 6;
+	TransitionSettings transitionSettings = 7;
+}
+message SetCurrentSceneTransitionRequest {
+	string transitionName = 1;
+}
+message SetCurrentSceneTransitionResponse {
+}
+message SetCurrentSceneTransitionDurationRequest {
+	int64 transitionDuration = 1;
+}
+message SetCurrentSceneTransitionDurationResponse {
+}
+message SetCurrentSceneTransitionSettingsRequest {
+	TransitionSettings transitionSettings = 1;
+	optional bool overlay = 2;
+}
+message SetCurrentSceneTransitionSettingsResponse {
+}
+message GetCurrentSceneTransitionCursorRequest {
+}
+message GetCurrentSceneTransitionCursorResponse {
+	int64 transitionCursor = 1;
+}
+message TriggerStudioModeTransitionRequest {
+}
+message TriggerStudioModeTransitionResponse {
+}
+message SetTBarPositionRequest {
+	int64 position = 1;
+	optional bool release = 2;
+}
+message SetTBarPositionResponse {
+}
+message GetStudioModeEnabledRequest {
+}
+message GetStudioModeEnabledResponse {
+	bool studioModeEnabled = 1;
+}
+message SetStudioModeEnabledRequest {
+	bool studioModeEnabled = 1;
+}
+message SetStudioModeEnabledResponse {
+}
+message OpenInputPropertiesDialogRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message OpenInputPropertiesDialogResponse {
+}
+message OpenInputFiltersDialogRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message OpenInputFiltersDialogResponse {
+}
+message OpenInputInteractDialogRequest {
+	optional string inputName = 1;
+	optional string inputUUID = 2;
+}
+message OpenInputInteractDialogResponse {
+}
+message GetMonitorListRequest {
+}
+message GetMonitorListResponse {
+	repeated Monitor monitors = 1;
+}
+message OpenVideoMixProjectorRequest {
+	bytes videoMixType = 1;
+	optional int64 monitorIndex = 2;
+	optional bytes projectorGeometry = 3;
+}
+message OpenVideoMixProjectorResponse {
+}
+message OpenSourceProjectorRequest {
+	optional string sourceName = 1;
+	optional string sourceUUID = 2;
+	optional int64 monitorIndex = 3;
+	optional bytes projectorGeometry = 4;
+}
+message OpenSourceProjectorResponse {
+}

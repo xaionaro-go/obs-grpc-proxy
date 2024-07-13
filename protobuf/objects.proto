@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message AbstractObject { map<string, Any> fields = 1; };
+message Any {
+    oneof Union {
+        int64 number = 1;
+        bytes string = 2;
+        AbstractObject object = 3;
+    }
+};
+
