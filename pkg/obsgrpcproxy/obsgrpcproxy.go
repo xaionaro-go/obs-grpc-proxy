@@ -4,6 +4,7 @@ package obsgrpcproxy
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	goobs "github.com/andreykaipov/goobs"
@@ -35,29 +36,61 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 	switch in := in.(type) {
 	case []byte:
 		result.Union = &obsgrpc.Any_String_{String_: in}
+	case int:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case uint:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
 	case int64:
-		result.Union = &obsgrpc.Any_Number{Number: in}
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case uint64:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case int32:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case uint32:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case int16:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case uint16:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case int8:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case uint8:
+		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
+	case float64:
+		result.Union = &obsgrpc.Any_Float{Float: float64(in)}
+	case float32:
+		result.Union = &obsgrpc.Any_Float{Float: float64(in)}
+	case bool:
+		result.Union = &obsgrpc.Any_Bool{Bool: in}
 	default:
 		panic(fmt.Errorf("unexpected type %T", in))
 	}
 	return &result
 }
 
-func toAbstractObject[T any](in T) *obsgrpc.AbstractObject {
-	return nil
-}
-
-func fromAbstractObject[T any](in *obsgrpc.AbstractObject) T {
-	var zeroValue T
-	return zeroValue
+func anyProtobuf2Go(in *obsgrpc.Any) any {
+	switch in := in.Union.(type) {
+	case *obsgrpc.Any_Integer:
+		return in.Integer
+	case *obsgrpc.Any_Float:
+		return in.Float
+	case *obsgrpc.Any_String_:
+		return string(in.String_)
+	case *obsgrpc.Any_Bool:
+		return in.Bool
+	case *obsgrpc.Any_Object:
+		return fromAbstractObject[map[string]any](in.Object)
+	default:
+		panic(fmt.Errorf("unexpected type: %T", in))
+	}
 }
 
 func toAbstractObjects[T any](in []T) []*obsgrpc.AbstractObject {
-	return nil
-}
-
-func fromAbstractObjects[T any](in []*obsgrpc.AbstractObject) []T {
-	return nil
+	result := make([]*obsgrpc.AbstractObject, 0, len(in))
+	for _, item := range in {
+		result = append(result, toAbstractObject(item))
+	}
+	return result
 }
 
 func stringSlice2BytesSlice(in []string) [][]byte {
@@ -84,4 +117,56 @@ func ptrInt64ToInt(in *int64) *int {
 
 	i := int(*in)
 	return &i
+}
+
+func toAbstractObject[T any](in T) *obsgrpc.AbstractObject {
+	return toAbstractObjectViaJSON(in)
+}
+
+func toAbstractObjectViaJSON[T any](in T) *obsgrpc.AbstractObject {
+	b, err := json.Marshal(in)
+	if err != nil {
+		panic(err)
+	}
+	m := map[string]any{}
+	err = json.Unmarshal(b, &m)
+	if err != nil {
+		panic(err)
+	}
+
+	result := &obsgrpc.AbstractObject{
+		Fields: map[string]*obsgrpc.Any{},
+	}
+	for k, v := range m {
+		result.Fields[k] = anyGo2Protobuf(v)
+	}
+	return result
+}
+
+func fromAbstractObject[T any](in *obsgrpc.AbstractObject) T {
+	return fromAbstractObjectViaJSON[T](in)
+}
+
+func fromAbstractObjectViaJSON[T any](in *obsgrpc.AbstractObject) T {
+	var result T
+	if in == nil || in.Fields == nil {
+		return result
+	}
+
+	m := map[string]any{}
+	for k, f := range in.Fields {
+		m[k] = anyProtobuf2Go(f)
+	}
+
+	b, err := json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(b, &result)
+	if err != nil {
+		panic(err)
+	}
+
+	return result
 }

@@ -5,6 +5,7 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
+
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
