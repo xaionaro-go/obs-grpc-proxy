@@ -1,14 +1,17 @@
 package commands
 
 import (
+	"bytes"
 	"context"
 	"os"
+	"path/filepath"
 
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/spf13/cobra"
 	"github.com/xaionaro-go/obs-grpc-proxy/pkg/obsdoc"
 	"github.com/xaionaro-go/obs-grpc-proxy/pkg/obsprotobufgen"
 	"github.com/xaionaro-go/obs-grpc-proxy/pkg/obsproxygen"
+	protoparser "github.com/yoheimuta/go-protoparser/v4"
 )
 
 var (
@@ -29,13 +32,13 @@ var (
 
 	Protobuf = &cobra.Command{
 		Use:  "protobuf",
-		Args: cobra.ExactArgs(2),
+		Args: cobra.ExactArgs(3),
 		Run:  protobuf,
 	}
 
 	Proxy = &cobra.Command{
 		Use:  "proxy",
-		Args: cobra.ExactArgs(2),
+		Args: cobra.ExactArgs(3),
 		Run:  proxy,
 	}
 
@@ -57,7 +60,8 @@ func protobuf(cmd *cobra.Command, args []string) {
 	ctx := cmd.Context()
 
 	protocolFilePath := args[0]
-	protobufFilePath := args[1]
+	protobufStaticFilePath := args[1]
+	protobufOutFilePath := args[2]
 
 	protocolBytes, err := os.ReadFile(protocolFilePath)
 	assertNoError(ctx, err)
@@ -65,11 +69,22 @@ func protobuf(cmd *cobra.Command, args []string) {
 	protocol, err := obsdoc.ParseProtocol(protocolBytes)
 	assertNoError(ctx, err)
 
-	protobufFile, err := os.OpenFile(protobufFilePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	protobufStaticBytes, err := os.ReadFile(protobufStaticFilePath)
+	assertNoError(ctx, err)
+
+	staticProto, err := protoparser.Parse(
+		bytes.NewReader(protobufStaticBytes),
+		protoparser.WithDebug(false),
+		protoparser.WithPermissive(true),
+		protoparser.WithFilename(filepath.Base(protobufStaticFilePath)),
+	)
+	assertNoError(ctx, err)
+
+	protobufFile, err := os.OpenFile(protobufOutFilePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	assertNoError(ctx, err)
 	defer protobufFile.Close()
 
-	err = obsprotobufgen.Generate(ctx, protobufFile, protocol)
+	err = obsprotobufgen.Generate(ctx, protobufFile, protocol, staticProto)
 	assertNoError(ctx, err)
 }
 
@@ -77,7 +92,8 @@ func proxy(cmd *cobra.Command, args []string) {
 	ctx := cmd.Context()
 
 	protocolFilePath := args[0]
-	proxyFilePath := args[1]
+	protobufStaticFilePath := args[1]
+	proxyOutFilePath := args[2]
 
 	protocolBytes, err := os.ReadFile(protocolFilePath)
 	assertNoError(ctx, err)
@@ -85,10 +101,21 @@ func proxy(cmd *cobra.Command, args []string) {
 	protocol, err := obsdoc.ParseProtocol(protocolBytes)
 	assertNoError(ctx, err)
 
-	proxyFile, err := os.OpenFile(proxyFilePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
+	protobufStaticBytes, err := os.ReadFile(protobufStaticFilePath)
+	assertNoError(ctx, err)
+
+	staticProto, err := protoparser.Parse(
+		bytes.NewReader(protobufStaticBytes),
+		protoparser.WithDebug(false),
+		protoparser.WithPermissive(true),
+		protoparser.WithFilename(filepath.Base(protobufStaticFilePath)),
+	)
+	assertNoError(ctx, err)
+
+	proxyFile, err := os.OpenFile(proxyOutFilePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	assertNoError(ctx, err)
 	defer proxyFile.Close()
 
-	err = obsproxygen.Generate(ctx, proxyFile, protocol)
+	err = obsproxygen.Generate(ctx, proxyFile, protocol, staticProto)
 	assertNoError(ctx, err)
 }

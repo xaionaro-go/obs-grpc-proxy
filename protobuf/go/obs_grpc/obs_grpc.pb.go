@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.12
-// source: protobuf/obs.proto
+// source: obs.proto
 
 package obs_grpc
 
@@ -5177,5 +5177,5 @@ var OBS_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/obs.proto",
+	Metadata: "obs.proto",
 }

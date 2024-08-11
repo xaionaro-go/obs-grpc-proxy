@@ -8,15 +8,28 @@ import (
 	"strings"
 
 	"github.com/xaionaro-go/obs-grpc-proxy/pkg/obsdoc"
+	"github.com/yoheimuta/go-protoparser/v4/parser"
 )
 
 func Generate(
 	ctx context.Context,
 	w io.Writer,
 	p *obsdoc.Protocol,
+	staticProto *parser.Proto,
 ) error {
 	if p == nil {
 		return nil
+	}
+
+	existingObjectTypes := map[string]struct{}{}
+	if staticProto != nil {
+		for _, v := range staticProto.ProtoBody {
+			msg, ok := v.(*parser.Message)
+			if !ok {
+				continue
+			}
+			existingObjectTypes[msg.MessageName] = struct{}{}
+		}
 	}
 
 	fmt.Fprintf(w, "syntax = \"proto3\";\n")
@@ -31,13 +44,13 @@ func Generate(
 	}
 
 	for idx, event := range p.Events {
-		err := generateEvent(ctx, w, &event)
+		err := generateEvent(ctx, w, &event, existingObjectTypes)
 		if err != nil {
 			return fmt.Errorf("unable to write event #%d (%s): %#+v: %w", idx, event.EventType, event, err)
 		}
 	}
 
-	err := generateRequests(ctx, w, p.Requests)
+	err := generateRequests(ctx, w, p.Requests, existingObjectTypes)
 	if err != nil {
 		return fmt.Errorf("unable to generate requests: %w", err)
 	}
@@ -76,10 +89,12 @@ func generateEvent(
 	_ context.Context,
 	w io.Writer,
 	event *obsdoc.Event,
+	existingObjectTypes map[string]struct{},
 ) error {
 	fmt.Fprintf(w, "message Event%s {\n", event.EventType)
 	for idx, field := range event.DataFields {
-		fmt.Fprintf(w, "\t%s %v = %d;\n", typeNameObs2Protobuf(field.ValueType, field.ValueName), fieldNameObs2Protobuf(field.ValueName), idx+1)
+		typeName := TypeNameObs2Protobuf(field.ValueType, field.ValueName, existingObjectTypes)
+		fmt.Fprintf(w, "\t%s %v = %d;\n", typeName, FieldNameObs2Protobuf(field.ValueName), idx+1)
 	}
 	fmt.Fprintf(w, "}\n")
 	return nil
@@ -95,7 +110,19 @@ func title(s string) string {
 
 var regexpArrayTypeParser = regexp.MustCompile(`Array\<([^>]+)\>`)
 
-func typeNameObs2Protobuf(typeName string, fieldName string) string {
+func IsFloatNumber(fieldName string) bool {
+	switch {
+	case strings.HasSuffix(fieldName, "Balance"):
+		return true
+	}
+	return false
+}
+
+func TypeNameObs2Protobuf(
+	typeName string,
+	fieldName string,
+	existingObjectTypes map[string]struct{},
+) string {
 	switch typeName {
 	case "String":
 		switch {
@@ -117,15 +144,21 @@ func typeNameObs2Protobuf(typeName string, fieldName string) string {
 	case "Boolean":
 		return "bool"
 	case "Number":
-		return "int64"
+		if IsFloatNumber(fieldName) {
+			return "double"
+		} else {
+			return "int64"
+		}
 	case "Object":
-		return title(fieldName)
-		//return "Object"
+		if _, ok := existingObjectTypes[fieldName]; ok {
+			return title(fieldName)
+		}
+		return "AbstractObject"
 	}
 
 	matches := regexpArrayTypeParser.FindAllStringSubmatch(typeName, -1)
 	if matches != nil {
-		return "repeated " + typeNameObs2Protobuf(matches[0][1], fieldName[:len(fieldName)-1])
+		return "repeated " + TypeNameObs2Protobuf(matches[0][1], fieldName[:len(fieldName)-1], existingObjectTypes)
 	}
 
 	return typeName
@@ -135,6 +168,7 @@ func generateRequests(
 	_ context.Context,
 	w io.Writer,
 	requests []obsdoc.Request,
+	existingObjectTypes map[string]struct{},
 ) error {
 	fmt.Fprintf(w, "service OBS {\n")
 	for _, request := range requests {
@@ -144,12 +178,13 @@ func generateRequests(
 	for _, request := range requests {
 		fmt.Fprintf(w, "message %sRequest {\n", request.RequestType)
 		for idx, field := range request.RequestFields {
-			fmt.Fprintf(w, "\t%s %v = %d;\n", fieldTypeObs2Protobuf(field), fieldNameObs2Protobuf(field.ValueName), idx+1)
+			fmt.Fprintf(w, "\t%s %v = %d;\n", fieldTypeObs2Protobuf(field, existingObjectTypes), FieldNameObs2Protobuf(field.ValueName), idx+1)
 		}
 		fmt.Fprintf(w, "}\n")
 		fmt.Fprintf(w, "message %sResponse {\n", request.RequestType)
 		for idx, field := range request.ResponseFields {
-			fmt.Fprintf(w, "\t%s %v = %d;\n", typeNameObs2Protobuf(field.ValueType, field.ValueName), fieldNameObs2Protobuf(field.ValueName), idx+1)
+			typeName := TypeNameObs2Protobuf(field.ValueType, field.ValueName, existingObjectTypes)
+			fmt.Fprintf(w, "\t%s %v = %d;\n", typeName, FieldNameObs2Protobuf(field.ValueName), idx+1)
 		}
 		fmt.Fprintf(w, "}\n")
 	}
@@ -157,14 +192,20 @@ func generateRequests(
 	return nil
 }
 
-func fieldNameObs2Protobuf(fieldName string) string {
+func FieldNameObs2Protobuf(fieldName string) string {
 	fieldName = strings.ReplaceAll(fieldName, ".", "_")
 	fieldName = strings.ReplaceAll(fieldName, "Uuid", "UUID")
+	if strings.HasSuffix(fieldName, "Id") {
+		fieldName = fieldName[:len(fieldName)-2] + "ID"
+	}
 	return fieldName
 }
 
-func fieldTypeObs2Protobuf(field obsdoc.Field) string {
-	typeName := typeNameObs2Protobuf(field.ValueType, field.ValueName)
+func fieldTypeObs2Protobuf(
+	field obsdoc.Field,
+	existingObjectTypes map[string]struct{},
+) string {
+	typeName := TypeNameObs2Protobuf(field.ValueType, field.ValueName, existingObjectTypes)
 	if field.ValueOptional {
 		return "optional " + typeName
 	}

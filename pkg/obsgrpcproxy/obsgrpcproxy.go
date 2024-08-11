@@ -43,7 +43,24 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 	return &result
 }
 
-func stringSliceGo2Protobuf(in []string) [][]byte {
+func toAbstractObject[T any](in T) *obsgrpc.AbstractObject {
+	return nil
+}
+
+func fromAbstractObject[T any](in *obsgrpc.AbstractObject) T {
+	var zeroValue T
+	return zeroValue
+}
+
+func toAbstractObjects[T any](in []T) []*obsgrpc.AbstractObject {
+	return nil
+}
+
+func fromAbstractObjects[T any](in []*obsgrpc.AbstractObject) []T {
+	return nil
+}
+
+func stringSlice2BytesSlice(in []string) [][]byte {
 	var result [][]byte
 	for _, s := range in {
 		result = append(result, []byte(s))
@@ -51,11 +68,20 @@ func stringSliceGo2Protobuf(in []string) [][]byte {
 	return result
 }
 
-func ptrInt64toFloat64(in *int64) *float64 {
+func ptrInt64ToFloat64(in *int64) *float64 {
 	if in == nil {
 		return nil
 	}
 
 	f := float64(*in)
 	return &f
+}
+
+func ptrInt64ToInt(in *int64) *int {
+	if in == nil {
+		return nil
+	}
+
+	i := int(*in)
+	return &i
 }

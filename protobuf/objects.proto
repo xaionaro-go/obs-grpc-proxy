@@ -1,4 +1,5 @@
 syntax = "proto3";
+option go_package = "go/obs_grpc";
 
 message AbstractObject { map<string, Any> fields = 1; };
 message Any {
@@ -9,3 +10,133 @@ message Any {
     }
 };
 
+message Input {
+	optional string InputUUID = 1;
+	optional string InputName = 2;
+	optional string InputKind = 3;
+	optional string UnversionedInputKind = 4;
+}
+
+message Output {
+	string Name  = 1;
+	string Kind  = 2;
+	int64 Width  = 3;
+	int64 Height = 4;
+	bool Active  = 5;
+	repeated OutputFlags OutputFlags = 6;
+}
+
+message OutputFlags {
+	bool Audio      = 1;
+	bool Video      = 2;
+	bool Encoded    = 3;
+	bool MultiTrack = 4;
+	bool Service    = 5;
+}
+
+message Scene {
+	optional string SceneUUID  = 1;
+	optional int64  SceneIndex = 2;
+	optional string SceneName  = 3;
+}
+
+message PropertyItem {
+	string ItemName    = 1;
+	bool   ItemEnabled = 2;
+	Any    ItemValue   = 3;
+}
+
+message Filter {
+	bool   FilterEnabled = 1;
+	int64  FilterIndex   = 2;
+	string FilterKind    = 3;
+	string FilterName    = 4;
+	AbstractObject FilterSettings = 5;
+}
+
+message Transition {
+	string TransitionUUID         = 1;
+	bool   TransitionConfigurable = 2;
+	bool   TransitionFixed        = 3;
+	string TransitionKind         = 4;
+	string TransitionName         = 5;
+}
+
+message SceneItemBasic {
+	int64 SceneItemID    = 1;
+	int64 SceneItemIndex = 2;
+}
+
+message SceneItem {
+	string InputKind                      = 1;
+	bool   IsGroup                        = 2;
+	string SceneItemBlendMode             = 3; 
+	bool   SceneItemEnabled               = 4; 
+	int64  SceneItemID                    = 5; 
+	int64  SceneItemIndex                 = 6; 
+	bool   SceneItemLocked                = 7; 
+	SceneItemTransform SceneItemTransform = 8; 
+	string SourceUUID                     = 9; 
+	string SourceName                     = 10; 
+	string SourceType                     = 11; 
+}
+
+message InputAudioTracks { map<string, Any> fields = 1; };
+
+message KeyModifiers {
+	string Shift   = 1;
+	int64  Control = 2;
+	int64  Alt     = 3;
+	string Command = 4;
+}
+
+message Monitor {
+	int64  MonitorHeight    = 1;
+	int64  MonitorIndex     = 2;
+	string MonitorName      = 3;
+	int64  MonitorPositionX = 4;
+	int64  MonitorPositionY = 5;
+	int64  MonitorWidth     = 6;
+}
+
+message StreamServiceSettings {
+	bool   Bwtest   = 1;
+	string Key      = 2;
+	string Password = 3;
+	string Server   = 4;
+	bool   UseAuth  = 5;
+	string Username = 6;
+}
+
+message SceneItemTransform {
+	double Alignment       = 1;
+	double BoundsAlignment = 2;
+	double BoundsHeight    = 3;
+	string BoundsType      = 4;
+	double BoundsWidth     = 5;
+	bool   CropToBounds    = 6;
+	double CropBottom      = 7;
+	double CropLeft        = 8;
+	double CropRight       = 9;
+	double CropTop         = 10;
+	double Height          = 11;
+	double PositionX       = 12;
+	double PositionY       = 13;
+	double Rotation        = 14;
+	double ScaleX          = 15;
+	double ScaleY          = 16;
+	double SourceHeight    = 17;
+	double SourceWidth     = 18;
+	double Width           = 19;
+}
+
+message InputVolumeMeterChannel {
+	double Value0 = 1;
+	double Value1 = 2;
+	double Value2 = 3;
+}
+
+message InputVolumeMeter {
+	string Name = 1;
+	repeated InputVolumeMeterChannel Channels = 2;
+}

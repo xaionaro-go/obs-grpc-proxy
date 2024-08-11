@@ -129,15 +129,15 @@ message EventProfileListChanged {
 }
 message EventSourceFilterListReindexed {
 	string sourceName = 1;
-	repeated Filter filters = 2;
+	repeated AbstractObject filters = 2;
 }
 message EventSourceFilterCreated {
 	string sourceName = 1;
 	string filterName = 2;
 	string filterKind = 3;
 	int64 filterIndex = 4;
-	FilterSettings filterSettings = 5;
-	DefaultFilterSettings defaultFilterSettings = 6;
+	AbstractObject filterSettings = 5;
+	AbstractObject defaultFilterSettings = 6;
 }
 message EventSourceFilterRemoved {
 	string sourceName = 1;
@@ -151,7 +151,7 @@ message EventSourceFilterNameChanged {
 message EventSourceFilterSettingsChanged {
 	string sourceName = 1;
 	string filterName = 2;
-	FilterSettings filterSettings = 3;
+	AbstractObject filterSettings = 3;
 }
 message EventSourceFilterEnableStateChanged {
 	string sourceName = 1;
@@ -165,8 +165,8 @@ message EventInputCreated {
 	string inputUUID = 2;
 	string inputKind = 3;
 	string unversionedInputKind = 4;
-	InputSettings inputSettings = 5;
-	DefaultInputSettings defaultInputSettings = 6;
+	AbstractObject inputSettings = 5;
+	AbstractObject defaultInputSettings = 6;
 }
 message EventInputRemoved {
 	string inputName = 1;
@@ -180,7 +180,7 @@ message EventInputNameChanged {
 message EventInputSettingsChanged {
 	string inputName = 1;
 	string inputUUID = 2;
-	InputSettings inputSettings = 3;
+	AbstractObject inputSettings = 3;
 }
 message EventInputActiveStateChanged {
 	string inputName = 1;
@@ -206,7 +206,7 @@ message EventInputVolumeChanged {
 message EventInputAudioBalanceChanged {
 	string inputName = 1;
 	string inputUUID = 2;
-	int64 inputAudioBalance = 3;
+	double inputAudioBalance = 3;
 }
 message EventInputAudioSyncOffsetChanged {
 	string inputName = 1;
@@ -216,7 +216,7 @@ message EventInputAudioSyncOffsetChanged {
 message EventInputAudioTracksChanged {
 	string inputName = 1;
 	string inputUUID = 2;
-	InputAudioTracks inputAudioTracks = 3;
+	AbstractObject inputAudioTracks = 3;
 }
 message EventInputAudioMonitorTypeChanged {
 	string inputName = 1;
@@ -224,7 +224,7 @@ message EventInputAudioMonitorTypeChanged {
 	bytes monitorType = 3;
 }
 message EventInputVolumeMeters {
-	repeated Input inputs = 1;
+	repeated AbstractObject inputs = 1;
 }
 message EventMediaInputPlaybackStarted {
 	string inputName = 1;
@@ -267,7 +267,7 @@ message EventSceneItemCreated {
 	string sceneUUID = 2;
 	string sourceName = 3;
 	string sourceUUID = 4;
-	int64 sceneItemId = 5;
+	int64 sceneItemID = 5;
 	int64 sceneItemIndex = 6;
 }
 message EventSceneItemRemoved {
@@ -275,35 +275,35 @@ message EventSceneItemRemoved {
 	string sceneUUID = 2;
 	string sourceName = 3;
 	string sourceUUID = 4;
-	int64 sceneItemId = 5;
+	int64 sceneItemID = 5;
 }
 message EventSceneItemListReindexed {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	repeated SceneItem sceneItems = 3;
+	repeated AbstractObject sceneItems = 3;
 }
 message EventSceneItemEnableStateChanged {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	bool sceneItemEnabled = 4;
 }
 message EventSceneItemLockStateChanged {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	bool sceneItemLocked = 4;
 }
 message EventSceneItemSelected {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message EventSceneItemTransformChanged {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	int64 sceneItemId = 3;
-	SceneItemTransform sceneItemTransform = 4;
+	int64 sceneItemID = 3;
+	AbstractObject sceneItemTransform = 4;
 }
 message EventSceneCreated {
 	string sceneName = 1;
@@ -329,7 +329,7 @@ message EventCurrentPreviewSceneChanged {
 	string sceneUUID = 2;
 }
 message EventSceneListChanged {
-	repeated Scene scenes = 1;
+	repeated AbstractObject scenes = 1;
 }
 message EventCurrentSceneTransitionChanged {
 	string transitionName = 1;
@@ -359,10 +359,10 @@ message EventScreenshotSaved {
 message EventVendorEvent {
 	string vendorName = 1;
 	bytes eventType = 2;
-	EventData eventData = 3;
+	AbstractObject eventData = 3;
 }
 message EventCustomEvent {
-	EventData eventData = 1;
+	AbstractObject eventData = 1;
 }
 service OBS {
 	rpc GetPersistentData(GetPersistentDataRequest) returns (GetPersistentDataResponse) {}
@@ -598,11 +598,11 @@ message GetStreamServiceSettingsRequest {
 }
 message GetStreamServiceSettingsResponse {
 	bytes streamServiceType = 1;
-	StreamServiceSettings streamServiceSettings = 2;
+	AbstractObject streamServiceSettings = 2;
 }
 message SetStreamServiceSettingsRequest {
 	bytes streamServiceType = 1;
-	StreamServiceSettings streamServiceSettings = 2;
+	AbstractObject streamServiceSettings = 2;
 }
 message SetStreamServiceSettingsResponse {
 }
@@ -626,20 +626,20 @@ message GetSourceFilterListRequest {
 	optional string sourceUUID = 2;
 }
 message GetSourceFilterListResponse {
-	repeated Filter filters = 1;
+	repeated AbstractObject filters = 1;
 }
 message GetSourceFilterDefaultSettingsRequest {
 	string filterKind = 1;
 }
 message GetSourceFilterDefaultSettingsResponse {
-	DefaultFilterSettings defaultFilterSettings = 1;
+	AbstractObject defaultFilterSettings = 1;
 }
 message CreateSourceFilterRequest {
 	optional string sourceName = 1;
 	optional string sourceUUID = 2;
 	string filterName = 3;
 	string filterKind = 4;
-	optional FilterSettings filterSettings = 5;
+	optional AbstractObject filterSettings = 5;
 }
 message CreateSourceFilterResponse {
 }
@@ -667,7 +667,7 @@ message GetSourceFilterResponse {
 	bool filterEnabled = 1;
 	int64 filterIndex = 2;
 	string filterKind = 3;
-	FilterSettings filterSettings = 4;
+	AbstractObject filterSettings = 4;
 }
 message SetSourceFilterIndexRequest {
 	optional string sourceName = 1;
@@ -681,7 +681,7 @@ message SetSourceFilterSettingsRequest {
 	optional string sourceName = 1;
 	optional string sourceUUID = 2;
 	string filterName = 3;
-	FilterSettings filterSettings = 4;
+	AbstractObject filterSettings = 4;
 	optional bool overlay = 5;
 }
 message SetSourceFilterSettingsResponse {
@@ -721,19 +721,19 @@ message GetStatsResponse {
 	int64 webSocketSessionOutgoingMessages = 11;
 }
 message BroadcastCustomEventRequest {
-	EventData eventData = 1;
+	AbstractObject eventData = 1;
 }
 message BroadcastCustomEventResponse {
 }
 message CallVendorRequestRequest {
 	string vendorName = 1;
 	bytes requestType = 2;
-	optional RequestData requestData = 3;
+	optional AbstractObject requestData = 3;
 }
 message CallVendorRequestResponse {
 	string vendorName = 1;
 	bytes requestType = 2;
-	ResponseData responseData = 3;
+	AbstractObject responseData = 3;
 }
 message GetHotkeyListRequest {
 }
@@ -747,8 +747,8 @@ message TriggerHotkeyByNameRequest {
 message TriggerHotkeyByNameResponse {
 }
 message TriggerHotkeyByKeySequenceRequest {
-	optional string keyId = 1;
-	optional KeyModifiers keyModifiers = 2;
+	optional string keyID = 1;
+	optional AbstractObject keyModifiers = 2;
 	optional bool keyModifiers_shift = 3;
 	optional bool keyModifiers_control = 4;
 	optional bool keyModifiers_alt = 5;
@@ -766,7 +766,7 @@ message GetInputListRequest {
 	optional string inputKind = 1;
 }
 message GetInputListResponse {
-	repeated Input inputs = 1;
+	repeated AbstractObject inputs = 1;
 }
 message GetInputKindListRequest {
 	optional bool unversioned = 1;
@@ -789,12 +789,12 @@ message CreateInputRequest {
 	optional string sceneUUID = 2;
 	string inputName = 3;
 	string inputKind = 4;
-	optional InputSettings inputSettings = 5;
+	optional AbstractObject inputSettings = 5;
 	optional bool sceneItemEnabled = 6;
 }
 message CreateInputResponse {
 	string inputUUID = 1;
-	int64 sceneItemId = 2;
+	int64 sceneItemID = 2;
 }
 message RemoveInputRequest {
 	optional string inputName = 1;
@@ -813,20 +813,20 @@ message GetInputDefaultSettingsRequest {
 	string inputKind = 1;
 }
 message GetInputDefaultSettingsResponse {
-	DefaultInputSettings defaultInputSettings = 1;
+	AbstractObject defaultInputSettings = 1;
 }
 message GetInputSettingsRequest {
 	optional string inputName = 1;
 	optional string inputUUID = 2;
 }
 message GetInputSettingsResponse {
-	InputSettings inputSettings = 1;
+	AbstractObject inputSettings = 1;
 	string inputKind = 2;
 }
 message SetInputSettingsRequest {
 	optional string inputName = 1;
 	optional string inputUUID = 2;
-	InputSettings inputSettings = 3;
+	AbstractObject inputSettings = 3;
 	optional bool overlay = 4;
 }
 message SetInputSettingsResponse {
@@ -873,12 +873,12 @@ message GetInputAudioBalanceRequest {
 	optional string inputUUID = 2;
 }
 message GetInputAudioBalanceResponse {
-	int64 inputAudioBalance = 1;
+	double inputAudioBalance = 1;
 }
 message SetInputAudioBalanceRequest {
 	optional string inputName = 1;
 	optional string inputUUID = 2;
-	int64 inputAudioBalance = 3;
+	double inputAudioBalance = 3;
 }
 message SetInputAudioBalanceResponse {
 }
@@ -915,12 +915,12 @@ message GetInputAudioTracksRequest {
 	optional string inputUUID = 2;
 }
 message GetInputAudioTracksResponse {
-	InputAudioTracks inputAudioTracks = 1;
+	AbstractObject inputAudioTracks = 1;
 }
 message SetInputAudioTracksRequest {
 	optional string inputName = 1;
 	optional string inputUUID = 2;
-	InputAudioTracks inputAudioTracks = 3;
+	AbstractObject inputAudioTracks = 3;
 }
 message SetInputAudioTracksResponse {
 }
@@ -930,7 +930,7 @@ message GetInputPropertiesListPropertyItemsRequest {
 	string propertyName = 3;
 }
 message GetInputPropertiesListPropertyItemsResponse {
-	repeated PropertyItem propertyItems = 1;
+	repeated AbstractObject propertyItems = 1;
 }
 message PressInputPropertiesButtonRequest {
 	optional string inputName = 1;
@@ -1017,7 +1017,7 @@ message GetLastReplayBufferReplayResponse {
 message GetOutputListRequest {
 }
 message GetOutputListResponse {
-	repeated Output outputs = 1;
+	repeated AbstractObject outputs = 1;
 }
 message GetOutputStatusRequest {
 	string outputName = 1;
@@ -1052,11 +1052,11 @@ message GetOutputSettingsRequest {
 	string outputName = 1;
 }
 message GetOutputSettingsResponse {
-	OutputSettings outputSettings = 1;
+	AbstractObject outputSettings = 1;
 }
 message SetOutputSettingsRequest {
 	string outputName = 1;
-	OutputSettings outputSettings = 2;
+	AbstractObject outputSettings = 2;
 }
 message SetOutputSettingsResponse {
 }
@@ -1109,14 +1109,14 @@ message GetSceneItemListRequest {
 	optional string sceneUUID = 2;
 }
 message GetSceneItemListResponse {
-	repeated SceneItem sceneItems = 1;
+	repeated AbstractObject sceneItems = 1;
 }
 message GetGroupSceneItemListRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
 }
 message GetGroupSceneItemListResponse {
-	repeated SceneItem sceneItems = 1;
+	repeated AbstractObject sceneItems = 1;
 }
 message GetSceneItemIdRequest {
 	optional string sceneName = 1;
@@ -1125,12 +1125,12 @@ message GetSceneItemIdRequest {
 	optional int64 searchOffset = 4;
 }
 message GetSceneItemIdResponse {
-	int64 sceneItemId = 1;
+	int64 sceneItemID = 1;
 }
 message GetSceneItemSourceRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemSourceResponse {
 	string sourceName = 1;
@@ -1144,45 +1144,45 @@ message CreateSceneItemRequest {
 	optional bool sceneItemEnabled = 5;
 }
 message CreateSceneItemResponse {
-	int64 sceneItemId = 1;
+	int64 sceneItemID = 1;
 }
 message RemoveSceneItemRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message RemoveSceneItemResponse {
 }
 message DuplicateSceneItemRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	optional string destinationSceneName = 4;
 	optional string destinationSceneUUID = 5;
 }
 message DuplicateSceneItemResponse {
-	int64 sceneItemId = 1;
+	int64 sceneItemID = 1;
 }
 message GetSceneItemTransformRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemTransformResponse {
-	SceneItemTransform sceneItemTransform = 1;
+	AbstractObject sceneItemTransform = 1;
 }
 message SetSceneItemTransformRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
-	SceneItemTransform sceneItemTransform = 4;
+	int64 sceneItemID = 3;
+	AbstractObject sceneItemTransform = 4;
 }
 message SetSceneItemTransformResponse {
 }
 message GetSceneItemEnabledRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemEnabledResponse {
 	bool sceneItemEnabled = 1;
@@ -1190,7 +1190,7 @@ message GetSceneItemEnabledResponse {
 message SetSceneItemEnabledRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	bool sceneItemEnabled = 4;
 }
 message SetSceneItemEnabledResponse {
@@ -1198,7 +1198,7 @@ message SetSceneItemEnabledResponse {
 message GetSceneItemLockedRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemLockedResponse {
 	bool sceneItemLocked = 1;
@@ -1206,7 +1206,7 @@ message GetSceneItemLockedResponse {
 message SetSceneItemLockedRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	bool sceneItemLocked = 4;
 }
 message SetSceneItemLockedResponse {
@@ -1214,7 +1214,7 @@ message SetSceneItemLockedResponse {
 message GetSceneItemIndexRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemIndexResponse {
 	int64 sceneItemIndex = 1;
@@ -1222,7 +1222,7 @@ message GetSceneItemIndexResponse {
 message SetSceneItemIndexRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	int64 sceneItemIndex = 4;
 }
 message SetSceneItemIndexResponse {
@@ -1230,7 +1230,7 @@ message SetSceneItemIndexResponse {
 message GetSceneItemBlendModeRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 }
 message GetSceneItemBlendModeResponse {
 	bytes sceneItemBlendMode = 1;
@@ -1238,7 +1238,7 @@ message GetSceneItemBlendModeResponse {
 message SetSceneItemBlendModeRequest {
 	optional string sceneName = 1;
 	optional string sceneUUID = 2;
-	int64 sceneItemId = 3;
+	int64 sceneItemID = 3;
 	bytes sceneItemBlendMode = 4;
 }
 message SetSceneItemBlendModeResponse {
@@ -1250,7 +1250,7 @@ message GetSceneListResponse {
 	string currentProgramSceneUUID = 2;
 	string currentPreviewSceneName = 3;
 	string currentPreviewSceneUUID = 4;
-	repeated Scene scenes = 5;
+	repeated AbstractObject scenes = 5;
 }
 message GetGroupListRequest {
 }
@@ -1391,7 +1391,7 @@ message GetSceneTransitionListResponse {
 	string currentSceneTransitionName = 1;
 	string currentSceneTransitionUUID = 2;
 	string currentSceneTransitionKind = 3;
-	repeated Transition transitions = 4;
+	repeated AbstractObject transitions = 4;
 }
 message GetCurrentSceneTransitionRequest {
 }
@@ -1402,7 +1402,7 @@ message GetCurrentSceneTransitionResponse {
 	bool transitionFixed = 4;
 	int64 transitionDuration = 5;
 	bool transitionConfigurable = 6;
-	TransitionSettings transitionSettings = 7;
+	AbstractObject transitionSettings = 7;
 }
 message SetCurrentSceneTransitionRequest {
 	string transitionName = 1;
@@ -1415,7 +1415,7 @@ message SetCurrentSceneTransitionDurationRequest {
 message SetCurrentSceneTransitionDurationResponse {
 }
 message SetCurrentSceneTransitionSettingsRequest {
-	TransitionSettings transitionSettings = 1;
+	AbstractObject transitionSettings = 1;
 	optional bool overlay = 2;
 }
 message SetCurrentSceneTransitionSettingsResponse {
@@ -1466,7 +1466,7 @@ message OpenInputInteractDialogResponse {
 message GetMonitorListRequest {
 }
 message GetMonitorListResponse {
-	repeated Monitor monitors = 1;
+	repeated AbstractObject monitors = 1;
 }
 message OpenVideoMixProjectorRequest {
 	bytes videoMixType = 1;

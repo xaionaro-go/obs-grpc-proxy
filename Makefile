@@ -1,11 +1,11 @@
 
-all: grpc-go
+all: proxy
 
 obs.proto:
-	go run ./scripts/generate/ protobuf ./upstream/obs-websocket/docs/generated/protocol.json ./protobuf/obs.proto
+	make -C protobuf obs.proto
 
 grpc-go: obs.proto
-	protoc --proto_path=protobuf/ --go_out=protobuf --go-grpc_out=protobuf protobuf/obs.proto
+	make -C protobuf grpc-go
 
-proxy:
-	go run ./scripts/generate/ proxy ./upstream/obs-websocket/docs/generated/protocol.json ./pkg/obsgrpcproxy/obsgrpcproxy_gen.go
+proxy: grpc-go
+	go run ./scripts/generate/ proxy ./upstream/obs-websocket/docs/generated/protocol.json ./protobuf/objects.proto ./pkg/obsgrpcproxy/obsgrpcproxy_gen.go
