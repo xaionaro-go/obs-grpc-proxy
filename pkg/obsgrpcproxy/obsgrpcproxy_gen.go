@@ -5,7 +5,6 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
-
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
@@ -47,6 +46,9 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetPersistentDataResponse{
 		SlotValue: anyGo2Protobuf(resp.SlotValue),
 	}
@@ -75,9 +77,12 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 		SlotName:  ptr(req.SlotName),
 		SlotValue: req.SlotValue,
 	}
-	_, err = client.Config.SetPersistentData(params)
+	resp, err := client.Config.SetPersistentData(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetPersistentDataResponse{}
 	return result, nil
@@ -104,6 +109,9 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 	resp, err := client.Config.GetSceneCollectionList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneCollectionListResponse{
 		CurrentSceneCollectionName: resp.CurrentSceneCollectionName,
@@ -132,9 +140,12 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 	params := &config.SetCurrentSceneCollectionParams{
 		SceneCollectionName: ptr(req.SceneCollectionName),
 	}
-	_, err = client.Config.SetCurrentSceneCollection(params)
+	resp, err := client.Config.SetCurrentSceneCollection(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentSceneCollectionResponse{}
 	return result, nil
@@ -160,9 +171,12 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 	params := &config.CreateSceneCollectionParams{
 		SceneCollectionName: ptr(req.SceneCollectionName),
 	}
-	_, err = client.Config.CreateSceneCollection(params)
+	resp, err := client.Config.CreateSceneCollection(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.CreateSceneCollectionResponse{}
 	return result, nil
@@ -189,6 +203,9 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 	resp, err := client.Config.GetProfileList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetProfileListResponse{
 		CurrentProfileName: resp.CurrentProfileName,
@@ -217,9 +234,12 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 	params := &config.SetCurrentProfileParams{
 		ProfileName: ptr(req.ProfileName),
 	}
-	_, err = client.Config.SetCurrentProfile(params)
+	resp, err := client.Config.SetCurrentProfile(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentProfileResponse{}
 	return result, nil
@@ -245,9 +265,12 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 	params := &config.CreateProfileParams{
 		ProfileName: ptr(req.ProfileName),
 	}
-	_, err = client.Config.CreateProfile(params)
+	resp, err := client.Config.CreateProfile(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.CreateProfileResponse{}
 	return result, nil
@@ -273,9 +296,12 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 	params := &config.RemoveProfileParams{
 		ProfileName: ptr(req.ProfileName),
 	}
-	_, err = client.Config.RemoveProfile(params)
+	resp, err := client.Config.RemoveProfile(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.RemoveProfileResponse{}
 	return result, nil
@@ -306,6 +332,9 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetProfileParameterResponse{
 		ParameterValue:        ([]byte)(resp.ParameterValue),
 		DefaultParameterValue: ([]byte)(resp.DefaultParameterValue),
@@ -335,9 +364,12 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 		ParameterName:     ptr(req.ParameterName),
 		ParameterValue:    ptr((string)(req.ParameterValue)),
 	}
-	_, err = client.Config.SetProfileParameter(params)
+	resp, err := client.Config.SetProfileParameter(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetProfileParameterResponse{}
 	return result, nil
@@ -364,6 +396,9 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 	resp, err := client.Config.GetVideoSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetVideoSettingsResponse{
 		FpsNumerator:   (int64)(resp.FpsNumerator),
@@ -401,9 +436,12 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 		OutputWidth:    ptrInt64ToFloat64(req.OutputWidth),
 		OutputHeight:   ptrInt64ToFloat64(req.OutputHeight),
 	}
-	_, err = client.Config.SetVideoSettings(params)
+	resp, err := client.Config.SetVideoSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetVideoSettingsResponse{}
 	return result, nil
@@ -430,6 +468,9 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 	resp, err := client.Config.GetStreamServiceSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetStreamServiceSettingsResponse{
 		StreamServiceType:     ([]byte)(resp.StreamServiceType),
@@ -459,9 +500,12 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 		StreamServiceType:     ptr((string)(req.StreamServiceType)),
 		StreamServiceSettings: fromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
 	}
-	_, err = client.Config.SetStreamServiceSettings(params)
+	resp, err := client.Config.SetStreamServiceSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetStreamServiceSettingsResponse{}
 	return result, nil
@@ -489,6 +533,9 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetRecordDirectoryResponse{
 		RecordDirectory: ([]byte)(resp.RecordDirectory),
 	}
@@ -515,9 +562,12 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 	params := &config.SetRecordDirectoryParams{
 		RecordDirectory: ptr((string)(req.RecordDirectory)),
 	}
-	_, err = client.Config.SetRecordDirectory(params)
+	resp, err := client.Config.SetRecordDirectory(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetRecordDirectoryResponse{}
 	return result, nil
@@ -544,6 +594,9 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 	resp, err := client.Filters.GetSourceFilterKindList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterKindListResponse{
 		SourceFilterKinds: resp.SourceFilterKinds,
@@ -576,6 +629,9 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSourceFilterListResponse{
 		Filters: toAbstractObjects[*typedefs.Filter](resp.Filters),
 	}
@@ -605,6 +661,9 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 	resp, err := client.Filters.GetSourceFilterDefaultSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterDefaultSettingsResponse{
 		DefaultFilterSettings: toAbstractObject[map[string]any](resp.DefaultFilterSettings),
@@ -636,9 +695,12 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 		FilterKind:     ptr(req.FilterKind),
 		FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
 	}
-	_, err = client.Filters.CreateSourceFilter(params)
+	resp, err := client.Filters.CreateSourceFilter(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.CreateSourceFilterResponse{}
 	return result, nil
@@ -666,9 +728,12 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 		SourceUuid: req.SourceUUID,
 		FilterName: ptr(req.FilterName),
 	}
-	_, err = client.Filters.RemoveSourceFilter(params)
+	resp, err := client.Filters.RemoveSourceFilter(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.RemoveSourceFilterResponse{}
 	return result, nil
@@ -697,9 +762,12 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 		FilterName:    ptr(req.FilterName),
 		NewFilterName: ptr(req.NewFilterName),
 	}
-	_, err = client.Filters.SetSourceFilterName(params)
+	resp, err := client.Filters.SetSourceFilterName(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSourceFilterNameResponse{}
 	return result, nil
@@ -730,6 +798,9 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 	resp, err := client.Filters.GetSourceFilter(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterResponse{
 		FilterEnabled:  resp.FilterEnabled,
@@ -763,9 +834,12 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 		FilterName:  ptr(req.FilterName),
 		FilterIndex: ptr((int)(req.FilterIndex)),
 	}
-	_, err = client.Filters.SetSourceFilterIndex(params)
+	resp, err := client.Filters.SetSourceFilterIndex(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSourceFilterIndexResponse{}
 	return result, nil
@@ -795,9 +869,12 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 		FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
 		Overlay:        req.Overlay,
 	}
-	_, err = client.Filters.SetSourceFilterSettings(params)
+	resp, err := client.Filters.SetSourceFilterSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSourceFilterSettingsResponse{}
 	return result, nil
@@ -826,9 +903,12 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 		FilterName:    ptr(req.FilterName),
 		FilterEnabled: ptr(req.FilterEnabled),
 	}
-	_, err = client.Filters.SetSourceFilterEnabled(params)
+	resp, err := client.Filters.SetSourceFilterEnabled(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSourceFilterEnabledResponse{}
 	return result, nil
@@ -855,6 +935,9 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 	resp, err := client.General.GetVersion(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetVersionResponse{
 		ObsVersion:            ([]byte)(resp.ObsVersion),
@@ -889,6 +972,9 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (_re
 	resp, err := client.General.GetStats(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetStatsResponse{
 		CpuUsage:                         (int64)(resp.CpuUsage),
@@ -926,9 +1012,12 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 	params := &general.BroadcastCustomEventParams{
 		EventData: fromAbstractObject[map[string]any](req.EventData),
 	}
-	_, err = client.General.BroadcastCustomEvent(params)
+	resp, err := client.General.BroadcastCustomEvent(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.BroadcastCustomEventResponse{}
 	return result, nil
@@ -960,6 +1049,9 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.CallVendorRequestResponse{
 		VendorName:   resp.VendorName,
 		RequestType:  ([]byte)(resp.RequestType),
@@ -990,6 +1082,9 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetHotkeyListResponse{
 		Hotkeys: stringSlice2BytesSlice(resp.Hotkeys),
 	}
@@ -1017,9 +1112,12 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 		HotkeyName:  ptr(req.HotkeyName),
 		ContextName: req.ContextName,
 	}
-	_, err = client.General.TriggerHotkeyByName(params)
+	resp, err := client.General.TriggerHotkeyByName(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.TriggerHotkeyByNameResponse{}
 	return result, nil
@@ -1046,9 +1144,12 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 		KeyId:        req.KeyID,
 		KeyModifiers: fromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
 	}
-	_, err = client.General.TriggerHotkeyByKeySequence(params)
+	resp, err := client.General.TriggerHotkeyByKeySequence(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.TriggerHotkeyByKeySequenceResponse{}
 	return result, nil
@@ -1075,9 +1176,12 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (_ret *obs
 		SleepMillis: ptrInt64ToFloat64(req.SleepMillis),
 		SleepFrames: ptrInt64ToFloat64(req.SleepFrames),
 	}
-	_, err = client.General.Sleep(params)
+	resp, err := client.General.Sleep(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SleepResponse{}
 	return result, nil
@@ -1106,6 +1210,9 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 	resp, err := client.Inputs.GetInputList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputListResponse{
 		Inputs: toAbstractObjects[*typedefs.Input](resp.Inputs),
@@ -1137,6 +1244,9 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputKindListResponse{
 		InputKinds: resp.InputKinds,
 	}
@@ -1164,6 +1274,9 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 	resp, err := client.Inputs.GetSpecialInputs(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSpecialInputsResponse{
 		Desktop1: ([]byte)(resp.Desktop1),
@@ -1205,6 +1318,9 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.CreateInputResponse{
 		InputUUID:   resp.InputUuid,
 		SceneItemID: (int64)(resp.SceneItemId),
@@ -1233,9 +1349,12 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 		InputName: req.InputName,
 		InputUuid: req.InputUUID,
 	}
-	_, err = client.Inputs.RemoveInput(params)
+	resp, err := client.Inputs.RemoveInput(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.RemoveInputResponse{}
 	return result, nil
@@ -1263,9 +1382,12 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 		InputUuid:    req.InputUUID,
 		NewInputName: ptr(req.NewInputName),
 	}
-	_, err = client.Inputs.SetInputName(params)
+	resp, err := client.Inputs.SetInputName(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputNameResponse{}
 	return result, nil
@@ -1294,6 +1416,9 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 	resp, err := client.Inputs.GetInputDefaultSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputDefaultSettingsResponse{
 		DefaultInputSettings: toAbstractObject[map[string]any](resp.DefaultInputSettings),
@@ -1326,6 +1451,9 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputSettingsResponse{
 		InputSettings: toAbstractObject[map[string]any](resp.InputSettings),
 		InputKind:     resp.InputKind,
@@ -1356,9 +1484,12 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 		InputSettings: fromAbstractObject[map[string]any](req.InputSettings),
 		Overlay:       req.Overlay,
 	}
-	_, err = client.Inputs.SetInputSettings(params)
+	resp, err := client.Inputs.SetInputSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputSettingsResponse{}
 	return result, nil
@@ -1389,6 +1520,9 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputMuteResponse{
 		InputMuted: resp.InputMuted,
 	}
@@ -1417,9 +1551,12 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 		InputUuid:  req.InputUUID,
 		InputMuted: ptr(req.InputMuted),
 	}
-	_, err = client.Inputs.SetInputMute(params)
+	resp, err := client.Inputs.SetInputMute(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputMuteResponse{}
 	return result, nil
@@ -1449,6 +1586,9 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 	resp, err := client.Inputs.ToggleInputMute(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.ToggleInputMuteResponse{
 		InputMuted: resp.InputMuted,
@@ -1481,6 +1621,9 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputVolumeResponse{
 		InputVolumeMul: (int64)(resp.InputVolumeMul),
 		InputVolumeDb:  (int64)(resp.InputVolumeDb),
@@ -1511,9 +1654,12 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 		InputVolumeMul: ptrInt64ToFloat64(req.InputVolumeMul),
 		InputVolumeDb:  ptrInt64ToFloat64(req.InputVolumeDb),
 	}
-	_, err = client.Inputs.SetInputVolume(params)
+	resp, err := client.Inputs.SetInputVolume(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputVolumeResponse{}
 	return result, nil
@@ -1544,6 +1690,9 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputAudioBalanceResponse{
 		InputAudioBalance: resp.InputAudioBalance,
 	}
@@ -1572,9 +1721,12 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 		InputUuid:         req.InputUUID,
 		InputAudioBalance: ptr(req.InputAudioBalance),
 	}
-	_, err = client.Inputs.SetInputAudioBalance(params)
+	resp, err := client.Inputs.SetInputAudioBalance(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputAudioBalanceResponse{}
 	return result, nil
@@ -1605,6 +1757,9 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputAudioSyncOffsetResponse{
 		InputAudioSyncOffset: (int64)(resp.InputAudioSyncOffset),
 	}
@@ -1633,9 +1788,12 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 		InputUuid:            req.InputUUID,
 		InputAudioSyncOffset: ptr((float64)(req.InputAudioSyncOffset)),
 	}
-	_, err = client.Inputs.SetInputAudioSyncOffset(params)
+	resp, err := client.Inputs.SetInputAudioSyncOffset(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputAudioSyncOffsetResponse{}
 	return result, nil
@@ -1666,6 +1824,9 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputAudioMonitorTypeResponse{
 		MonitorType: ([]byte)(resp.MonitorType),
 	}
@@ -1694,9 +1855,12 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 		InputUuid:   req.InputUUID,
 		MonitorType: ptr((string)(req.MonitorType)),
 	}
-	_, err = client.Inputs.SetInputAudioMonitorType(params)
+	resp, err := client.Inputs.SetInputAudioMonitorType(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputAudioMonitorTypeResponse{}
 	return result, nil
@@ -1727,6 +1891,9 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputAudioTracksResponse{
 		InputAudioTracks: toAbstractObject[*typedefs.InputAudioTracks](resp.InputAudioTracks),
 	}
@@ -1755,9 +1922,12 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 		InputUuid:        req.InputUUID,
 		InputAudioTracks: fromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
 	}
-	_, err = client.Inputs.SetInputAudioTracks(params)
+	resp, err := client.Inputs.SetInputAudioTracks(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetInputAudioTracksResponse{}
 	return result, nil
@@ -1789,6 +1959,9 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetInputPropertiesListPropertyItemsResponse{
 		PropertyItems: toAbstractObjects[*typedefs.PropertyItem](resp.PropertyItems),
 	}
@@ -1817,9 +1990,12 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 		InputUuid:    req.InputUUID,
 		PropertyName: ptr(req.PropertyName),
 	}
-	_, err = client.Inputs.PressInputPropertiesButton(params)
+	resp, err := client.Inputs.PressInputPropertiesButton(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.PressInputPropertiesButtonResponse{}
 	return result, nil
@@ -1849,6 +2025,9 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 	resp, err := client.MediaInputs.GetMediaInputStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetMediaInputStatusResponse{
 		MediaState:    ([]byte)(resp.MediaState),
@@ -1880,9 +2059,12 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 		InputUuid:   req.InputUUID,
 		MediaCursor: ptr((float64)(req.MediaCursor)),
 	}
-	_, err = client.MediaInputs.SetMediaInputCursor(params)
+	resp, err := client.MediaInputs.SetMediaInputCursor(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetMediaInputCursorResponse{}
 	return result, nil
@@ -1910,9 +2092,12 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 		InputUuid:         req.InputUUID,
 		MediaCursorOffset: ptr((float64)(req.MediaCursorOffset)),
 	}
-	_, err = client.MediaInputs.OffsetMediaInputCursor(params)
+	resp, err := client.MediaInputs.OffsetMediaInputCursor(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OffsetMediaInputCursorResponse{}
 	return result, nil
@@ -1940,9 +2125,12 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 		InputUuid:   req.InputUUID,
 		MediaAction: ptr(req.MediaAction),
 	}
-	_, err = client.MediaInputs.TriggerMediaInputAction(params)
+	resp, err := client.MediaInputs.TriggerMediaInputAction(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.TriggerMediaInputActionResponse{}
 	return result, nil
@@ -1969,6 +2157,9 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 	resp, err := client.Outputs.GetVirtualCamStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetVirtualCamStatusResponse{
 		OutputActive: resp.OutputActive,
@@ -1998,6 +2189,9 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.ToggleVirtualCamResponse{
 		OutputActive: resp.OutputActive,
 	}
@@ -2022,9 +2216,12 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StartVirtualCamParams{}
-	_, err = client.Outputs.StartVirtualCam(params)
+	resp, err := client.Outputs.StartVirtualCam(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StartVirtualCamResponse{}
 	return result, nil
@@ -2048,9 +2245,12 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StopVirtualCamParams{}
-	_, err = client.Outputs.StopVirtualCam(params)
+	resp, err := client.Outputs.StopVirtualCam(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StopVirtualCamResponse{}
 	return result, nil
@@ -2077,6 +2277,9 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 	resp, err := client.Outputs.GetReplayBufferStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetReplayBufferStatusResponse{
 		OutputActive: resp.OutputActive,
@@ -2106,6 +2309,9 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.ToggleReplayBufferResponse{
 		OutputActive: resp.OutputActive,
 	}
@@ -2130,9 +2336,12 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StartReplayBufferParams{}
-	_, err = client.Outputs.StartReplayBuffer(params)
+	resp, err := client.Outputs.StartReplayBuffer(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StartReplayBufferResponse{}
 	return result, nil
@@ -2156,9 +2365,12 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StopReplayBufferParams{}
-	_, err = client.Outputs.StopReplayBuffer(params)
+	resp, err := client.Outputs.StopReplayBuffer(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StopReplayBufferResponse{}
 	return result, nil
@@ -2182,9 +2394,12 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.SaveReplayBufferParams{}
-	_, err = client.Outputs.SaveReplayBuffer(params)
+	resp, err := client.Outputs.SaveReplayBuffer(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SaveReplayBufferResponse{}
 	return result, nil
@@ -2211,6 +2426,9 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 	resp, err := client.Outputs.GetLastReplayBufferReplay(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetLastReplayBufferReplayResponse{
 		SavedReplayPath: resp.SavedReplayPath,
@@ -2239,6 +2457,9 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 	resp, err := client.Outputs.GetOutputList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetOutputListResponse{
 		Outputs: toAbstractObjects[*typedefs.Output](resp.Outputs),
@@ -2269,6 +2490,9 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 	resp, err := client.Outputs.GetOutputStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetOutputStatusResponse{
 		OutputActive:        resp.OutputActive,
@@ -2307,6 +2531,9 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.ToggleOutputResponse{
 		OutputActive: resp.OutputActive,
 	}
@@ -2333,9 +2560,12 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 	params := &outputs.StartOutputParams{
 		OutputName: ptr(req.OutputName),
 	}
-	_, err = client.Outputs.StartOutput(params)
+	resp, err := client.Outputs.StartOutput(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StartOutputResponse{}
 	return result, nil
@@ -2361,9 +2591,12 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 	params := &outputs.StopOutputParams{
 		OutputName: ptr(req.OutputName),
 	}
-	_, err = client.Outputs.StopOutput(params)
+	resp, err := client.Outputs.StopOutput(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StopOutputResponse{}
 	return result, nil
@@ -2393,6 +2626,9 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetOutputSettingsResponse{
 		OutputSettings: toAbstractObject[map[string]any](resp.OutputSettings),
 	}
@@ -2420,9 +2656,12 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 		OutputName:     ptr(req.OutputName),
 		OutputSettings: fromAbstractObject[map[string]any](req.OutputSettings),
 	}
-	_, err = client.Outputs.SetOutputSettings(params)
+	resp, err := client.Outputs.SetOutputSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetOutputSettingsResponse{}
 	return result, nil
@@ -2449,6 +2688,9 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 	resp, err := client.Record.GetRecordStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetRecordStatusResponse{
 		OutputActive:   resp.OutputActive,
@@ -2482,6 +2724,9 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.ToggleRecordResponse{
 		OutputActive: resp.OutputActive,
 	}
@@ -2506,9 +2751,12 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.StartRecordParams{}
-	_, err = client.Record.StartRecord(params)
+	resp, err := client.Record.StartRecord(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StartRecordResponse{}
 	return result, nil
@@ -2536,6 +2784,9 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.StopRecordResponse{
 		OutputPath: resp.OutputPath,
 	}
@@ -2560,9 +2811,12 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.ToggleRecordPauseParams{}
-	_, err = client.Record.ToggleRecordPause(params)
+	resp, err := client.Record.ToggleRecordPause(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.ToggleRecordPauseResponse{}
 	return result, nil
@@ -2586,9 +2840,12 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.PauseRecordParams{}
-	_, err = client.Record.PauseRecord(params)
+	resp, err := client.Record.PauseRecord(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.PauseRecordResponse{}
 	return result, nil
@@ -2612,9 +2869,12 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.ResumeRecordParams{}
-	_, err = client.Record.ResumeRecord(params)
+	resp, err := client.Record.ResumeRecord(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.ResumeRecordResponse{}
 	return result, nil
@@ -2638,9 +2898,12 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.SplitRecordFileParams{}
-	_, err = client.Record.SplitRecordFile(params)
+	resp, err := client.Record.SplitRecordFile(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SplitRecordFileResponse{}
 	return result, nil
@@ -2666,9 +2929,12 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 	params := &record.CreateRecordChapterParams{
 		ChapterName: req.ChapterName,
 	}
-	_, err = client.Record.CreateRecordChapter(params)
+	resp, err := client.Record.CreateRecordChapter(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.CreateRecordChapterResponse{}
 	return result, nil
@@ -2698,6 +2964,9 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 	resp, err := client.SceneItems.GetSceneItemList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemListResponse{
 		SceneItems: toAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
@@ -2729,6 +2998,9 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 	resp, err := client.SceneItems.GetGroupSceneItemList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetGroupSceneItemListResponse{
 		SceneItems: toAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
@@ -2763,6 +3035,9 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemIdResponse{
 		SceneItemID: (int64)(resp.SceneItemId),
 	}
@@ -2794,6 +3069,9 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 	resp, err := client.SceneItems.GetSceneItemSource(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemSourceResponse{
 		SourceName: resp.SourceName,
@@ -2830,6 +3108,9 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.CreateSceneItemResponse{
 		SceneItemID: (int64)(resp.SceneItemId),
 	}
@@ -2858,9 +3139,12 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 		SceneUuid:   req.SceneUUID,
 		SceneItemId: ptr((int)(req.SceneItemID)),
 	}
-	_, err = client.SceneItems.RemoveSceneItem(params)
+	resp, err := client.SceneItems.RemoveSceneItem(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.RemoveSceneItemResponse{}
 	return result, nil
@@ -2894,6 +3178,9 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.DuplicateSceneItemResponse{
 		SceneItemID: (int64)(resp.SceneItemId),
 	}
@@ -2926,6 +3213,9 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemTransformResponse{
 		SceneItemTransform: toAbstractObject[*typedefs.SceneItemTransform](resp.SceneItemTransform),
 	}
@@ -2955,9 +3245,12 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 		SceneItemId:        ptr((int)(req.SceneItemID)),
 		SceneItemTransform: fromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
 	}
-	_, err = client.SceneItems.SetSceneItemTransform(params)
+	resp, err := client.SceneItems.SetSceneItemTransform(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneItemTransformResponse{}
 	return result, nil
@@ -2989,6 +3282,9 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemEnabledResponse{
 		SceneItemEnabled: resp.SceneItemEnabled,
 	}
@@ -3018,9 +3314,12 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 		SceneItemId:      ptr((int)(req.SceneItemID)),
 		SceneItemEnabled: ptr(req.SceneItemEnabled),
 	}
-	_, err = client.SceneItems.SetSceneItemEnabled(params)
+	resp, err := client.SceneItems.SetSceneItemEnabled(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneItemEnabledResponse{}
 	return result, nil
@@ -3052,6 +3351,9 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemLockedResponse{
 		SceneItemLocked: resp.SceneItemLocked,
 	}
@@ -3081,9 +3383,12 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 		SceneItemId:     ptr((int)(req.SceneItemID)),
 		SceneItemLocked: ptr(req.SceneItemLocked),
 	}
-	_, err = client.SceneItems.SetSceneItemLocked(params)
+	resp, err := client.SceneItems.SetSceneItemLocked(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneItemLockedResponse{}
 	return result, nil
@@ -3115,6 +3420,9 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemIndexResponse{
 		SceneItemIndex: (int64)(resp.SceneItemIndex),
 	}
@@ -3144,9 +3452,12 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 		SceneItemId:    ptr((int)(req.SceneItemID)),
 		SceneItemIndex: ptr((int)(req.SceneItemIndex)),
 	}
-	_, err = client.SceneItems.SetSceneItemIndex(params)
+	resp, err := client.SceneItems.SetSceneItemIndex(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneItemIndexResponse{}
 	return result, nil
@@ -3178,6 +3489,9 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSceneItemBlendModeResponse{
 		SceneItemBlendMode: ([]byte)(resp.SceneItemBlendMode),
 	}
@@ -3207,9 +3521,12 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 		SceneItemId:        ptr((int)(req.SceneItemID)),
 		SceneItemBlendMode: ptr((string)(req.SceneItemBlendMode)),
 	}
-	_, err = client.SceneItems.SetSceneItemBlendMode(params)
+	resp, err := client.SceneItems.SetSceneItemBlendMode(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneItemBlendModeResponse{}
 	return result, nil
@@ -3236,6 +3553,9 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 	resp, err := client.Scenes.GetSceneList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneListResponse{
 		CurrentProgramSceneName: resp.CurrentProgramSceneName,
@@ -3269,6 +3589,9 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetGroupListResponse{
 		Groups: stringSlice2BytesSlice(resp.Groups),
 	}
@@ -3296,6 +3619,9 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 	resp, err := client.Scenes.GetCurrentProgramScene(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetCurrentProgramSceneResponse{
 		SceneName:               resp.SceneName,
@@ -3327,9 +3653,12 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 		SceneName: req.SceneName,
 		SceneUuid: req.SceneUUID,
 	}
-	_, err = client.Scenes.SetCurrentProgramScene(params)
+	resp, err := client.Scenes.SetCurrentProgramScene(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentProgramSceneResponse{}
 	return result, nil
@@ -3356,6 +3685,9 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 	resp, err := client.Scenes.GetCurrentPreviewScene(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetCurrentPreviewSceneResponse{
 		SceneName:               resp.SceneName,
@@ -3387,9 +3719,12 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 		SceneName: req.SceneName,
 		SceneUuid: req.SceneUUID,
 	}
-	_, err = client.Scenes.SetCurrentPreviewScene(params)
+	resp, err := client.Scenes.SetCurrentPreviewScene(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentPreviewSceneResponse{}
 	return result, nil
@@ -3419,6 +3754,9 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.CreateSceneResponse{
 		SceneUUID: resp.SceneUuid,
 	}
@@ -3446,9 +3784,12 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 		SceneName: req.SceneName,
 		SceneUuid: req.SceneUUID,
 	}
-	_, err = client.Scenes.RemoveScene(params)
+	resp, err := client.Scenes.RemoveScene(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.RemoveSceneResponse{}
 	return result, nil
@@ -3476,9 +3817,12 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 		SceneUuid:    req.SceneUUID,
 		NewSceneName: ptr(req.NewSceneName),
 	}
-	_, err = client.Scenes.SetSceneName(params)
+	resp, err := client.Scenes.SetSceneName(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneNameResponse{}
 	return result, nil
@@ -3508,6 +3852,9 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 	resp, err := client.Scenes.GetSceneSceneTransitionOverride(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneSceneTransitionOverrideResponse{
 		TransitionName:     resp.TransitionName,
@@ -3539,9 +3886,12 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 		TransitionName:     req.TransitionName,
 		TransitionDuration: ptrInt64ToFloat64(req.TransitionDuration),
 	}
-	_, err = client.Scenes.SetSceneSceneTransitionOverride(params)
+	resp, err := client.Scenes.SetSceneSceneTransitionOverride(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetSceneSceneTransitionOverrideResponse{}
 	return result, nil
@@ -3571,6 +3921,9 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 	resp, err := client.Sources.GetSourceActive(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceActiveResponse{
 		VideoActive:  resp.VideoActive,
@@ -3608,6 +3961,9 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetSourceScreenshotResponse{
 		ImageData: ([]byte)(resp.ImageData),
 	}
@@ -3640,9 +3996,12 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 		ImageHeight:             ptrInt64ToFloat64(req.ImageHeight),
 		ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
 	}
-	_, err = client.Sources.SaveSourceScreenshot(params)
+	resp, err := client.Sources.SaveSourceScreenshot(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SaveSourceScreenshotResponse{}
 	return result, nil
@@ -3669,6 +4028,9 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 	resp, err := client.Stream.GetStreamStatus(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetStreamStatusResponse{
 		OutputActive:        resp.OutputActive,
@@ -3705,6 +4067,9 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.ToggleStreamResponse{
 		OutputActive: resp.OutputActive,
 	}
@@ -3729,9 +4094,12 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.StartStreamParams{}
-	_, err = client.Stream.StartStream(params)
+	resp, err := client.Stream.StartStream(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StartStreamResponse{}
 	return result, nil
@@ -3755,9 +4123,12 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.StopStreamParams{}
-	_, err = client.Stream.StopStream(params)
+	resp, err := client.Stream.StopStream(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.StopStreamResponse{}
 	return result, nil
@@ -3783,9 +4154,12 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 	params := &stream.SendStreamCaptionParams{
 		CaptionText: ptr((string)(req.CaptionText)),
 	}
-	_, err = client.Stream.SendStreamCaption(params)
+	resp, err := client.Stream.SendStreamCaption(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SendStreamCaptionResponse{}
 	return result, nil
@@ -3812,6 +4186,9 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 	resp, err := client.Transitions.GetTransitionKindList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetTransitionKindListResponse{
 		TransitionKinds: resp.TransitionKinds,
@@ -3840,6 +4217,9 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 	resp, err := client.Transitions.GetSceneTransitionList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneTransitionListResponse{
 		CurrentSceneTransitionName: resp.CurrentSceneTransitionName,
@@ -3871,6 +4251,9 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 	resp, err := client.Transitions.GetCurrentSceneTransition(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetCurrentSceneTransitionResponse{
 		TransitionName:         resp.TransitionName,
@@ -3904,9 +4287,12 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 	params := &transitions.SetCurrentSceneTransitionParams{
 		TransitionName: ptr(req.TransitionName),
 	}
-	_, err = client.Transitions.SetCurrentSceneTransition(params)
+	resp, err := client.Transitions.SetCurrentSceneTransition(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentSceneTransitionResponse{}
 	return result, nil
@@ -3932,9 +4318,12 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 	params := &transitions.SetCurrentSceneTransitionDurationParams{
 		TransitionDuration: ptr((float64)(req.TransitionDuration)),
 	}
-	_, err = client.Transitions.SetCurrentSceneTransitionDuration(params)
+	resp, err := client.Transitions.SetCurrentSceneTransitionDuration(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentSceneTransitionDurationResponse{}
 	return result, nil
@@ -3961,9 +4350,12 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 		TransitionSettings: fromAbstractObject[map[string]any](req.TransitionSettings),
 		Overlay:            req.Overlay,
 	}
-	_, err = client.Transitions.SetCurrentSceneTransitionSettings(params)
+	resp, err := client.Transitions.SetCurrentSceneTransitionSettings(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetCurrentSceneTransitionSettingsResponse{}
 	return result, nil
@@ -3991,6 +4383,9 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetCurrentSceneTransitionCursorResponse{
 		TransitionCursor: (int64)(resp.TransitionCursor),
 	}
@@ -4015,9 +4410,12 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.TriggerStudioModeTransitionParams{}
-	_, err = client.Transitions.TriggerStudioModeTransition(params)
+	resp, err := client.Transitions.TriggerStudioModeTransition(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.TriggerStudioModeTransitionResponse{}
 	return result, nil
@@ -4044,9 +4442,12 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 		Position: ptr((float64)(req.Position)),
 		Release:  req.Release,
 	}
-	_, err = client.Transitions.SetTBarPosition(params)
+	resp, err := client.Transitions.SetTBarPosition(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetTBarPositionResponse{}
 	return result, nil
@@ -4074,6 +4475,9 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
+	}
 	result := &obsgrpc.GetStudioModeEnabledResponse{
 		StudioModeEnabled: resp.StudioModeEnabled,
 	}
@@ -4100,9 +4504,12 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 	params := &ui.SetStudioModeEnabledParams{
 		StudioModeEnabled: ptr(req.StudioModeEnabled),
 	}
-	_, err = client.Ui.SetStudioModeEnabled(params)
+	resp, err := client.Ui.SetStudioModeEnabled(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.SetStudioModeEnabledResponse{}
 	return result, nil
@@ -4129,9 +4536,12 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 		InputName: req.InputName,
 		InputUuid: req.InputUUID,
 	}
-	_, err = client.Ui.OpenInputPropertiesDialog(params)
+	resp, err := client.Ui.OpenInputPropertiesDialog(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OpenInputPropertiesDialogResponse{}
 	return result, nil
@@ -4158,9 +4568,12 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 		InputName: req.InputName,
 		InputUuid: req.InputUUID,
 	}
-	_, err = client.Ui.OpenInputFiltersDialog(params)
+	resp, err := client.Ui.OpenInputFiltersDialog(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OpenInputFiltersDialogResponse{}
 	return result, nil
@@ -4187,9 +4600,12 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 		InputName: req.InputName,
 		InputUuid: req.InputUUID,
 	}
-	_, err = client.Ui.OpenInputInteractDialog(params)
+	resp, err := client.Ui.OpenInputInteractDialog(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OpenInputInteractDialogResponse{}
 	return result, nil
@@ -4216,6 +4632,9 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 	resp, err := client.Ui.GetMonitorList(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetMonitorListResponse{
 		Monitors: toAbstractObjects[*typedefs.Monitor](resp.Monitors),
@@ -4245,9 +4664,12 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 		MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
 		ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
 	}
-	_, err = client.Ui.OpenVideoMixProjector(params)
+	resp, err := client.Ui.OpenVideoMixProjector(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OpenVideoMixProjectorResponse{}
 	return result, nil
@@ -4276,9 +4698,12 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 		MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
 		ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
 	}
-	_, err = client.Ui.OpenSourceProjector(params)
+	resp, err := client.Ui.OpenSourceProjector(params)
 	if err != nil {
 		return nil, err
+	}
+	if resp == nil {
+		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.OpenSourceProjectorResponse{}
 	return result, nil

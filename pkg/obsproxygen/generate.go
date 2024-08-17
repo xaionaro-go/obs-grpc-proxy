@@ -224,13 +224,6 @@ func generateRequest(
 		)
 	}
 
-	respID := "resp"
-	respOp := ":="
-	if len(responseFieldAssigns) == 0 {
-		respID = "_"
-		respOp = "="
-	}
-
 	code.Func().Params(jen.Id("p").Op("*").Id("Proxy")).Id(request.RequestType).Params(
 		jen.Id("ctx").Qual("context", "Context"),
 		jen.Id("req").Op("*").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Request"),
@@ -250,10 +243,11 @@ func generateRequest(
 		jen.Id("params").Op(":=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(
 			requestFieldAssigns...,
 		),
-		jen.List(jen.Id(respID), jen.Id("err")).Op(respOp).Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
+		jen.List(jen.Id("resp"), jen.Id("err")).Op(":=").Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
 			jen.Id("params"),
 		),
 		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Id("err")))),
+		jen.If(jen.Id("resp").Op("==").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Call(jen.Lit("internal error: resp is nil"))))),
 		jen.Id("result").Op(":=").Op("&").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Response").Block(responseFieldAssigns...),
 		jen.Return(jen.List(jen.Id("result"), jen.Nil())),
 	)
