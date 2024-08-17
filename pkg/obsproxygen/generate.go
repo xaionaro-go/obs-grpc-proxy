@@ -237,7 +237,7 @@ func generateRequest(
 			jen.If(jen.Id("r").Op("!=").Nil()).Block(
 				jen.Id("_err").Op("=").Qual("fmt", "Errorf").Call(jen.Lit("got panic: %v\n\n%s"), jen.Id("r"), jen.Qual("runtime/debug", "Stack").Call()),
 			),
-			jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Debugf").Call(jen.Id("ctx"), jen.Lit("/"+request.RequestType+": %#+v %v"), jen.Id("_ret"), jen.Id("_err")),
+			jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Debugf").Call(jen.Id("ctx"), jen.Lit("/"+request.RequestType+": %v"), jen.Id("_err")),
 		).Call(),
 		jen.List(jen.Id("client"), jen.Id("onFinish"), jen.Id("err")).Op(":=").Id("p").Dot("GetClient").Call(),
 		jen.If(jen.Id("onFinish").Op("!=").Nil()).Block(

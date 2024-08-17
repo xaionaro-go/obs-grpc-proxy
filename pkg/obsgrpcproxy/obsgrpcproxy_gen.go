@@ -34,7 +34,7 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetPersistentData: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetPersistentData: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -75,7 +75,7 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetPersistentData: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetPersistentData: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -115,7 +115,7 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneCollectionList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneCollectionList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -154,7 +154,7 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentSceneCollection: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentSceneCollection: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -192,7 +192,7 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateSceneCollection: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateSceneCollection: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -230,7 +230,7 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetProfileList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetProfileList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -269,7 +269,7 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentProfile: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentProfile: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -307,7 +307,7 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateProfile: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateProfile: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -345,7 +345,7 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/RemoveProfile: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/RemoveProfile: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -383,7 +383,7 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetProfileParameter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetProfileParameter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -425,7 +425,7 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetProfileParameter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetProfileParameter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -465,7 +465,7 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetVideoSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetVideoSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -508,7 +508,7 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetVideoSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetVideoSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -551,7 +551,7 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetStreamServiceSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetStreamServiceSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -590,7 +590,7 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetStreamServiceSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetStreamServiceSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -629,7 +629,7 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetRecordDirectory: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetRecordDirectory: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -667,7 +667,7 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetRecordDirectory: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetRecordDirectory: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -705,7 +705,7 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceFilterKindList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceFilterKindList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -743,7 +743,7 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceFilterList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceFilterList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -784,7 +784,7 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceFilterDefaultSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceFilterDefaultSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -824,7 +824,7 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateSourceFilter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateSourceFilter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -866,7 +866,7 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/RemoveSourceFilter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/RemoveSourceFilter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -906,7 +906,7 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSourceFilterName: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSourceFilterName: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -947,7 +947,7 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceFilter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceFilter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -992,7 +992,7 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSourceFilterIndex: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSourceFilterIndex: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1033,7 +1033,7 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSourceFilterSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSourceFilterSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1075,7 +1075,7 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSourceFilterEnabled: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSourceFilterEnabled: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1116,7 +1116,7 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetVersion: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetVersion: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1160,7 +1160,7 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (_re
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetStats: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetStats: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1208,7 +1208,7 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/BroadcastCustomEvent: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/BroadcastCustomEvent: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1246,7 +1246,7 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CallVendorRequest: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CallVendorRequest: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1290,7 +1290,7 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetHotkeyList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetHotkeyList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1328,7 +1328,7 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/TriggerHotkeyByName: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/TriggerHotkeyByName: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1367,7 +1367,7 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/TriggerHotkeyByKeySequence: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/TriggerHotkeyByKeySequence: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1406,7 +1406,7 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (_ret *obs
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/Sleep: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/Sleep: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1445,7 +1445,7 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1485,7 +1485,7 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputKindList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputKindList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1525,7 +1525,7 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSpecialInputs: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSpecialInputs: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1568,7 +1568,7 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateInput: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateInput: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1614,7 +1614,7 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/RemoveInput: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/RemoveInput: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1653,7 +1653,7 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputName: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputName: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1693,7 +1693,7 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputDefaultSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputDefaultSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1733,7 +1733,7 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1775,7 +1775,7 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1816,7 +1816,7 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputMute: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputMute: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1857,7 +1857,7 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputMute: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputMute: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1897,7 +1897,7 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleInputMute: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleInputMute: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1938,7 +1938,7 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputVolume: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputVolume: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1980,7 +1980,7 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputVolume: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputVolume: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2021,7 +2021,7 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputAudioBalance: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputAudioBalance: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2062,7 +2062,7 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputAudioBalance: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputAudioBalance: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2102,7 +2102,7 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputAudioSyncOffset: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputAudioSyncOffset: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2143,7 +2143,7 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputAudioSyncOffset: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputAudioSyncOffset: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2183,7 +2183,7 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputAudioMonitorType: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputAudioMonitorType: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2224,7 +2224,7 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputAudioMonitorType: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputAudioMonitorType: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2264,7 +2264,7 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputAudioTracks: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputAudioTracks: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2305,7 +2305,7 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetInputAudioTracks: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetInputAudioTracks: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2345,7 +2345,7 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetInputPropertiesListPropertyItems: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetInputPropertiesListPropertyItems: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2387,7 +2387,7 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/PressInputPropertiesButton: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/PressInputPropertiesButton: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2427,7 +2427,7 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetMediaInputStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetMediaInputStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2470,7 +2470,7 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetMediaInputCursor: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetMediaInputCursor: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2510,7 +2510,7 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OffsetMediaInputCursor: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OffsetMediaInputCursor: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2550,7 +2550,7 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/TriggerMediaInputAction: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/TriggerMediaInputAction: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2590,7 +2590,7 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetVirtualCamStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetVirtualCamStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2628,7 +2628,7 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleVirtualCam: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleVirtualCam: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2666,7 +2666,7 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StartVirtualCam: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StartVirtualCam: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2702,7 +2702,7 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StopVirtualCam: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StopVirtualCam: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2738,7 +2738,7 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetReplayBufferStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetReplayBufferStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2776,7 +2776,7 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleReplayBuffer: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleReplayBuffer: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2814,7 +2814,7 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StartReplayBuffer: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StartReplayBuffer: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2850,7 +2850,7 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StopReplayBuffer: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StopReplayBuffer: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2886,7 +2886,7 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SaveReplayBuffer: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SaveReplayBuffer: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2922,7 +2922,7 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetLastReplayBufferReplay: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetLastReplayBufferReplay: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2960,7 +2960,7 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetOutputList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetOutputList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2998,7 +2998,7 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetOutputStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetOutputStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3045,7 +3045,7 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleOutput: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleOutput: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3085,7 +3085,7 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StartOutput: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StartOutput: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3123,7 +3123,7 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StopOutput: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StopOutput: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3161,7 +3161,7 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetOutputSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetOutputSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3201,7 +3201,7 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetOutputSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetOutputSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3240,7 +3240,7 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetRecordStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetRecordStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3282,7 +3282,7 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleRecord: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleRecord: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3320,7 +3320,7 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StartRecord: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StartRecord: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3356,7 +3356,7 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StopRecord: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StopRecord: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3394,7 +3394,7 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleRecordPause: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleRecordPause: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3430,7 +3430,7 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/PauseRecord: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/PauseRecord: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3466,7 +3466,7 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ResumeRecord: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ResumeRecord: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3502,7 +3502,7 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SplitRecordFile: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SplitRecordFile: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3538,7 +3538,7 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateRecordChapter: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateRecordChapter: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3576,7 +3576,7 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3617,7 +3617,7 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetGroupSceneItemList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetGroupSceneItemList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3658,7 +3658,7 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemId: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemId: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3701,7 +3701,7 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemSource: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemSource: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3744,7 +3744,7 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateSceneItem: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateSceneItem: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3788,7 +3788,7 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/RemoveSceneItem: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/RemoveSceneItem: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3828,7 +3828,7 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/DuplicateSceneItem: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/DuplicateSceneItem: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3872,7 +3872,7 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemTransform: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemTransform: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3914,7 +3914,7 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneItemTransform: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneItemTransform: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3955,7 +3955,7 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemEnabled: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemEnabled: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3997,7 +3997,7 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneItemEnabled: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneItemEnabled: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4038,7 +4038,7 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemLocked: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemLocked: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4080,7 +4080,7 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneItemLocked: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneItemLocked: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4121,7 +4121,7 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemIndex: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemIndex: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4163,7 +4163,7 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneItemIndex: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneItemIndex: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4204,7 +4204,7 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneItemBlendMode: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneItemBlendMode: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4246,7 +4246,7 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneItemBlendMode: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneItemBlendMode: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4287,7 +4287,7 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4329,7 +4329,7 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetGroupList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetGroupList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4367,7 +4367,7 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetCurrentProgramScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetCurrentProgramScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4408,7 +4408,7 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentProgramScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentProgramScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4447,7 +4447,7 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetCurrentPreviewScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetCurrentPreviewScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4488,7 +4488,7 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentPreviewScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentPreviewScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4527,7 +4527,7 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/CreateScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/CreateScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4567,7 +4567,7 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/RemoveScene: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/RemoveScene: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4606,7 +4606,7 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneName: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneName: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4646,7 +4646,7 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneSceneTransitionOverride: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneSceneTransitionOverride: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4688,7 +4688,7 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetSceneSceneTransitionOverride: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetSceneSceneTransitionOverride: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4729,7 +4729,7 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceActive: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceActive: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4771,7 +4771,7 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSourceScreenshot: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSourceScreenshot: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4816,7 +4816,7 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SaveSourceScreenshot: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SaveSourceScreenshot: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4860,7 +4860,7 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetStreamStatus: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetStreamStatus: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4905,7 +4905,7 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/ToggleStream: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/ToggleStream: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4943,7 +4943,7 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StartStream: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StartStream: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -4979,7 +4979,7 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/StopStream: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/StopStream: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5015,7 +5015,7 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SendStreamCaption: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SendStreamCaption: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5053,7 +5053,7 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetTransitionKindList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetTransitionKindList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5091,7 +5091,7 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetSceneTransitionList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetSceneTransitionList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5132,7 +5132,7 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetCurrentSceneTransition: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetCurrentSceneTransition: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5176,7 +5176,7 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentSceneTransition: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentSceneTransition: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5214,7 +5214,7 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentSceneTransitionDuration: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentSceneTransitionDuration: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5252,7 +5252,7 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetCurrentSceneTransitionSettings: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetCurrentSceneTransitionSettings: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5291,7 +5291,7 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetCurrentSceneTransitionCursor: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetCurrentSceneTransitionCursor: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5329,7 +5329,7 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/TriggerStudioModeTransition: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/TriggerStudioModeTransition: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5365,7 +5365,7 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetTBarPosition: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetTBarPosition: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5404,7 +5404,7 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetStudioModeEnabled: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetStudioModeEnabled: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5442,7 +5442,7 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/SetStudioModeEnabled: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/SetStudioModeEnabled: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5480,7 +5480,7 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OpenInputPropertiesDialog: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OpenInputPropertiesDialog: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5519,7 +5519,7 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OpenInputFiltersDialog: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OpenInputFiltersDialog: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5558,7 +5558,7 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OpenInputInteractDialog: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OpenInputInteractDialog: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5597,7 +5597,7 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/GetMonitorList: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/GetMonitorList: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5635,7 +5635,7 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OpenVideoMixProjector: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OpenVideoMixProjector: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -5675,7 +5675,7 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 		if r != nil {
 			_err = fmt.Errorf("got panic: %v\n\n%s", r, debug.Stack())
 		}
-		logger.Debugf(ctx, "/OpenSourceProjector: %#+v %v", _ret, _err)
+		logger.Debugf(ctx, "/OpenSourceProjector: %v", _err)
 	}()
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
