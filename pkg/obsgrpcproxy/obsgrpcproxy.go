@@ -48,6 +48,8 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 	switch in := in.(type) {
 	case []byte:
 		result.Union = &obsgrpc.Any_String_{String_: in}
+	case string:
+		result.Union = &obsgrpc.Any_String_{String_: []byte(in)}
 	case int:
 		result.Union = &obsgrpc.Any_Integer{Integer: int64(in)}
 	case uint:
