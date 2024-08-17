@@ -19,6 +19,7 @@ func main() {
 	pflag.Var(&logLevel, "log-level", "Log level")
 	listenAddr := pflag.String("listen-addr", "localhost:4456", "the address to listen for gRPC connections on")
 	obsWSAddr := pflag.String("obs-ws-addr", "localhost:4455", "OBS WebSocket address")
+	obsPassword := pflag.String("obs-password", "", "OBS WebSocket password")
 	pflag.Parse()
 
 	ctx := logger.CtxWithLogger(context.Background(), xlogrus.Default().WithLevel(logLevel))
@@ -29,7 +30,11 @@ func main() {
 	}
 
 	proxy := obsgrpcproxy.New(func() (*goobs.Client, context.CancelFunc, error) {
-		client, err := goobs.New(*obsWSAddr)
+		client, err := goobs.New(*obsWSAddr, goobs.WithPassword(*obsPassword))
+		logger.Debugf(ctx, "connection to OBS result: %v %v", client, err)
+		if err != nil {
+			return nil, nil, err
+		}
 		return client, func() { client.Disconnect() }, err
 	})
 
