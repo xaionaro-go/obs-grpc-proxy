@@ -5,6 +5,7 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
+
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
@@ -38,9 +39,12 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.GetPersistentDataParams{
-		Realm:    ptr((string)(req.Realm)),
-		SlotName: ptr(req.SlotName),
+	params := &config.GetPersistentDataParams{}
+	if req != nil {
+		params = &config.GetPersistentDataParams{
+			Realm:    ptr((string)(req.Realm)),
+			SlotName: ptr(req.SlotName),
+		}
 	}
 	resp, err := client.Config.GetPersistentData(params)
 	if err != nil {
@@ -72,10 +76,13 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetPersistentDataParams{
-		Realm:     ptr((string)(req.Realm)),
-		SlotName:  ptr(req.SlotName),
-		SlotValue: req.SlotValue,
+	params := &config.SetPersistentDataParams{}
+	if req != nil {
+		params = &config.SetPersistentDataParams{
+			Realm:     ptr((string)(req.Realm)),
+			SlotName:  ptr(req.SlotName),
+			SlotValue: req.SlotValue,
+		}
 	}
 	resp, err := client.Config.SetPersistentData(params)
 	if err != nil {
@@ -106,6 +113,9 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &config.GetSceneCollectionListParams{}
+	if req != nil {
+		params = &config.GetSceneCollectionListParams{}
+	}
 	resp, err := client.Config.GetSceneCollectionList(params)
 	if err != nil {
 		return nil, err
@@ -137,8 +147,11 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetCurrentSceneCollectionParams{
-		SceneCollectionName: ptr(req.SceneCollectionName),
+	params := &config.SetCurrentSceneCollectionParams{}
+	if req != nil {
+		params = &config.SetCurrentSceneCollectionParams{
+			SceneCollectionName: ptr(req.SceneCollectionName),
+		}
 	}
 	resp, err := client.Config.SetCurrentSceneCollection(params)
 	if err != nil {
@@ -168,8 +181,11 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.CreateSceneCollectionParams{
-		SceneCollectionName: ptr(req.SceneCollectionName),
+	params := &config.CreateSceneCollectionParams{}
+	if req != nil {
+		params = &config.CreateSceneCollectionParams{
+			SceneCollectionName: ptr(req.SceneCollectionName),
+		}
 	}
 	resp, err := client.Config.CreateSceneCollection(params)
 	if err != nil {
@@ -200,6 +216,9 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &config.GetProfileListParams{}
+	if req != nil {
+		params = &config.GetProfileListParams{}
+	}
 	resp, err := client.Config.GetProfileList(params)
 	if err != nil {
 		return nil, err
@@ -231,8 +250,11 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetCurrentProfileParams{
-		ProfileName: ptr(req.ProfileName),
+	params := &config.SetCurrentProfileParams{}
+	if req != nil {
+		params = &config.SetCurrentProfileParams{
+			ProfileName: ptr(req.ProfileName),
+		}
 	}
 	resp, err := client.Config.SetCurrentProfile(params)
 	if err != nil {
@@ -262,8 +284,11 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.CreateProfileParams{
-		ProfileName: ptr(req.ProfileName),
+	params := &config.CreateProfileParams{}
+	if req != nil {
+		params = &config.CreateProfileParams{
+			ProfileName: ptr(req.ProfileName),
+		}
 	}
 	resp, err := client.Config.CreateProfile(params)
 	if err != nil {
@@ -293,8 +318,11 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.RemoveProfileParams{
-		ProfileName: ptr(req.ProfileName),
+	params := &config.RemoveProfileParams{}
+	if req != nil {
+		params = &config.RemoveProfileParams{
+			ProfileName: ptr(req.ProfileName),
+		}
 	}
 	resp, err := client.Config.RemoveProfile(params)
 	if err != nil {
@@ -324,9 +352,12 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.GetProfileParameterParams{
-		ParameterCategory: ptr((string)(req.ParameterCategory)),
-		ParameterName:     ptr(req.ParameterName),
+	params := &config.GetProfileParameterParams{}
+	if req != nil {
+		params = &config.GetProfileParameterParams{
+			ParameterCategory: ptr((string)(req.ParameterCategory)),
+			ParameterName:     ptr(req.ParameterName),
+		}
 	}
 	resp, err := client.Config.GetProfileParameter(params)
 	if err != nil {
@@ -359,10 +390,13 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetProfileParameterParams{
-		ParameterCategory: ptr((string)(req.ParameterCategory)),
-		ParameterName:     ptr(req.ParameterName),
-		ParameterValue:    ptr((string)(req.ParameterValue)),
+	params := &config.SetProfileParameterParams{}
+	if req != nil {
+		params = &config.SetProfileParameterParams{
+			ParameterCategory: ptr((string)(req.ParameterCategory)),
+			ParameterName:     ptr(req.ParameterName),
+			ParameterValue:    ptr((string)(req.ParameterValue)),
+		}
 	}
 	resp, err := client.Config.SetProfileParameter(params)
 	if err != nil {
@@ -393,6 +427,9 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &config.GetVideoSettingsParams{}
+	if req != nil {
+		params = &config.GetVideoSettingsParams{}
+	}
 	resp, err := client.Config.GetVideoSettings(params)
 	if err != nil {
 		return nil, err
@@ -428,13 +465,16 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetVideoSettingsParams{
-		FpsNumerator:   ptrInt64ToFloat64(req.FpsNumerator),
-		FpsDenominator: ptrInt64ToFloat64(req.FpsDenominator),
-		BaseWidth:      ptrInt64ToFloat64(req.BaseWidth),
-		BaseHeight:     ptrInt64ToFloat64(req.BaseHeight),
-		OutputWidth:    ptrInt64ToFloat64(req.OutputWidth),
-		OutputHeight:   ptrInt64ToFloat64(req.OutputHeight),
+	params := &config.SetVideoSettingsParams{}
+	if req != nil {
+		params = &config.SetVideoSettingsParams{
+			FpsNumerator:   ptrInt64ToFloat64(req.FpsNumerator),
+			FpsDenominator: ptrInt64ToFloat64(req.FpsDenominator),
+			BaseWidth:      ptrInt64ToFloat64(req.BaseWidth),
+			BaseHeight:     ptrInt64ToFloat64(req.BaseHeight),
+			OutputWidth:    ptrInt64ToFloat64(req.OutputWidth),
+			OutputHeight:   ptrInt64ToFloat64(req.OutputHeight),
+		}
 	}
 	resp, err := client.Config.SetVideoSettings(params)
 	if err != nil {
@@ -465,6 +505,9 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &config.GetStreamServiceSettingsParams{}
+	if req != nil {
+		params = &config.GetStreamServiceSettingsParams{}
+	}
 	resp, err := client.Config.GetStreamServiceSettings(params)
 	if err != nil {
 		return nil, err
@@ -496,9 +539,12 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetStreamServiceSettingsParams{
-		StreamServiceType:     ptr((string)(req.StreamServiceType)),
-		StreamServiceSettings: fromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
+	params := &config.SetStreamServiceSettingsParams{}
+	if req != nil {
+		params = &config.SetStreamServiceSettingsParams{
+			StreamServiceType:     ptr((string)(req.StreamServiceType)),
+			StreamServiceSettings: fromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
+		}
 	}
 	resp, err := client.Config.SetStreamServiceSettings(params)
 	if err != nil {
@@ -529,6 +575,9 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &config.GetRecordDirectoryParams{}
+	if req != nil {
+		params = &config.GetRecordDirectoryParams{}
+	}
 	resp, err := client.Config.GetRecordDirectory(params)
 	if err != nil {
 		return nil, err
@@ -559,8 +608,11 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &config.SetRecordDirectoryParams{
-		RecordDirectory: ptr((string)(req.RecordDirectory)),
+	params := &config.SetRecordDirectoryParams{}
+	if req != nil {
+		params = &config.SetRecordDirectoryParams{
+			RecordDirectory: ptr((string)(req.RecordDirectory)),
+		}
 	}
 	resp, err := client.Config.SetRecordDirectory(params)
 	if err != nil {
@@ -591,6 +643,9 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &filters.GetSourceFilterKindListParams{}
+	if req != nil {
+		params = &filters.GetSourceFilterKindListParams{}
+	}
 	resp, err := client.Filters.GetSourceFilterKindList(params)
 	if err != nil {
 		return nil, err
@@ -621,9 +676,12 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.GetSourceFilterListParams{
-		SourceName: req.SourceName,
-		SourceUuid: req.SourceUUID,
+	params := &filters.GetSourceFilterListParams{}
+	if req != nil {
+		params = &filters.GetSourceFilterListParams{
+			SourceName: req.SourceName,
+			SourceUuid: req.SourceUUID,
+		}
 	}
 	resp, err := client.Filters.GetSourceFilterList(params)
 	if err != nil {
@@ -655,8 +713,11 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.GetSourceFilterDefaultSettingsParams{
-		FilterKind: ptr(req.FilterKind),
+	params := &filters.GetSourceFilterDefaultSettingsParams{}
+	if req != nil {
+		params = &filters.GetSourceFilterDefaultSettingsParams{
+			FilterKind: ptr(req.FilterKind),
+		}
 	}
 	resp, err := client.Filters.GetSourceFilterDefaultSettings(params)
 	if err != nil {
@@ -688,12 +749,15 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.CreateSourceFilterParams{
-		SourceName:     req.SourceName,
-		SourceUuid:     req.SourceUUID,
-		FilterName:     ptr(req.FilterName),
-		FilterKind:     ptr(req.FilterKind),
-		FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
+	params := &filters.CreateSourceFilterParams{}
+	if req != nil {
+		params = &filters.CreateSourceFilterParams{
+			SourceName:     req.SourceName,
+			SourceUuid:     req.SourceUUID,
+			FilterName:     ptr(req.FilterName),
+			FilterKind:     ptr(req.FilterKind),
+			FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
+		}
 	}
 	resp, err := client.Filters.CreateSourceFilter(params)
 	if err != nil {
@@ -723,10 +787,13 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.RemoveSourceFilterParams{
-		SourceName: req.SourceName,
-		SourceUuid: req.SourceUUID,
-		FilterName: ptr(req.FilterName),
+	params := &filters.RemoveSourceFilterParams{}
+	if req != nil {
+		params = &filters.RemoveSourceFilterParams{
+			SourceName: req.SourceName,
+			SourceUuid: req.SourceUUID,
+			FilterName: ptr(req.FilterName),
+		}
 	}
 	resp, err := client.Filters.RemoveSourceFilter(params)
 	if err != nil {
@@ -756,11 +823,14 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.SetSourceFilterNameParams{
-		SourceName:    req.SourceName,
-		SourceUuid:    req.SourceUUID,
-		FilterName:    ptr(req.FilterName),
-		NewFilterName: ptr(req.NewFilterName),
+	params := &filters.SetSourceFilterNameParams{}
+	if req != nil {
+		params = &filters.SetSourceFilterNameParams{
+			SourceName:    req.SourceName,
+			SourceUuid:    req.SourceUUID,
+			FilterName:    ptr(req.FilterName),
+			NewFilterName: ptr(req.NewFilterName),
+		}
 	}
 	resp, err := client.Filters.SetSourceFilterName(params)
 	if err != nil {
@@ -790,10 +860,13 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.GetSourceFilterParams{
-		SourceName: req.SourceName,
-		SourceUuid: req.SourceUUID,
-		FilterName: ptr(req.FilterName),
+	params := &filters.GetSourceFilterParams{}
+	if req != nil {
+		params = &filters.GetSourceFilterParams{
+			SourceName: req.SourceName,
+			SourceUuid: req.SourceUUID,
+			FilterName: ptr(req.FilterName),
+		}
 	}
 	resp, err := client.Filters.GetSourceFilter(params)
 	if err != nil {
@@ -828,11 +901,14 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.SetSourceFilterIndexParams{
-		SourceName:  req.SourceName,
-		SourceUuid:  req.SourceUUID,
-		FilterName:  ptr(req.FilterName),
-		FilterIndex: ptr((int)(req.FilterIndex)),
+	params := &filters.SetSourceFilterIndexParams{}
+	if req != nil {
+		params = &filters.SetSourceFilterIndexParams{
+			SourceName:  req.SourceName,
+			SourceUuid:  req.SourceUUID,
+			FilterName:  ptr(req.FilterName),
+			FilterIndex: ptr((int)(req.FilterIndex)),
+		}
 	}
 	resp, err := client.Filters.SetSourceFilterIndex(params)
 	if err != nil {
@@ -862,12 +938,15 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.SetSourceFilterSettingsParams{
-		SourceName:     req.SourceName,
-		SourceUuid:     req.SourceUUID,
-		FilterName:     ptr(req.FilterName),
-		FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
-		Overlay:        req.Overlay,
+	params := &filters.SetSourceFilterSettingsParams{}
+	if req != nil {
+		params = &filters.SetSourceFilterSettingsParams{
+			SourceName:     req.SourceName,
+			SourceUuid:     req.SourceUUID,
+			FilterName:     ptr(req.FilterName),
+			FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
+			Overlay:        req.Overlay,
+		}
 	}
 	resp, err := client.Filters.SetSourceFilterSettings(params)
 	if err != nil {
@@ -897,11 +976,14 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &filters.SetSourceFilterEnabledParams{
-		SourceName:    req.SourceName,
-		SourceUuid:    req.SourceUUID,
-		FilterName:    ptr(req.FilterName),
-		FilterEnabled: ptr(req.FilterEnabled),
+	params := &filters.SetSourceFilterEnabledParams{}
+	if req != nil {
+		params = &filters.SetSourceFilterEnabledParams{
+			SourceName:    req.SourceName,
+			SourceUuid:    req.SourceUUID,
+			FilterName:    ptr(req.FilterName),
+			FilterEnabled: ptr(req.FilterEnabled),
+		}
 	}
 	resp, err := client.Filters.SetSourceFilterEnabled(params)
 	if err != nil {
@@ -932,6 +1014,9 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &general.GetVersionParams{}
+	if req != nil {
+		params = &general.GetVersionParams{}
+	}
 	resp, err := client.General.GetVersion(params)
 	if err != nil {
 		return nil, err
@@ -969,6 +1054,9 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (_re
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &general.GetStatsParams{}
+	if req != nil {
+		params = &general.GetStatsParams{}
+	}
 	resp, err := client.General.GetStats(params)
 	if err != nil {
 		return nil, err
@@ -1009,8 +1097,11 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &general.BroadcastCustomEventParams{
-		EventData: fromAbstractObject[map[string]any](req.EventData),
+	params := &general.BroadcastCustomEventParams{}
+	if req != nil {
+		params = &general.BroadcastCustomEventParams{
+			EventData: fromAbstractObject[map[string]any](req.EventData),
+		}
 	}
 	resp, err := client.General.BroadcastCustomEvent(params)
 	if err != nil {
@@ -1040,10 +1131,13 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &general.CallVendorRequestParams{
-		VendorName:  ptr(req.VendorName),
-		RequestType: ptr((string)(req.RequestType)),
-		RequestData: fromAbstractObject[map[string]any](req.RequestData),
+	params := &general.CallVendorRequestParams{}
+	if req != nil {
+		params = &general.CallVendorRequestParams{
+			VendorName:  ptr(req.VendorName),
+			RequestType: ptr((string)(req.RequestType)),
+			RequestData: fromAbstractObject[map[string]any](req.RequestData),
+		}
 	}
 	resp, err := client.General.CallVendorRequest(params)
 	if err != nil {
@@ -1078,6 +1172,9 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &general.GetHotkeyListParams{}
+	if req != nil {
+		params = &general.GetHotkeyListParams{}
+	}
 	resp, err := client.General.GetHotkeyList(params)
 	if err != nil {
 		return nil, err
@@ -1108,9 +1205,12 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &general.TriggerHotkeyByNameParams{
-		HotkeyName:  ptr(req.HotkeyName),
-		ContextName: req.ContextName,
+	params := &general.TriggerHotkeyByNameParams{}
+	if req != nil {
+		params = &general.TriggerHotkeyByNameParams{
+			HotkeyName:  ptr(req.HotkeyName),
+			ContextName: req.ContextName,
+		}
 	}
 	resp, err := client.General.TriggerHotkeyByName(params)
 	if err != nil {
@@ -1140,9 +1240,12 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &general.TriggerHotkeyByKeySequenceParams{
-		KeyId:        req.KeyID,
-		KeyModifiers: fromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
+	params := &general.TriggerHotkeyByKeySequenceParams{}
+	if req != nil {
+		params = &general.TriggerHotkeyByKeySequenceParams{
+			KeyId:        req.KeyID,
+			KeyModifiers: fromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
+		}
 	}
 	resp, err := client.General.TriggerHotkeyByKeySequence(params)
 	if err != nil {
@@ -1172,9 +1275,12 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (_ret *obs
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &general.SleepParams{
-		SleepMillis: ptrInt64ToFloat64(req.SleepMillis),
-		SleepFrames: ptrInt64ToFloat64(req.SleepFrames),
+	params := &general.SleepParams{}
+	if req != nil {
+		params = &general.SleepParams{
+			SleepMillis: ptrInt64ToFloat64(req.SleepMillis),
+			SleepFrames: ptrInt64ToFloat64(req.SleepFrames),
+		}
 	}
 	resp, err := client.General.Sleep(params)
 	if err != nil {
@@ -1204,8 +1310,11 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputListParams{
-		InputKind: req.InputKind,
+	params := &inputs.GetInputListParams{}
+	if req != nil {
+		params = &inputs.GetInputListParams{
+			InputKind: req.InputKind,
+		}
 	}
 	resp, err := client.Inputs.GetInputList(params)
 	if err != nil {
@@ -1237,8 +1346,11 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputKindListParams{
-		Unversioned: req.Unversioned,
+	params := &inputs.GetInputKindListParams{}
+	if req != nil {
+		params = &inputs.GetInputKindListParams{
+			Unversioned: req.Unversioned,
+		}
 	}
 	resp, err := client.Inputs.GetInputKindList(params)
 	if err != nil {
@@ -1271,6 +1383,9 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &inputs.GetSpecialInputsParams{}
+	if req != nil {
+		params = &inputs.GetSpecialInputsParams{}
+	}
 	resp, err := client.Inputs.GetSpecialInputs(params)
 	if err != nil {
 		return nil, err
@@ -1306,13 +1421,16 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.CreateInputParams{
-		SceneName:        req.SceneName,
-		SceneUuid:        req.SceneUUID,
-		InputName:        ptr(req.InputName),
-		InputKind:        ptr(req.InputKind),
-		InputSettings:    fromAbstractObject[map[string]any](req.InputSettings),
-		SceneItemEnabled: req.SceneItemEnabled,
+	params := &inputs.CreateInputParams{}
+	if req != nil {
+		params = &inputs.CreateInputParams{
+			SceneName:        req.SceneName,
+			SceneUuid:        req.SceneUUID,
+			InputName:        ptr(req.InputName),
+			InputKind:        ptr(req.InputKind),
+			InputSettings:    fromAbstractObject[map[string]any](req.InputSettings),
+			SceneItemEnabled: req.SceneItemEnabled,
+		}
 	}
 	resp, err := client.Inputs.CreateInput(params)
 	if err != nil {
@@ -1345,9 +1463,12 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.RemoveInputParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.RemoveInputParams{}
+	if req != nil {
+		params = &inputs.RemoveInputParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.RemoveInput(params)
 	if err != nil {
@@ -1377,10 +1498,13 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputNameParams{
-		InputName:    req.InputName,
-		InputUuid:    req.InputUUID,
-		NewInputName: ptr(req.NewInputName),
+	params := &inputs.SetInputNameParams{}
+	if req != nil {
+		params = &inputs.SetInputNameParams{
+			InputName:    req.InputName,
+			InputUuid:    req.InputUUID,
+			NewInputName: ptr(req.NewInputName),
+		}
 	}
 	resp, err := client.Inputs.SetInputName(params)
 	if err != nil {
@@ -1410,8 +1534,11 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputDefaultSettingsParams{
-		InputKind: ptr(req.InputKind),
+	params := &inputs.GetInputDefaultSettingsParams{}
+	if req != nil {
+		params = &inputs.GetInputDefaultSettingsParams{
+			InputKind: ptr(req.InputKind),
+		}
 	}
 	resp, err := client.Inputs.GetInputDefaultSettings(params)
 	if err != nil {
@@ -1443,9 +1570,12 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputSettingsParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputSettingsParams{}
+	if req != nil {
+		params = &inputs.GetInputSettingsParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputSettings(params)
 	if err != nil {
@@ -1478,11 +1608,14 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputSettingsParams{
-		InputName:     req.InputName,
-		InputUuid:     req.InputUUID,
-		InputSettings: fromAbstractObject[map[string]any](req.InputSettings),
-		Overlay:       req.Overlay,
+	params := &inputs.SetInputSettingsParams{}
+	if req != nil {
+		params = &inputs.SetInputSettingsParams{
+			InputName:     req.InputName,
+			InputUuid:     req.InputUUID,
+			InputSettings: fromAbstractObject[map[string]any](req.InputSettings),
+			Overlay:       req.Overlay,
+		}
 	}
 	resp, err := client.Inputs.SetInputSettings(params)
 	if err != nil {
@@ -1512,9 +1645,12 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputMuteParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputMuteParams{}
+	if req != nil {
+		params = &inputs.GetInputMuteParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputMute(params)
 	if err != nil {
@@ -1546,10 +1682,13 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputMuteParams{
-		InputName:  req.InputName,
-		InputUuid:  req.InputUUID,
-		InputMuted: ptr(req.InputMuted),
+	params := &inputs.SetInputMuteParams{}
+	if req != nil {
+		params = &inputs.SetInputMuteParams{
+			InputName:  req.InputName,
+			InputUuid:  req.InputUUID,
+			InputMuted: ptr(req.InputMuted),
+		}
 	}
 	resp, err := client.Inputs.SetInputMute(params)
 	if err != nil {
@@ -1579,9 +1718,12 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.ToggleInputMuteParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.ToggleInputMuteParams{}
+	if req != nil {
+		params = &inputs.ToggleInputMuteParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.ToggleInputMute(params)
 	if err != nil {
@@ -1613,9 +1755,12 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputVolumeParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputVolumeParams{}
+	if req != nil {
+		params = &inputs.GetInputVolumeParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputVolume(params)
 	if err != nil {
@@ -1648,11 +1793,14 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputVolumeParams{
-		InputName:      req.InputName,
-		InputUuid:      req.InputUUID,
-		InputVolumeMul: ptrInt64ToFloat64(req.InputVolumeMul),
-		InputVolumeDb:  ptrInt64ToFloat64(req.InputVolumeDb),
+	params := &inputs.SetInputVolumeParams{}
+	if req != nil {
+		params = &inputs.SetInputVolumeParams{
+			InputName:      req.InputName,
+			InputUuid:      req.InputUUID,
+			InputVolumeMul: ptrInt64ToFloat64(req.InputVolumeMul),
+			InputVolumeDb:  ptrInt64ToFloat64(req.InputVolumeDb),
+		}
 	}
 	resp, err := client.Inputs.SetInputVolume(params)
 	if err != nil {
@@ -1682,9 +1830,12 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputAudioBalanceParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputAudioBalanceParams{}
+	if req != nil {
+		params = &inputs.GetInputAudioBalanceParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputAudioBalance(params)
 	if err != nil {
@@ -1716,10 +1867,13 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputAudioBalanceParams{
-		InputName:         req.InputName,
-		InputUuid:         req.InputUUID,
-		InputAudioBalance: ptr(req.InputAudioBalance),
+	params := &inputs.SetInputAudioBalanceParams{}
+	if req != nil {
+		params = &inputs.SetInputAudioBalanceParams{
+			InputName:         req.InputName,
+			InputUuid:         req.InputUUID,
+			InputAudioBalance: ptr(req.InputAudioBalance),
+		}
 	}
 	resp, err := client.Inputs.SetInputAudioBalance(params)
 	if err != nil {
@@ -1749,9 +1903,12 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputAudioSyncOffsetParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputAudioSyncOffsetParams{}
+	if req != nil {
+		params = &inputs.GetInputAudioSyncOffsetParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputAudioSyncOffset(params)
 	if err != nil {
@@ -1783,10 +1940,13 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputAudioSyncOffsetParams{
-		InputName:            req.InputName,
-		InputUuid:            req.InputUUID,
-		InputAudioSyncOffset: ptr((float64)(req.InputAudioSyncOffset)),
+	params := &inputs.SetInputAudioSyncOffsetParams{}
+	if req != nil {
+		params = &inputs.SetInputAudioSyncOffsetParams{
+			InputName:            req.InputName,
+			InputUuid:            req.InputUUID,
+			InputAudioSyncOffset: ptr((float64)(req.InputAudioSyncOffset)),
+		}
 	}
 	resp, err := client.Inputs.SetInputAudioSyncOffset(params)
 	if err != nil {
@@ -1816,9 +1976,12 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputAudioMonitorTypeParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputAudioMonitorTypeParams{}
+	if req != nil {
+		params = &inputs.GetInputAudioMonitorTypeParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputAudioMonitorType(params)
 	if err != nil {
@@ -1850,10 +2013,13 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputAudioMonitorTypeParams{
-		InputName:   req.InputName,
-		InputUuid:   req.InputUUID,
-		MonitorType: ptr((string)(req.MonitorType)),
+	params := &inputs.SetInputAudioMonitorTypeParams{}
+	if req != nil {
+		params = &inputs.SetInputAudioMonitorTypeParams{
+			InputName:   req.InputName,
+			InputUuid:   req.InputUUID,
+			MonitorType: ptr((string)(req.MonitorType)),
+		}
 	}
 	resp, err := client.Inputs.SetInputAudioMonitorType(params)
 	if err != nil {
@@ -1883,9 +2049,12 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputAudioTracksParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &inputs.GetInputAudioTracksParams{}
+	if req != nil {
+		params = &inputs.GetInputAudioTracksParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Inputs.GetInputAudioTracks(params)
 	if err != nil {
@@ -1917,10 +2086,13 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.SetInputAudioTracksParams{
-		InputName:        req.InputName,
-		InputUuid:        req.InputUUID,
-		InputAudioTracks: fromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
+	params := &inputs.SetInputAudioTracksParams{}
+	if req != nil {
+		params = &inputs.SetInputAudioTracksParams{
+			InputName:        req.InputName,
+			InputUuid:        req.InputUUID,
+			InputAudioTracks: fromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
+		}
 	}
 	resp, err := client.Inputs.SetInputAudioTracks(params)
 	if err != nil {
@@ -1950,10 +2122,13 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.GetInputPropertiesListPropertyItemsParams{
-		InputName:    req.InputName,
-		InputUuid:    req.InputUUID,
-		PropertyName: ptr(req.PropertyName),
+	params := &inputs.GetInputPropertiesListPropertyItemsParams{}
+	if req != nil {
+		params = &inputs.GetInputPropertiesListPropertyItemsParams{
+			InputName:    req.InputName,
+			InputUuid:    req.InputUUID,
+			PropertyName: ptr(req.PropertyName),
+		}
 	}
 	resp, err := client.Inputs.GetInputPropertiesListPropertyItems(params)
 	if err != nil {
@@ -1985,10 +2160,13 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &inputs.PressInputPropertiesButtonParams{
-		InputName:    req.InputName,
-		InputUuid:    req.InputUUID,
-		PropertyName: ptr(req.PropertyName),
+	params := &inputs.PressInputPropertiesButtonParams{}
+	if req != nil {
+		params = &inputs.PressInputPropertiesButtonParams{
+			InputName:    req.InputName,
+			InputUuid:    req.InputUUID,
+			PropertyName: ptr(req.PropertyName),
+		}
 	}
 	resp, err := client.Inputs.PressInputPropertiesButton(params)
 	if err != nil {
@@ -2018,9 +2196,12 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &mediainputs.GetMediaInputStatusParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &mediainputs.GetMediaInputStatusParams{}
+	if req != nil {
+		params = &mediainputs.GetMediaInputStatusParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.MediaInputs.GetMediaInputStatus(params)
 	if err != nil {
@@ -2054,10 +2235,13 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &mediainputs.SetMediaInputCursorParams{
-		InputName:   req.InputName,
-		InputUuid:   req.InputUUID,
-		MediaCursor: ptr((float64)(req.MediaCursor)),
+	params := &mediainputs.SetMediaInputCursorParams{}
+	if req != nil {
+		params = &mediainputs.SetMediaInputCursorParams{
+			InputName:   req.InputName,
+			InputUuid:   req.InputUUID,
+			MediaCursor: ptr((float64)(req.MediaCursor)),
+		}
 	}
 	resp, err := client.MediaInputs.SetMediaInputCursor(params)
 	if err != nil {
@@ -2087,10 +2271,13 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &mediainputs.OffsetMediaInputCursorParams{
-		InputName:         req.InputName,
-		InputUuid:         req.InputUUID,
-		MediaCursorOffset: ptr((float64)(req.MediaCursorOffset)),
+	params := &mediainputs.OffsetMediaInputCursorParams{}
+	if req != nil {
+		params = &mediainputs.OffsetMediaInputCursorParams{
+			InputName:         req.InputName,
+			InputUuid:         req.InputUUID,
+			MediaCursorOffset: ptr((float64)(req.MediaCursorOffset)),
+		}
 	}
 	resp, err := client.MediaInputs.OffsetMediaInputCursor(params)
 	if err != nil {
@@ -2120,10 +2307,13 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &mediainputs.TriggerMediaInputActionParams{
-		InputName:   req.InputName,
-		InputUuid:   req.InputUUID,
-		MediaAction: ptr(req.MediaAction),
+	params := &mediainputs.TriggerMediaInputActionParams{}
+	if req != nil {
+		params = &mediainputs.TriggerMediaInputActionParams{
+			InputName:   req.InputName,
+			InputUuid:   req.InputUUID,
+			MediaAction: ptr(req.MediaAction),
+		}
 	}
 	resp, err := client.MediaInputs.TriggerMediaInputAction(params)
 	if err != nil {
@@ -2154,6 +2344,9 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.GetVirtualCamStatusParams{}
+	if req != nil {
+		params = &outputs.GetVirtualCamStatusParams{}
+	}
 	resp, err := client.Outputs.GetVirtualCamStatus(params)
 	if err != nil {
 		return nil, err
@@ -2185,6 +2378,9 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.ToggleVirtualCamParams{}
+	if req != nil {
+		params = &outputs.ToggleVirtualCamParams{}
+	}
 	resp, err := client.Outputs.ToggleVirtualCam(params)
 	if err != nil {
 		return nil, err
@@ -2216,6 +2412,9 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StartVirtualCamParams{}
+	if req != nil {
+		params = &outputs.StartVirtualCamParams{}
+	}
 	resp, err := client.Outputs.StartVirtualCam(params)
 	if err != nil {
 		return nil, err
@@ -2245,6 +2444,9 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StopVirtualCamParams{}
+	if req != nil {
+		params = &outputs.StopVirtualCamParams{}
+	}
 	resp, err := client.Outputs.StopVirtualCam(params)
 	if err != nil {
 		return nil, err
@@ -2274,6 +2476,9 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.GetReplayBufferStatusParams{}
+	if req != nil {
+		params = &outputs.GetReplayBufferStatusParams{}
+	}
 	resp, err := client.Outputs.GetReplayBufferStatus(params)
 	if err != nil {
 		return nil, err
@@ -2305,6 +2510,9 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.ToggleReplayBufferParams{}
+	if req != nil {
+		params = &outputs.ToggleReplayBufferParams{}
+	}
 	resp, err := client.Outputs.ToggleReplayBuffer(params)
 	if err != nil {
 		return nil, err
@@ -2336,6 +2544,9 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StartReplayBufferParams{}
+	if req != nil {
+		params = &outputs.StartReplayBufferParams{}
+	}
 	resp, err := client.Outputs.StartReplayBuffer(params)
 	if err != nil {
 		return nil, err
@@ -2365,6 +2576,9 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.StopReplayBufferParams{}
+	if req != nil {
+		params = &outputs.StopReplayBufferParams{}
+	}
 	resp, err := client.Outputs.StopReplayBuffer(params)
 	if err != nil {
 		return nil, err
@@ -2394,6 +2608,9 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.SaveReplayBufferParams{}
+	if req != nil {
+		params = &outputs.SaveReplayBufferParams{}
+	}
 	resp, err := client.Outputs.SaveReplayBuffer(params)
 	if err != nil {
 		return nil, err
@@ -2423,6 +2640,9 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.GetLastReplayBufferReplayParams{}
+	if req != nil {
+		params = &outputs.GetLastReplayBufferReplayParams{}
+	}
 	resp, err := client.Outputs.GetLastReplayBufferReplay(params)
 	if err != nil {
 		return nil, err
@@ -2454,6 +2674,9 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &outputs.GetOutputListParams{}
+	if req != nil {
+		params = &outputs.GetOutputListParams{}
+	}
 	resp, err := client.Outputs.GetOutputList(params)
 	if err != nil {
 		return nil, err
@@ -2484,8 +2707,11 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.GetOutputStatusParams{
-		OutputName: ptr(req.OutputName),
+	params := &outputs.GetOutputStatusParams{}
+	if req != nil {
+		params = &outputs.GetOutputStatusParams{
+			OutputName: ptr(req.OutputName),
+		}
 	}
 	resp, err := client.Outputs.GetOutputStatus(params)
 	if err != nil {
@@ -2524,8 +2750,11 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.ToggleOutputParams{
-		OutputName: ptr(req.OutputName),
+	params := &outputs.ToggleOutputParams{}
+	if req != nil {
+		params = &outputs.ToggleOutputParams{
+			OutputName: ptr(req.OutputName),
+		}
 	}
 	resp, err := client.Outputs.ToggleOutput(params)
 	if err != nil {
@@ -2557,8 +2786,11 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.StartOutputParams{
-		OutputName: ptr(req.OutputName),
+	params := &outputs.StartOutputParams{}
+	if req != nil {
+		params = &outputs.StartOutputParams{
+			OutputName: ptr(req.OutputName),
+		}
 	}
 	resp, err := client.Outputs.StartOutput(params)
 	if err != nil {
@@ -2588,8 +2820,11 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.StopOutputParams{
-		OutputName: ptr(req.OutputName),
+	params := &outputs.StopOutputParams{}
+	if req != nil {
+		params = &outputs.StopOutputParams{
+			OutputName: ptr(req.OutputName),
+		}
 	}
 	resp, err := client.Outputs.StopOutput(params)
 	if err != nil {
@@ -2619,8 +2854,11 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.GetOutputSettingsParams{
-		OutputName: ptr(req.OutputName),
+	params := &outputs.GetOutputSettingsParams{}
+	if req != nil {
+		params = &outputs.GetOutputSettingsParams{
+			OutputName: ptr(req.OutputName),
+		}
 	}
 	resp, err := client.Outputs.GetOutputSettings(params)
 	if err != nil {
@@ -2652,9 +2890,12 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &outputs.SetOutputSettingsParams{
-		OutputName:     ptr(req.OutputName),
-		OutputSettings: fromAbstractObject[map[string]any](req.OutputSettings),
+	params := &outputs.SetOutputSettingsParams{}
+	if req != nil {
+		params = &outputs.SetOutputSettingsParams{
+			OutputName:     ptr(req.OutputName),
+			OutputSettings: fromAbstractObject[map[string]any](req.OutputSettings),
+		}
 	}
 	resp, err := client.Outputs.SetOutputSettings(params)
 	if err != nil {
@@ -2685,6 +2926,9 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.GetRecordStatusParams{}
+	if req != nil {
+		params = &record.GetRecordStatusParams{}
+	}
 	resp, err := client.Record.GetRecordStatus(params)
 	if err != nil {
 		return nil, err
@@ -2720,6 +2964,9 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.ToggleRecordParams{}
+	if req != nil {
+		params = &record.ToggleRecordParams{}
+	}
 	resp, err := client.Record.ToggleRecord(params)
 	if err != nil {
 		return nil, err
@@ -2751,6 +2998,9 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.StartRecordParams{}
+	if req != nil {
+		params = &record.StartRecordParams{}
+	}
 	resp, err := client.Record.StartRecord(params)
 	if err != nil {
 		return nil, err
@@ -2780,6 +3030,9 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.StopRecordParams{}
+	if req != nil {
+		params = &record.StopRecordParams{}
+	}
 	resp, err := client.Record.StopRecord(params)
 	if err != nil {
 		return nil, err
@@ -2811,6 +3064,9 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.ToggleRecordPauseParams{}
+	if req != nil {
+		params = &record.ToggleRecordPauseParams{}
+	}
 	resp, err := client.Record.ToggleRecordPause(params)
 	if err != nil {
 		return nil, err
@@ -2840,6 +3096,9 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.PauseRecordParams{}
+	if req != nil {
+		params = &record.PauseRecordParams{}
+	}
 	resp, err := client.Record.PauseRecord(params)
 	if err != nil {
 		return nil, err
@@ -2869,6 +3128,9 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.ResumeRecordParams{}
+	if req != nil {
+		params = &record.ResumeRecordParams{}
+	}
 	resp, err := client.Record.ResumeRecord(params)
 	if err != nil {
 		return nil, err
@@ -2898,6 +3160,9 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &record.SplitRecordFileParams{}
+	if req != nil {
+		params = &record.SplitRecordFileParams{}
+	}
 	resp, err := client.Record.SplitRecordFile(params)
 	if err != nil {
 		return nil, err
@@ -2926,8 +3191,11 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &record.CreateRecordChapterParams{
-		ChapterName: req.ChapterName,
+	params := &record.CreateRecordChapterParams{}
+	if req != nil {
+		params = &record.CreateRecordChapterParams{
+			ChapterName: req.ChapterName,
+		}
 	}
 	resp, err := client.Record.CreateRecordChapter(params)
 	if err != nil {
@@ -2957,9 +3225,12 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemListParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &sceneitems.GetSceneItemListParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemListParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemList(params)
 	if err != nil {
@@ -2991,9 +3262,12 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetGroupSceneItemListParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &sceneitems.GetGroupSceneItemListParams{}
+	if req != nil {
+		params = &sceneitems.GetGroupSceneItemListParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.SceneItems.GetGroupSceneItemList(params)
 	if err != nil {
@@ -3025,11 +3299,14 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemIdParams{
-		SceneName:    req.SceneName,
-		SceneUuid:    req.SceneUUID,
-		SourceName:   ptr(req.SourceName),
-		SearchOffset: ptrInt64ToFloat64(req.SearchOffset),
+	params := &sceneitems.GetSceneItemIdParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemIdParams{
+			SceneName:    req.SceneName,
+			SceneUuid:    req.SceneUUID,
+			SourceName:   ptr(req.SourceName),
+			SearchOffset: ptrInt64ToFloat64(req.SearchOffset),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemId(params)
 	if err != nil {
@@ -3061,10 +3338,13 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemSourceParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemSourceParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemSourceParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemSource(params)
 	if err != nil {
@@ -3097,12 +3377,15 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.CreateSceneItemParams{
-		SceneName:        req.SceneName,
-		SceneUuid:        req.SceneUUID,
-		SourceName:       req.SourceName,
-		SourceUuid:       req.SourceUUID,
-		SceneItemEnabled: req.SceneItemEnabled,
+	params := &sceneitems.CreateSceneItemParams{}
+	if req != nil {
+		params = &sceneitems.CreateSceneItemParams{
+			SceneName:        req.SceneName,
+			SceneUuid:        req.SceneUUID,
+			SourceName:       req.SourceName,
+			SourceUuid:       req.SourceUUID,
+			SceneItemEnabled: req.SceneItemEnabled,
+		}
 	}
 	resp, err := client.SceneItems.CreateSceneItem(params)
 	if err != nil {
@@ -3134,10 +3417,13 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.RemoveSceneItemParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.RemoveSceneItemParams{}
+	if req != nil {
+		params = &sceneitems.RemoveSceneItemParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.RemoveSceneItem(params)
 	if err != nil {
@@ -3167,12 +3453,15 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.DuplicateSceneItemParams{
-		SceneName:            req.SceneName,
-		SceneUuid:            req.SceneUUID,
-		SceneItemId:          ptr((int)(req.SceneItemID)),
-		DestinationSceneName: req.DestinationSceneName,
-		DestinationSceneUuid: req.DestinationSceneUUID,
+	params := &sceneitems.DuplicateSceneItemParams{}
+	if req != nil {
+		params = &sceneitems.DuplicateSceneItemParams{
+			SceneName:            req.SceneName,
+			SceneUuid:            req.SceneUUID,
+			SceneItemId:          ptr((int)(req.SceneItemID)),
+			DestinationSceneName: req.DestinationSceneName,
+			DestinationSceneUuid: req.DestinationSceneUUID,
+		}
 	}
 	resp, err := client.SceneItems.DuplicateSceneItem(params)
 	if err != nil {
@@ -3204,10 +3493,13 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemTransformParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemTransformParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemTransformParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemTransform(params)
 	if err != nil {
@@ -3239,11 +3531,14 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.SetSceneItemTransformParams{
-		SceneName:          req.SceneName,
-		SceneUuid:          req.SceneUUID,
-		SceneItemId:        ptr((int)(req.SceneItemID)),
-		SceneItemTransform: fromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
+	params := &sceneitems.SetSceneItemTransformParams{}
+	if req != nil {
+		params = &sceneitems.SetSceneItemTransformParams{
+			SceneName:          req.SceneName,
+			SceneUuid:          req.SceneUUID,
+			SceneItemId:        ptr((int)(req.SceneItemID)),
+			SceneItemTransform: fromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
+		}
 	}
 	resp, err := client.SceneItems.SetSceneItemTransform(params)
 	if err != nil {
@@ -3273,10 +3568,13 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemEnabledParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemEnabledParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemEnabledParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemEnabled(params)
 	if err != nil {
@@ -3308,11 +3606,14 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.SetSceneItemEnabledParams{
-		SceneName:        req.SceneName,
-		SceneUuid:        req.SceneUUID,
-		SceneItemId:      ptr((int)(req.SceneItemID)),
-		SceneItemEnabled: ptr(req.SceneItemEnabled),
+	params := &sceneitems.SetSceneItemEnabledParams{}
+	if req != nil {
+		params = &sceneitems.SetSceneItemEnabledParams{
+			SceneName:        req.SceneName,
+			SceneUuid:        req.SceneUUID,
+			SceneItemId:      ptr((int)(req.SceneItemID)),
+			SceneItemEnabled: ptr(req.SceneItemEnabled),
+		}
 	}
 	resp, err := client.SceneItems.SetSceneItemEnabled(params)
 	if err != nil {
@@ -3342,10 +3643,13 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemLockedParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemLockedParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemLockedParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemLocked(params)
 	if err != nil {
@@ -3377,11 +3681,14 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.SetSceneItemLockedParams{
-		SceneName:       req.SceneName,
-		SceneUuid:       req.SceneUUID,
-		SceneItemId:     ptr((int)(req.SceneItemID)),
-		SceneItemLocked: ptr(req.SceneItemLocked),
+	params := &sceneitems.SetSceneItemLockedParams{}
+	if req != nil {
+		params = &sceneitems.SetSceneItemLockedParams{
+			SceneName:       req.SceneName,
+			SceneUuid:       req.SceneUUID,
+			SceneItemId:     ptr((int)(req.SceneItemID)),
+			SceneItemLocked: ptr(req.SceneItemLocked),
+		}
 	}
 	resp, err := client.SceneItems.SetSceneItemLocked(params)
 	if err != nil {
@@ -3411,10 +3718,13 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemIndexParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemIndexParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemIndexParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemIndex(params)
 	if err != nil {
@@ -3446,11 +3756,14 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.SetSceneItemIndexParams{
-		SceneName:      req.SceneName,
-		SceneUuid:      req.SceneUUID,
-		SceneItemId:    ptr((int)(req.SceneItemID)),
-		SceneItemIndex: ptr((int)(req.SceneItemIndex)),
+	params := &sceneitems.SetSceneItemIndexParams{}
+	if req != nil {
+		params = &sceneitems.SetSceneItemIndexParams{
+			SceneName:      req.SceneName,
+			SceneUuid:      req.SceneUUID,
+			SceneItemId:    ptr((int)(req.SceneItemID)),
+			SceneItemIndex: ptr((int)(req.SceneItemIndex)),
+		}
 	}
 	resp, err := client.SceneItems.SetSceneItemIndex(params)
 	if err != nil {
@@ -3480,10 +3793,13 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.GetSceneItemBlendModeParams{
-		SceneName:   req.SceneName,
-		SceneUuid:   req.SceneUUID,
-		SceneItemId: ptr((int)(req.SceneItemID)),
+	params := &sceneitems.GetSceneItemBlendModeParams{}
+	if req != nil {
+		params = &sceneitems.GetSceneItemBlendModeParams{
+			SceneName:   req.SceneName,
+			SceneUuid:   req.SceneUUID,
+			SceneItemId: ptr((int)(req.SceneItemID)),
+		}
 	}
 	resp, err := client.SceneItems.GetSceneItemBlendMode(params)
 	if err != nil {
@@ -3515,11 +3831,14 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sceneitems.SetSceneItemBlendModeParams{
-		SceneName:          req.SceneName,
-		SceneUuid:          req.SceneUUID,
-		SceneItemId:        ptr((int)(req.SceneItemID)),
-		SceneItemBlendMode: ptr((string)(req.SceneItemBlendMode)),
+	params := &sceneitems.SetSceneItemBlendModeParams{}
+	if req != nil {
+		params = &sceneitems.SetSceneItemBlendModeParams{
+			SceneName:          req.SceneName,
+			SceneUuid:          req.SceneUUID,
+			SceneItemId:        ptr((int)(req.SceneItemID)),
+			SceneItemBlendMode: ptr((string)(req.SceneItemBlendMode)),
+		}
 	}
 	resp, err := client.SceneItems.SetSceneItemBlendMode(params)
 	if err != nil {
@@ -3550,6 +3869,9 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &scenes.GetSceneListParams{}
+	if req != nil {
+		params = &scenes.GetSceneListParams{}
+	}
 	resp, err := client.Scenes.GetSceneList(params)
 	if err != nil {
 		return nil, err
@@ -3585,6 +3907,9 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &scenes.GetGroupListParams{}
+	if req != nil {
+		params = &scenes.GetGroupListParams{}
+	}
 	resp, err := client.Scenes.GetGroupList(params)
 	if err != nil {
 		return nil, err
@@ -3616,6 +3941,9 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &scenes.GetCurrentProgramSceneParams{}
+	if req != nil {
+		params = &scenes.GetCurrentProgramSceneParams{}
+	}
 	resp, err := client.Scenes.GetCurrentProgramScene(params)
 	if err != nil {
 		return nil, err
@@ -3649,9 +3977,12 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.SetCurrentProgramSceneParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &scenes.SetCurrentProgramSceneParams{}
+	if req != nil {
+		params = &scenes.SetCurrentProgramSceneParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.Scenes.SetCurrentProgramScene(params)
 	if err != nil {
@@ -3682,6 +4013,9 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &scenes.GetCurrentPreviewSceneParams{}
+	if req != nil {
+		params = &scenes.GetCurrentPreviewSceneParams{}
+	}
 	resp, err := client.Scenes.GetCurrentPreviewScene(params)
 	if err != nil {
 		return nil, err
@@ -3715,9 +4049,12 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.SetCurrentPreviewSceneParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &scenes.SetCurrentPreviewSceneParams{}
+	if req != nil {
+		params = &scenes.SetCurrentPreviewSceneParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.Scenes.SetCurrentPreviewScene(params)
 	if err != nil {
@@ -3747,8 +4084,11 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.CreateSceneParams{
-		SceneName: ptr(req.SceneName),
+	params := &scenes.CreateSceneParams{}
+	if req != nil {
+		params = &scenes.CreateSceneParams{
+			SceneName: ptr(req.SceneName),
+		}
 	}
 	resp, err := client.Scenes.CreateScene(params)
 	if err != nil {
@@ -3780,9 +4120,12 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.RemoveSceneParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &scenes.RemoveSceneParams{}
+	if req != nil {
+		params = &scenes.RemoveSceneParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.Scenes.RemoveScene(params)
 	if err != nil {
@@ -3812,10 +4155,13 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.SetSceneNameParams{
-		SceneName:    req.SceneName,
-		SceneUuid:    req.SceneUUID,
-		NewSceneName: ptr(req.NewSceneName),
+	params := &scenes.SetSceneNameParams{}
+	if req != nil {
+		params = &scenes.SetSceneNameParams{
+			SceneName:    req.SceneName,
+			SceneUuid:    req.SceneUUID,
+			NewSceneName: ptr(req.NewSceneName),
+		}
 	}
 	resp, err := client.Scenes.SetSceneName(params)
 	if err != nil {
@@ -3845,9 +4191,12 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.GetSceneSceneTransitionOverrideParams{
-		SceneName: req.SceneName,
-		SceneUuid: req.SceneUUID,
+	params := &scenes.GetSceneSceneTransitionOverrideParams{}
+	if req != nil {
+		params = &scenes.GetSceneSceneTransitionOverrideParams{
+			SceneName: req.SceneName,
+			SceneUuid: req.SceneUUID,
+		}
 	}
 	resp, err := client.Scenes.GetSceneSceneTransitionOverride(params)
 	if err != nil {
@@ -3880,11 +4229,14 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &scenes.SetSceneSceneTransitionOverrideParams{
-		SceneName:          req.SceneName,
-		SceneUuid:          req.SceneUUID,
-		TransitionName:     req.TransitionName,
-		TransitionDuration: ptrInt64ToFloat64(req.TransitionDuration),
+	params := &scenes.SetSceneSceneTransitionOverrideParams{}
+	if req != nil {
+		params = &scenes.SetSceneSceneTransitionOverrideParams{
+			SceneName:          req.SceneName,
+			SceneUuid:          req.SceneUUID,
+			TransitionName:     req.TransitionName,
+			TransitionDuration: ptrInt64ToFloat64(req.TransitionDuration),
+		}
 	}
 	resp, err := client.Scenes.SetSceneSceneTransitionOverride(params)
 	if err != nil {
@@ -3914,9 +4266,12 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sources.GetSourceActiveParams{
-		SourceName: req.SourceName,
-		SourceUuid: req.SourceUUID,
+	params := &sources.GetSourceActiveParams{}
+	if req != nil {
+		params = &sources.GetSourceActiveParams{
+			SourceName: req.SourceName,
+			SourceUuid: req.SourceUUID,
+		}
 	}
 	resp, err := client.Sources.GetSourceActive(params)
 	if err != nil {
@@ -3949,13 +4304,16 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sources.GetSourceScreenshotParams{
-		SourceName:              req.SourceName,
-		SourceUuid:              req.SourceUUID,
-		ImageFormat:             ptr((string)(req.ImageFormat)),
-		ImageWidth:              ptrInt64ToFloat64(req.ImageWidth),
-		ImageHeight:             ptrInt64ToFloat64(req.ImageHeight),
-		ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
+	params := &sources.GetSourceScreenshotParams{}
+	if req != nil {
+		params = &sources.GetSourceScreenshotParams{
+			SourceName:              req.SourceName,
+			SourceUuid:              req.SourceUUID,
+			ImageFormat:             ptr((string)(req.ImageFormat)),
+			ImageWidth:              ptrInt64ToFloat64(req.ImageWidth),
+			ImageHeight:             ptrInt64ToFloat64(req.ImageHeight),
+			ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
+		}
 	}
 	resp, err := client.Sources.GetSourceScreenshot(params)
 	if err != nil {
@@ -3987,14 +4345,17 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &sources.SaveSourceScreenshotParams{
-		SourceName:              req.SourceName,
-		SourceUuid:              req.SourceUUID,
-		ImageFormat:             ptr((string)(req.ImageFormat)),
-		ImageFilePath:           ptr(req.ImageFilePath),
-		ImageWidth:              ptrInt64ToFloat64(req.ImageWidth),
-		ImageHeight:             ptrInt64ToFloat64(req.ImageHeight),
-		ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
+	params := &sources.SaveSourceScreenshotParams{}
+	if req != nil {
+		params = &sources.SaveSourceScreenshotParams{
+			SourceName:              req.SourceName,
+			SourceUuid:              req.SourceUUID,
+			ImageFormat:             ptr((string)(req.ImageFormat)),
+			ImageFilePath:           ptr(req.ImageFilePath),
+			ImageWidth:              ptrInt64ToFloat64(req.ImageWidth),
+			ImageHeight:             ptrInt64ToFloat64(req.ImageHeight),
+			ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
+		}
 	}
 	resp, err := client.Sources.SaveSourceScreenshot(params)
 	if err != nil {
@@ -4025,6 +4386,9 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.GetStreamStatusParams{}
+	if req != nil {
+		params = &stream.GetStreamStatusParams{}
+	}
 	resp, err := client.Stream.GetStreamStatus(params)
 	if err != nil {
 		return nil, err
@@ -4063,6 +4427,9 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.ToggleStreamParams{}
+	if req != nil {
+		params = &stream.ToggleStreamParams{}
+	}
 	resp, err := client.Stream.ToggleStream(params)
 	if err != nil {
 		return nil, err
@@ -4094,6 +4461,9 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.StartStreamParams{}
+	if req != nil {
+		params = &stream.StartStreamParams{}
+	}
 	resp, err := client.Stream.StartStream(params)
 	if err != nil {
 		return nil, err
@@ -4123,6 +4493,9 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &stream.StopStreamParams{}
+	if req != nil {
+		params = &stream.StopStreamParams{}
+	}
 	resp, err := client.Stream.StopStream(params)
 	if err != nil {
 		return nil, err
@@ -4151,8 +4524,11 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &stream.SendStreamCaptionParams{
-		CaptionText: ptr((string)(req.CaptionText)),
+	params := &stream.SendStreamCaptionParams{}
+	if req != nil {
+		params = &stream.SendStreamCaptionParams{
+			CaptionText: ptr((string)(req.CaptionText)),
+		}
 	}
 	resp, err := client.Stream.SendStreamCaption(params)
 	if err != nil {
@@ -4183,6 +4559,9 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.GetTransitionKindListParams{}
+	if req != nil {
+		params = &transitions.GetTransitionKindListParams{}
+	}
 	resp, err := client.Transitions.GetTransitionKindList(params)
 	if err != nil {
 		return nil, err
@@ -4214,6 +4593,9 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.GetSceneTransitionListParams{}
+	if req != nil {
+		params = &transitions.GetSceneTransitionListParams{}
+	}
 	resp, err := client.Transitions.GetSceneTransitionList(params)
 	if err != nil {
 		return nil, err
@@ -4248,6 +4630,9 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.GetCurrentSceneTransitionParams{}
+	if req != nil {
+		params = &transitions.GetCurrentSceneTransitionParams{}
+	}
 	resp, err := client.Transitions.GetCurrentSceneTransition(params)
 	if err != nil {
 		return nil, err
@@ -4284,8 +4669,11 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &transitions.SetCurrentSceneTransitionParams{
-		TransitionName: ptr(req.TransitionName),
+	params := &transitions.SetCurrentSceneTransitionParams{}
+	if req != nil {
+		params = &transitions.SetCurrentSceneTransitionParams{
+			TransitionName: ptr(req.TransitionName),
+		}
 	}
 	resp, err := client.Transitions.SetCurrentSceneTransition(params)
 	if err != nil {
@@ -4315,8 +4703,11 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &transitions.SetCurrentSceneTransitionDurationParams{
-		TransitionDuration: ptr((float64)(req.TransitionDuration)),
+	params := &transitions.SetCurrentSceneTransitionDurationParams{}
+	if req != nil {
+		params = &transitions.SetCurrentSceneTransitionDurationParams{
+			TransitionDuration: ptr((float64)(req.TransitionDuration)),
+		}
 	}
 	resp, err := client.Transitions.SetCurrentSceneTransitionDuration(params)
 	if err != nil {
@@ -4346,9 +4737,12 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &transitions.SetCurrentSceneTransitionSettingsParams{
-		TransitionSettings: fromAbstractObject[map[string]any](req.TransitionSettings),
-		Overlay:            req.Overlay,
+	params := &transitions.SetCurrentSceneTransitionSettingsParams{}
+	if req != nil {
+		params = &transitions.SetCurrentSceneTransitionSettingsParams{
+			TransitionSettings: fromAbstractObject[map[string]any](req.TransitionSettings),
+			Overlay:            req.Overlay,
+		}
 	}
 	resp, err := client.Transitions.SetCurrentSceneTransitionSettings(params)
 	if err != nil {
@@ -4379,6 +4773,9 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.GetCurrentSceneTransitionCursorParams{}
+	if req != nil {
+		params = &transitions.GetCurrentSceneTransitionCursorParams{}
+	}
 	resp, err := client.Transitions.GetCurrentSceneTransitionCursor(params)
 	if err != nil {
 		return nil, err
@@ -4410,6 +4807,9 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &transitions.TriggerStudioModeTransitionParams{}
+	if req != nil {
+		params = &transitions.TriggerStudioModeTransitionParams{}
+	}
 	resp, err := client.Transitions.TriggerStudioModeTransition(params)
 	if err != nil {
 		return nil, err
@@ -4438,9 +4838,12 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &transitions.SetTBarPositionParams{
-		Position: ptr((float64)(req.Position)),
-		Release:  req.Release,
+	params := &transitions.SetTBarPositionParams{}
+	if req != nil {
+		params = &transitions.SetTBarPositionParams{
+			Position: ptr((float64)(req.Position)),
+			Release:  req.Release,
+		}
 	}
 	resp, err := client.Transitions.SetTBarPosition(params)
 	if err != nil {
@@ -4471,6 +4874,9 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &ui.GetStudioModeEnabledParams{}
+	if req != nil {
+		params = &ui.GetStudioModeEnabledParams{}
+	}
 	resp, err := client.Ui.GetStudioModeEnabled(params)
 	if err != nil {
 		return nil, err
@@ -4501,8 +4907,11 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.SetStudioModeEnabledParams{
-		StudioModeEnabled: ptr(req.StudioModeEnabled),
+	params := &ui.SetStudioModeEnabledParams{}
+	if req != nil {
+		params = &ui.SetStudioModeEnabledParams{
+			StudioModeEnabled: ptr(req.StudioModeEnabled),
+		}
 	}
 	resp, err := client.Ui.SetStudioModeEnabled(params)
 	if err != nil {
@@ -4532,9 +4941,12 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.OpenInputPropertiesDialogParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &ui.OpenInputPropertiesDialogParams{}
+	if req != nil {
+		params = &ui.OpenInputPropertiesDialogParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Ui.OpenInputPropertiesDialog(params)
 	if err != nil {
@@ -4564,9 +4976,12 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.OpenInputFiltersDialogParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &ui.OpenInputFiltersDialogParams{}
+	if req != nil {
+		params = &ui.OpenInputFiltersDialogParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Ui.OpenInputFiltersDialog(params)
 	if err != nil {
@@ -4596,9 +5011,12 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.OpenInputInteractDialogParams{
-		InputName: req.InputName,
-		InputUuid: req.InputUUID,
+	params := &ui.OpenInputInteractDialogParams{}
+	if req != nil {
+		params = &ui.OpenInputInteractDialogParams{
+			InputName: req.InputName,
+			InputUuid: req.InputUUID,
+		}
 	}
 	resp, err := client.Ui.OpenInputInteractDialog(params)
 	if err != nil {
@@ -4629,6 +5047,9 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
 	params := &ui.GetMonitorListParams{}
+	if req != nil {
+		params = &ui.GetMonitorListParams{}
+	}
 	resp, err := client.Ui.GetMonitorList(params)
 	if err != nil {
 		return nil, err
@@ -4659,10 +5080,13 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.OpenVideoMixProjectorParams{
-		VideoMixType:      ptr((string)(req.VideoMixType)),
-		MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
-		ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
+	params := &ui.OpenVideoMixProjectorParams{}
+	if req != nil {
+		params = &ui.OpenVideoMixProjectorParams{
+			VideoMixType:      ptr((string)(req.VideoMixType)),
+			MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
+			ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
+		}
 	}
 	resp, err := client.Ui.OpenVideoMixProjector(params)
 	if err != nil {
@@ -4692,11 +5116,14 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
-	params := &ui.OpenSourceProjectorParams{
-		SourceName:        req.SourceName,
-		SourceUuid:        req.SourceUUID,
-		MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
-		ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
+	params := &ui.OpenSourceProjectorParams{}
+	if req != nil {
+		params = &ui.OpenSourceProjectorParams{
+			SourceName:        req.SourceName,
+			SourceUuid:        req.SourceUUID,
+			MonitorIndex:      ptrInt64ToInt(req.MonitorIndex),
+			ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
+		}
 	}
 	resp, err := client.Ui.OpenSourceProjector(params)
 	if err != nil {

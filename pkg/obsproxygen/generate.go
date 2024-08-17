@@ -240,8 +240,11 @@ func generateRequest(
 			jen.Defer().Id("onFinish").Call(),
 		),
 		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Params(jen.Lit("unable to get a client: %w"), jen.Id("err"))))),
-		jen.Id("params").Op(":=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(
-			requestFieldAssigns...,
+		jen.Id("params").Op(":=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(),
+		jen.If(jen.Id("req").Op("!=").Nil()).Block(
+			jen.Id("params").Op("=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(
+				requestFieldAssigns...,
+			),
 		),
 		jen.List(jen.Id("resp"), jen.Id("err")).Op(":=").Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
 			jen.Id("params"),
