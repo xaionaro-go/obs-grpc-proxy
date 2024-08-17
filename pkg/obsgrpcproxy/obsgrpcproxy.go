@@ -21,6 +21,10 @@ type Proxy struct {
 
 var _ obsgrpc.OBSServer = (*Proxy)(nil)
 
+type ProxyAsClient Proxy
+
+var _ obsgrpc.OBSClient = (*ProxyAsClient)(nil)
+
 func New(getClient GetClientFunc) *Proxy {
 	return &Proxy{
 		GetClient: getClient,

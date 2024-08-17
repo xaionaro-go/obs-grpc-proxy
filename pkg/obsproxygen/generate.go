@@ -253,6 +253,21 @@ func generateRequest(
 		jen.Id("result").Op(":=").Op("&").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Response").Block(responseFieldAssigns...),
 		jen.Return(jen.List(jen.Id("result"), jen.Nil())),
 	)
+
+	code.Func().Params(jen.Id("p").Op("*").Id("ProxyAsClient")).Id(request.RequestType).Params(
+		jen.Id("ctx").Qual("context", "Context"),
+		jen.Id("req").Op("*").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Request"),
+		jen.Id("opts").Op("...").Qual("google.golang.org/grpc", "CallOption"),
+	).Params(
+		jen.Op("*").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Response"),
+		jen.Error(),
+	).Block(
+		jen.Return(jen.Params(jen.Id("*Proxy")).Params(jen.Id("p")).Op(".").Id(request.RequestType).Call(
+			jen.Id("ctx"),
+			jen.Id("req"),
+		)),
+	)
+
 	return nil
 }
 

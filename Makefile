@@ -9,3 +9,4 @@ grpc-go: obs.proto
 
 proxy: grpc-go
 	go run ./scripts/generate/ proxy ./upstream/obs-websocket/docs/generated/protocol.json ./protobuf/objects.proto ./pkg/obsgrpcproxy/obsgrpcproxy_gen.go
+	go fmt ./...
