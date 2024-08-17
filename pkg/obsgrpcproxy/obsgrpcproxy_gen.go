@@ -5,7 +5,6 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
-
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
@@ -50,6 +49,9 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 func (p *ProxyAsClient) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersistentDataRequest, opts ...grpc.CallOption) (*obsgrpc.GetPersistentDataResponse, error) {
 	return (*Proxy)(p).GetPersistentData(ctx, req)
 }
+func (p *ClientAsServer) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersistentDataRequest) (*obsgrpc.GetPersistentDataResponse, error) {
+	return p.OBSClient.GetPersistentData(ctx, req)
+}
 func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersistentDataRequest) (*obsgrpc.SetPersistentDataResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -73,6 +75,9 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 func (p *ProxyAsClient) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersistentDataRequest, opts ...grpc.CallOption) (*obsgrpc.SetPersistentDataResponse, error) {
 	return (*Proxy)(p).SetPersistentData(ctx, req)
 }
+func (p *ClientAsServer) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersistentDataRequest) (*obsgrpc.SetPersistentDataResponse, error) {
+	return p.OBSClient.SetPersistentData(ctx, req)
+}
 func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetSceneCollectionListRequest) (*obsgrpc.GetSceneCollectionListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -95,6 +100,9 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 func (p *ProxyAsClient) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetSceneCollectionListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneCollectionListResponse, error) {
 	return (*Proxy)(p).GetSceneCollectionList(ctx, req)
 }
+func (p *ClientAsServer) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetSceneCollectionListRequest) (*obsgrpc.GetSceneCollectionListResponse, error) {
+	return p.OBSClient.GetSceneCollectionList(ctx, req)
+}
 func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetCurrentSceneCollectionRequest) (*obsgrpc.SetCurrentSceneCollectionResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -116,6 +124,9 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 func (p *ProxyAsClient) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetCurrentSceneCollectionRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentSceneCollectionResponse, error) {
 	return (*Proxy)(p).SetCurrentSceneCollection(ctx, req)
 }
+func (p *ClientAsServer) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetCurrentSceneCollectionRequest) (*obsgrpc.SetCurrentSceneCollectionResponse, error) {
+	return p.OBSClient.SetCurrentSceneCollection(ctx, req)
+}
 func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSceneCollectionRequest) (*obsgrpc.CreateSceneCollectionResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -136,6 +147,9 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 }
 func (p *ProxyAsClient) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSceneCollectionRequest, opts ...grpc.CallOption) (*obsgrpc.CreateSceneCollectionResponse, error) {
 	return (*Proxy)(p).CreateSceneCollection(ctx, req)
+}
+func (p *ClientAsServer) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSceneCollectionRequest) (*obsgrpc.CreateSceneCollectionResponse, error) {
+	return p.OBSClient.CreateSceneCollection(ctx, req)
 }
 func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListRequest) (*obsgrpc.GetProfileListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -159,6 +173,9 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 func (p *ProxyAsClient) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListRequest, opts ...grpc.CallOption) (*obsgrpc.GetProfileListResponse, error) {
 	return (*Proxy)(p).GetProfileList(ctx, req)
 }
+func (p *ClientAsServer) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListRequest) (*obsgrpc.GetProfileListResponse, error) {
+	return p.OBSClient.GetProfileList(ctx, req)
+}
 func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentProfileRequest) (*obsgrpc.SetCurrentProfileResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -179,6 +196,9 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 }
 func (p *ProxyAsClient) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentProfileRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentProfileResponse, error) {
 	return (*Proxy)(p).SetCurrentProfile(ctx, req)
+}
+func (p *ClientAsServer) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentProfileRequest) (*obsgrpc.SetCurrentProfileResponse, error) {
+	return p.OBSClient.SetCurrentProfile(ctx, req)
 }
 func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileRequest) (*obsgrpc.CreateProfileResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -201,6 +221,9 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 func (p *ProxyAsClient) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileRequest, opts ...grpc.CallOption) (*obsgrpc.CreateProfileResponse, error) {
 	return (*Proxy)(p).CreateProfile(ctx, req)
 }
+func (p *ClientAsServer) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileRequest) (*obsgrpc.CreateProfileResponse, error) {
+	return p.OBSClient.CreateProfile(ctx, req)
+}
 func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileRequest) (*obsgrpc.RemoveProfileResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -221,6 +244,9 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 }
 func (p *ProxyAsClient) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileRequest, opts ...grpc.CallOption) (*obsgrpc.RemoveProfileResponse, error) {
 	return (*Proxy)(p).RemoveProfile(ctx, req)
+}
+func (p *ClientAsServer) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileRequest) (*obsgrpc.RemoveProfileResponse, error) {
+	return p.OBSClient.RemoveProfile(ctx, req)
 }
 func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfileParameterRequest) (*obsgrpc.GetProfileParameterResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -247,6 +273,9 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 func (p *ProxyAsClient) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfileParameterRequest, opts ...grpc.CallOption) (*obsgrpc.GetProfileParameterResponse, error) {
 	return (*Proxy)(p).GetProfileParameter(ctx, req)
 }
+func (p *ClientAsServer) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfileParameterRequest) (*obsgrpc.GetProfileParameterResponse, error) {
+	return p.OBSClient.GetProfileParameter(ctx, req)
+}
 func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfileParameterRequest) (*obsgrpc.SetProfileParameterResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -269,6 +298,9 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 }
 func (p *ProxyAsClient) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfileParameterRequest, opts ...grpc.CallOption) (*obsgrpc.SetProfileParameterResponse, error) {
 	return (*Proxy)(p).SetProfileParameter(ctx, req)
+}
+func (p *ClientAsServer) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfileParameterRequest) (*obsgrpc.SetProfileParameterResponse, error) {
+	return p.OBSClient.SetProfileParameter(ctx, req)
 }
 func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSettingsRequest) (*obsgrpc.GetVideoSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -296,6 +328,9 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 func (p *ProxyAsClient) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetVideoSettingsResponse, error) {
 	return (*Proxy)(p).GetVideoSettings(ctx, req)
 }
+func (p *ClientAsServer) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSettingsRequest) (*obsgrpc.GetVideoSettingsResponse, error) {
+	return p.OBSClient.GetVideoSettings(ctx, req)
+}
 func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSettingsRequest) (*obsgrpc.SetVideoSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -322,6 +357,9 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 func (p *ProxyAsClient) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetVideoSettingsResponse, error) {
 	return (*Proxy)(p).SetVideoSettings(ctx, req)
 }
+func (p *ClientAsServer) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSettingsRequest) (*obsgrpc.SetVideoSettingsResponse, error) {
+	return p.OBSClient.SetVideoSettings(ctx, req)
+}
 func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetStreamServiceSettingsRequest) (*obsgrpc.GetStreamServiceSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -343,6 +381,9 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 }
 func (p *ProxyAsClient) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetStreamServiceSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetStreamServiceSettingsResponse, error) {
 	return (*Proxy)(p).GetStreamServiceSettings(ctx, req)
+}
+func (p *ClientAsServer) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetStreamServiceSettingsRequest) (*obsgrpc.GetStreamServiceSettingsResponse, error) {
+	return p.OBSClient.GetStreamServiceSettings(ctx, req)
 }
 func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetStreamServiceSettingsRequest) (*obsgrpc.SetStreamServiceSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -366,6 +407,9 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 func (p *ProxyAsClient) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetStreamServiceSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetStreamServiceSettingsResponse, error) {
 	return (*Proxy)(p).SetStreamServiceSettings(ctx, req)
 }
+func (p *ClientAsServer) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetStreamServiceSettingsRequest) (*obsgrpc.SetStreamServiceSettingsResponse, error) {
+	return p.OBSClient.SetStreamServiceSettings(ctx, req)
+}
 func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDirectoryRequest) (*obsgrpc.GetRecordDirectoryResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -386,6 +430,9 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 }
 func (p *ProxyAsClient) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDirectoryRequest, opts ...grpc.CallOption) (*obsgrpc.GetRecordDirectoryResponse, error) {
 	return (*Proxy)(p).GetRecordDirectory(ctx, req)
+}
+func (p *ClientAsServer) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDirectoryRequest) (*obsgrpc.GetRecordDirectoryResponse, error) {
+	return p.OBSClient.GetRecordDirectory(ctx, req)
 }
 func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDirectoryRequest) (*obsgrpc.SetRecordDirectoryResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -408,6 +455,9 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 func (p *ProxyAsClient) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDirectoryRequest, opts ...grpc.CallOption) (*obsgrpc.SetRecordDirectoryResponse, error) {
 	return (*Proxy)(p).SetRecordDirectory(ctx, req)
 }
+func (p *ClientAsServer) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDirectoryRequest) (*obsgrpc.SetRecordDirectoryResponse, error) {
+	return p.OBSClient.SetRecordDirectory(ctx, req)
+}
 func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSourceFilterKindListRequest) (*obsgrpc.GetSourceFilterKindListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -428,6 +478,9 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 }
 func (p *ProxyAsClient) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSourceFilterKindListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceFilterKindListResponse, error) {
 	return (*Proxy)(p).GetSourceFilterKindList(ctx, req)
+}
+func (p *ClientAsServer) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSourceFilterKindListRequest) (*obsgrpc.GetSourceFilterKindListResponse, error) {
+	return p.OBSClient.GetSourceFilterKindList(ctx, req)
 }
 func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceFilterListRequest) (*obsgrpc.GetSourceFilterListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -453,6 +506,9 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 func (p *ProxyAsClient) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceFilterListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceFilterListResponse, error) {
 	return (*Proxy)(p).GetSourceFilterList(ctx, req)
 }
+func (p *ClientAsServer) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceFilterListRequest) (*obsgrpc.GetSourceFilterListResponse, error) {
+	return p.OBSClient.GetSourceFilterList(ctx, req)
+}
 func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc.GetSourceFilterDefaultSettingsRequest) (*obsgrpc.GetSourceFilterDefaultSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -475,6 +531,9 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 }
 func (p *ProxyAsClient) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc.GetSourceFilterDefaultSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceFilterDefaultSettingsResponse, error) {
 	return (*Proxy)(p).GetSourceFilterDefaultSettings(ctx, req)
+}
+func (p *ClientAsServer) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc.GetSourceFilterDefaultSettingsRequest) (*obsgrpc.GetSourceFilterDefaultSettingsResponse, error) {
+	return p.OBSClient.GetSourceFilterDefaultSettings(ctx, req)
 }
 func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourceFilterRequest) (*obsgrpc.CreateSourceFilterResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -501,6 +560,9 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 func (p *ProxyAsClient) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourceFilterRequest, opts ...grpc.CallOption) (*obsgrpc.CreateSourceFilterResponse, error) {
 	return (*Proxy)(p).CreateSourceFilter(ctx, req)
 }
+func (p *ClientAsServer) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourceFilterRequest) (*obsgrpc.CreateSourceFilterResponse, error) {
+	return p.OBSClient.CreateSourceFilter(ctx, req)
+}
 func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourceFilterRequest) (*obsgrpc.RemoveSourceFilterResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -523,6 +585,9 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 }
 func (p *ProxyAsClient) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourceFilterRequest, opts ...grpc.CallOption) (*obsgrpc.RemoveSourceFilterResponse, error) {
 	return (*Proxy)(p).RemoveSourceFilter(ctx, req)
+}
+func (p *ClientAsServer) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourceFilterRequest) (*obsgrpc.RemoveSourceFilterResponse, error) {
+	return p.OBSClient.RemoveSourceFilter(ctx, req)
 }
 func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceFilterNameRequest) (*obsgrpc.SetSourceFilterNameResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -547,6 +612,9 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 }
 func (p *ProxyAsClient) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceFilterNameRequest, opts ...grpc.CallOption) (*obsgrpc.SetSourceFilterNameResponse, error) {
 	return (*Proxy)(p).SetSourceFilterName(ctx, req)
+}
+func (p *ClientAsServer) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceFilterNameRequest) (*obsgrpc.SetSourceFilterNameResponse, error) {
+	return p.OBSClient.SetSourceFilterName(ctx, req)
 }
 func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilterRequest) (*obsgrpc.GetSourceFilterResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -576,6 +644,9 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 func (p *ProxyAsClient) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilterRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceFilterResponse, error) {
 	return (*Proxy)(p).GetSourceFilter(ctx, req)
 }
+func (p *ClientAsServer) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilterRequest) (*obsgrpc.GetSourceFilterResponse, error) {
+	return p.OBSClient.GetSourceFilter(ctx, req)
+}
 func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSourceFilterIndexRequest) (*obsgrpc.SetSourceFilterIndexResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -599,6 +670,9 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 }
 func (p *ProxyAsClient) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSourceFilterIndexRequest, opts ...grpc.CallOption) (*obsgrpc.SetSourceFilterIndexResponse, error) {
 	return (*Proxy)(p).SetSourceFilterIndex(ctx, req)
+}
+func (p *ClientAsServer) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSourceFilterIndexRequest) (*obsgrpc.SetSourceFilterIndexResponse, error) {
+	return p.OBSClient.SetSourceFilterIndex(ctx, req)
 }
 func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSourceFilterSettingsRequest) (*obsgrpc.SetSourceFilterSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -625,6 +699,9 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 func (p *ProxyAsClient) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSourceFilterSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetSourceFilterSettingsResponse, error) {
 	return (*Proxy)(p).SetSourceFilterSettings(ctx, req)
 }
+func (p *ClientAsServer) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSourceFilterSettingsRequest) (*obsgrpc.SetSourceFilterSettingsResponse, error) {
+	return p.OBSClient.SetSourceFilterSettings(ctx, req)
+}
 func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSourceFilterEnabledRequest) (*obsgrpc.SetSourceFilterEnabledResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -648,6 +725,9 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 }
 func (p *ProxyAsClient) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSourceFilterEnabledRequest, opts ...grpc.CallOption) (*obsgrpc.SetSourceFilterEnabledResponse, error) {
 	return (*Proxy)(p).SetSourceFilterEnabled(ctx, req)
+}
+func (p *ClientAsServer) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSourceFilterEnabledRequest) (*obsgrpc.SetSourceFilterEnabledResponse, error) {
+	return p.OBSClient.SetSourceFilterEnabled(ctx, req)
 }
 func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) (*obsgrpc.GetVersionResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -675,6 +755,9 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 }
 func (p *ProxyAsClient) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest, opts ...grpc.CallOption) (*obsgrpc.GetVersionResponse, error) {
 	return (*Proxy)(p).GetVersion(ctx, req)
+}
+func (p *ClientAsServer) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) (*obsgrpc.GetVersionResponse, error) {
+	return p.OBSClient.GetVersion(ctx, req)
 }
 func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (*obsgrpc.GetStatsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -707,6 +790,9 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (*ob
 func (p *ProxyAsClient) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest, opts ...grpc.CallOption) (*obsgrpc.GetStatsResponse, error) {
 	return (*Proxy)(p).GetStats(ctx, req)
 }
+func (p *ClientAsServer) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (*obsgrpc.GetStatsResponse, error) {
+	return p.OBSClient.GetStats(ctx, req)
+}
 func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.BroadcastCustomEventRequest) (*obsgrpc.BroadcastCustomEventResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -727,6 +813,9 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 }
 func (p *ProxyAsClient) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.BroadcastCustomEventRequest, opts ...grpc.CallOption) (*obsgrpc.BroadcastCustomEventResponse, error) {
 	return (*Proxy)(p).BroadcastCustomEvent(ctx, req)
+}
+func (p *ClientAsServer) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.BroadcastCustomEventRequest) (*obsgrpc.BroadcastCustomEventResponse, error) {
+	return p.OBSClient.BroadcastCustomEvent(ctx, req)
 }
 func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRequestRequest) (*obsgrpc.CallVendorRequestResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -755,6 +844,9 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 func (p *ProxyAsClient) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRequestRequest, opts ...grpc.CallOption) (*obsgrpc.CallVendorRequestResponse, error) {
 	return (*Proxy)(p).CallVendorRequest(ctx, req)
 }
+func (p *ClientAsServer) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRequestRequest) (*obsgrpc.CallVendorRequestResponse, error) {
+	return p.OBSClient.CallVendorRequest(ctx, req)
+}
 func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListRequest) (*obsgrpc.GetHotkeyListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -775,6 +867,9 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 }
 func (p *ProxyAsClient) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListRequest, opts ...grpc.CallOption) (*obsgrpc.GetHotkeyListResponse, error) {
 	return (*Proxy)(p).GetHotkeyList(ctx, req)
+}
+func (p *ClientAsServer) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListRequest) (*obsgrpc.GetHotkeyListResponse, error) {
+	return p.OBSClient.GetHotkeyList(ctx, req)
 }
 func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHotkeyByNameRequest) (*obsgrpc.TriggerHotkeyByNameResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -798,6 +893,9 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 func (p *ProxyAsClient) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHotkeyByNameRequest, opts ...grpc.CallOption) (*obsgrpc.TriggerHotkeyByNameResponse, error) {
 	return (*Proxy)(p).TriggerHotkeyByName(ctx, req)
 }
+func (p *ClientAsServer) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHotkeyByNameRequest) (*obsgrpc.TriggerHotkeyByNameResponse, error) {
+	return p.OBSClient.TriggerHotkeyByName(ctx, req)
+}
 func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.TriggerHotkeyByKeySequenceRequest) (*obsgrpc.TriggerHotkeyByKeySequenceResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -820,6 +918,9 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 func (p *ProxyAsClient) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.TriggerHotkeyByKeySequenceRequest, opts ...grpc.CallOption) (*obsgrpc.TriggerHotkeyByKeySequenceResponse, error) {
 	return (*Proxy)(p).TriggerHotkeyByKeySequence(ctx, req)
 }
+func (p *ClientAsServer) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.TriggerHotkeyByKeySequenceRequest) (*obsgrpc.TriggerHotkeyByKeySequenceResponse, error) {
+	return p.OBSClient.TriggerHotkeyByKeySequence(ctx, req)
+}
 func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (*obsgrpc.SleepResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -841,6 +942,9 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (*obsgrpc.
 }
 func (p *ProxyAsClient) Sleep(ctx context.Context, req *obsgrpc.SleepRequest, opts ...grpc.CallOption) (*obsgrpc.SleepResponse, error) {
 	return (*Proxy)(p).Sleep(ctx, req)
+}
+func (p *ClientAsServer) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (*obsgrpc.SleepResponse, error) {
+	return p.OBSClient.Sleep(ctx, req)
 }
 func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListRequest) (*obsgrpc.GetInputListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -865,6 +969,9 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 func (p *ProxyAsClient) GetInputList(ctx context.Context, req *obsgrpc.GetInputListRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputListResponse, error) {
 	return (*Proxy)(p).GetInputList(ctx, req)
 }
+func (p *ClientAsServer) GetInputList(ctx context.Context, req *obsgrpc.GetInputListRequest) (*obsgrpc.GetInputListResponse, error) {
+	return p.OBSClient.GetInputList(ctx, req)
+}
 func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindListRequest) (*obsgrpc.GetInputKindListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -887,6 +994,9 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 }
 func (p *ProxyAsClient) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindListRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputKindListResponse, error) {
 	return (*Proxy)(p).GetInputKindList(ctx, req)
+}
+func (p *ClientAsServer) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindListRequest) (*obsgrpc.GetInputKindListResponse, error) {
+	return p.OBSClient.GetInputKindList(ctx, req)
 }
 func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInputsRequest) (*obsgrpc.GetSpecialInputsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -913,6 +1023,9 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 }
 func (p *ProxyAsClient) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInputsRequest, opts ...grpc.CallOption) (*obsgrpc.GetSpecialInputsResponse, error) {
 	return (*Proxy)(p).GetSpecialInputs(ctx, req)
+}
+func (p *ClientAsServer) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInputsRequest) (*obsgrpc.GetSpecialInputsResponse, error) {
+	return p.OBSClient.GetSpecialInputs(ctx, req)
 }
 func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest) (*obsgrpc.CreateInputResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -943,6 +1056,9 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 func (p *ProxyAsClient) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest, opts ...grpc.CallOption) (*obsgrpc.CreateInputResponse, error) {
 	return (*Proxy)(p).CreateInput(ctx, req)
 }
+func (p *ClientAsServer) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest) (*obsgrpc.CreateInputResponse, error) {
+	return p.OBSClient.CreateInput(ctx, req)
+}
 func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest) (*obsgrpc.RemoveInputResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -964,6 +1080,9 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 }
 func (p *ProxyAsClient) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest, opts ...grpc.CallOption) (*obsgrpc.RemoveInputResponse, error) {
 	return (*Proxy)(p).RemoveInput(ctx, req)
+}
+func (p *ClientAsServer) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest) (*obsgrpc.RemoveInputResponse, error) {
+	return p.OBSClient.RemoveInput(ctx, req)
 }
 func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameRequest) (*obsgrpc.SetInputNameResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -988,6 +1107,9 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 func (p *ProxyAsClient) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputNameResponse, error) {
 	return (*Proxy)(p).SetInputName(ctx, req)
 }
+func (p *ClientAsServer) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameRequest) (*obsgrpc.SetInputNameResponse, error) {
+	return p.OBSClient.SetInputName(ctx, req)
+}
 func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInputDefaultSettingsRequest) (*obsgrpc.GetInputDefaultSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1010,6 +1132,9 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 }
 func (p *ProxyAsClient) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInputDefaultSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputDefaultSettingsResponse, error) {
 	return (*Proxy)(p).GetInputDefaultSettings(ctx, req)
+}
+func (p *ClientAsServer) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInputDefaultSettingsRequest) (*obsgrpc.GetInputDefaultSettingsResponse, error) {
+	return p.OBSClient.GetInputDefaultSettings(ctx, req)
 }
 func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSettingsRequest) (*obsgrpc.GetInputSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1036,6 +1161,9 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 func (p *ProxyAsClient) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputSettingsResponse, error) {
 	return (*Proxy)(p).GetInputSettings(ctx, req)
 }
+func (p *ClientAsServer) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSettingsRequest) (*obsgrpc.GetInputSettingsResponse, error) {
+	return p.OBSClient.GetInputSettings(ctx, req)
+}
 func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSettingsRequest) (*obsgrpc.SetInputSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1059,6 +1187,9 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 }
 func (p *ProxyAsClient) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputSettingsResponse, error) {
 	return (*Proxy)(p).SetInputSettings(ctx, req)
+}
+func (p *ClientAsServer) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSettingsRequest) (*obsgrpc.SetInputSettingsResponse, error) {
+	return p.OBSClient.SetInputSettings(ctx, req)
 }
 func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteRequest) (*obsgrpc.GetInputMuteResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1084,6 +1215,9 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 func (p *ProxyAsClient) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputMuteResponse, error) {
 	return (*Proxy)(p).GetInputMute(ctx, req)
 }
+func (p *ClientAsServer) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteRequest) (*obsgrpc.GetInputMuteResponse, error) {
+	return p.OBSClient.GetInputMute(ctx, req)
+}
 func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteRequest) (*obsgrpc.SetInputMuteResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1106,6 +1240,9 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 }
 func (p *ProxyAsClient) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputMuteResponse, error) {
 	return (*Proxy)(p).SetInputMute(ctx, req)
+}
+func (p *ClientAsServer) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteRequest) (*obsgrpc.SetInputMuteResponse, error) {
+	return p.OBSClient.SetInputMute(ctx, req)
 }
 func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMuteRequest) (*obsgrpc.ToggleInputMuteResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1130,6 +1267,9 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 }
 func (p *ProxyAsClient) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMuteRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleInputMuteResponse, error) {
 	return (*Proxy)(p).ToggleInputMute(ctx, req)
+}
+func (p *ClientAsServer) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMuteRequest) (*obsgrpc.ToggleInputMuteResponse, error) {
+	return p.OBSClient.ToggleInputMute(ctx, req)
 }
 func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeRequest) (*obsgrpc.GetInputVolumeResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1156,6 +1296,9 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 func (p *ProxyAsClient) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputVolumeResponse, error) {
 	return (*Proxy)(p).GetInputVolume(ctx, req)
 }
+func (p *ClientAsServer) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeRequest) (*obsgrpc.GetInputVolumeResponse, error) {
+	return p.OBSClient.GetInputVolume(ctx, req)
+}
 func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeRequest) (*obsgrpc.SetInputVolumeResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1179,6 +1322,9 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 }
 func (p *ProxyAsClient) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputVolumeResponse, error) {
 	return (*Proxy)(p).SetInputVolume(ctx, req)
+}
+func (p *ClientAsServer) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeRequest) (*obsgrpc.SetInputVolumeResponse, error) {
+	return p.OBSClient.SetInputVolume(ctx, req)
 }
 func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputAudioBalanceRequest) (*obsgrpc.GetInputAudioBalanceResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1204,6 +1350,9 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 func (p *ProxyAsClient) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputAudioBalanceRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputAudioBalanceResponse, error) {
 	return (*Proxy)(p).GetInputAudioBalance(ctx, req)
 }
+func (p *ClientAsServer) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputAudioBalanceRequest) (*obsgrpc.GetInputAudioBalanceResponse, error) {
+	return p.OBSClient.GetInputAudioBalance(ctx, req)
+}
 func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputAudioBalanceRequest) (*obsgrpc.SetInputAudioBalanceResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1226,6 +1375,9 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 }
 func (p *ProxyAsClient) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputAudioBalanceRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputAudioBalanceResponse, error) {
 	return (*Proxy)(p).SetInputAudioBalance(ctx, req)
+}
+func (p *ClientAsServer) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputAudioBalanceRequest) (*obsgrpc.SetInputAudioBalanceResponse, error) {
+	return p.OBSClient.SetInputAudioBalance(ctx, req)
 }
 func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInputAudioSyncOffsetRequest) (*obsgrpc.GetInputAudioSyncOffsetResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1251,6 +1403,9 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 func (p *ProxyAsClient) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInputAudioSyncOffsetRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputAudioSyncOffsetResponse, error) {
 	return (*Proxy)(p).GetInputAudioSyncOffset(ctx, req)
 }
+func (p *ClientAsServer) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInputAudioSyncOffsetRequest) (*obsgrpc.GetInputAudioSyncOffsetResponse, error) {
+	return p.OBSClient.GetInputAudioSyncOffset(ctx, req)
+}
 func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInputAudioSyncOffsetRequest) (*obsgrpc.SetInputAudioSyncOffsetResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1273,6 +1428,9 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 }
 func (p *ProxyAsClient) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInputAudioSyncOffsetRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputAudioSyncOffsetResponse, error) {
 	return (*Proxy)(p).SetInputAudioSyncOffset(ctx, req)
+}
+func (p *ClientAsServer) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInputAudioSyncOffsetRequest) (*obsgrpc.SetInputAudioSyncOffsetResponse, error) {
+	return p.OBSClient.SetInputAudioSyncOffset(ctx, req)
 }
 func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetInputAudioMonitorTypeRequest) (*obsgrpc.GetInputAudioMonitorTypeResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1298,6 +1456,9 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 func (p *ProxyAsClient) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetInputAudioMonitorTypeRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputAudioMonitorTypeResponse, error) {
 	return (*Proxy)(p).GetInputAudioMonitorType(ctx, req)
 }
+func (p *ClientAsServer) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetInputAudioMonitorTypeRequest) (*obsgrpc.GetInputAudioMonitorTypeResponse, error) {
+	return p.OBSClient.GetInputAudioMonitorType(ctx, req)
+}
 func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetInputAudioMonitorTypeRequest) (*obsgrpc.SetInputAudioMonitorTypeResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1320,6 +1481,9 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 }
 func (p *ProxyAsClient) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetInputAudioMonitorTypeRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputAudioMonitorTypeResponse, error) {
 	return (*Proxy)(p).SetInputAudioMonitorType(ctx, req)
+}
+func (p *ClientAsServer) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetInputAudioMonitorTypeRequest) (*obsgrpc.SetInputAudioMonitorTypeResponse, error) {
+	return p.OBSClient.SetInputAudioMonitorType(ctx, req)
 }
 func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAudioTracksRequest) (*obsgrpc.GetInputAudioTracksResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1345,6 +1509,9 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 func (p *ProxyAsClient) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAudioTracksRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputAudioTracksResponse, error) {
 	return (*Proxy)(p).GetInputAudioTracks(ctx, req)
 }
+func (p *ClientAsServer) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAudioTracksRequest) (*obsgrpc.GetInputAudioTracksResponse, error) {
+	return p.OBSClient.GetInputAudioTracks(ctx, req)
+}
 func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAudioTracksRequest) (*obsgrpc.SetInputAudioTracksResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1367,6 +1534,9 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 }
 func (p *ProxyAsClient) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAudioTracksRequest, opts ...grpc.CallOption) (*obsgrpc.SetInputAudioTracksResponse, error) {
 	return (*Proxy)(p).SetInputAudioTracks(ctx, req)
+}
+func (p *ClientAsServer) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAudioTracksRequest) (*obsgrpc.SetInputAudioTracksResponse, error) {
+	return p.OBSClient.SetInputAudioTracks(ctx, req)
 }
 func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *obsgrpc.GetInputPropertiesListPropertyItemsRequest) (*obsgrpc.GetInputPropertiesListPropertyItemsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1393,6 +1563,9 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 func (p *ProxyAsClient) GetInputPropertiesListPropertyItems(ctx context.Context, req *obsgrpc.GetInputPropertiesListPropertyItemsRequest, opts ...grpc.CallOption) (*obsgrpc.GetInputPropertiesListPropertyItemsResponse, error) {
 	return (*Proxy)(p).GetInputPropertiesListPropertyItems(ctx, req)
 }
+func (p *ClientAsServer) GetInputPropertiesListPropertyItems(ctx context.Context, req *obsgrpc.GetInputPropertiesListPropertyItemsRequest) (*obsgrpc.GetInputPropertiesListPropertyItemsResponse, error) {
+	return p.OBSClient.GetInputPropertiesListPropertyItems(ctx, req)
+}
 func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.PressInputPropertiesButtonRequest) (*obsgrpc.PressInputPropertiesButtonResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1415,6 +1588,9 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 }
 func (p *ProxyAsClient) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.PressInputPropertiesButtonRequest, opts ...grpc.CallOption) (*obsgrpc.PressInputPropertiesButtonResponse, error) {
 	return (*Proxy)(p).PressInputPropertiesButton(ctx, req)
+}
+func (p *ClientAsServer) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.PressInputPropertiesButtonRequest) (*obsgrpc.PressInputPropertiesButtonResponse, error) {
+	return p.OBSClient.PressInputPropertiesButton(ctx, req)
 }
 func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaInputStatusRequest) (*obsgrpc.GetMediaInputStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1442,6 +1618,9 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 func (p *ProxyAsClient) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaInputStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetMediaInputStatusResponse, error) {
 	return (*Proxy)(p).GetMediaInputStatus(ctx, req)
 }
+func (p *ClientAsServer) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaInputStatusRequest) (*obsgrpc.GetMediaInputStatusResponse, error) {
+	return p.OBSClient.GetMediaInputStatus(ctx, req)
+}
 func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaInputCursorRequest) (*obsgrpc.SetMediaInputCursorResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1464,6 +1643,9 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 }
 func (p *ProxyAsClient) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaInputCursorRequest, opts ...grpc.CallOption) (*obsgrpc.SetMediaInputCursorResponse, error) {
 	return (*Proxy)(p).SetMediaInputCursor(ctx, req)
+}
+func (p *ClientAsServer) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaInputCursorRequest) (*obsgrpc.SetMediaInputCursorResponse, error) {
+	return p.OBSClient.SetMediaInputCursor(ctx, req)
 }
 func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetMediaInputCursorRequest) (*obsgrpc.OffsetMediaInputCursorResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1488,6 +1670,9 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 func (p *ProxyAsClient) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetMediaInputCursorRequest, opts ...grpc.CallOption) (*obsgrpc.OffsetMediaInputCursorResponse, error) {
 	return (*Proxy)(p).OffsetMediaInputCursor(ctx, req)
 }
+func (p *ClientAsServer) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetMediaInputCursorRequest) (*obsgrpc.OffsetMediaInputCursorResponse, error) {
+	return p.OBSClient.OffsetMediaInputCursor(ctx, req)
+}
 func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.TriggerMediaInputActionRequest) (*obsgrpc.TriggerMediaInputActionResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1511,6 +1696,9 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 func (p *ProxyAsClient) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.TriggerMediaInputActionRequest, opts ...grpc.CallOption) (*obsgrpc.TriggerMediaInputActionResponse, error) {
 	return (*Proxy)(p).TriggerMediaInputAction(ctx, req)
 }
+func (p *ClientAsServer) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.TriggerMediaInputActionRequest) (*obsgrpc.TriggerMediaInputActionResponse, error) {
+	return p.OBSClient.TriggerMediaInputAction(ctx, req)
+}
 func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtualCamStatusRequest) (*obsgrpc.GetVirtualCamStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1531,6 +1719,9 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 }
 func (p *ProxyAsClient) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtualCamStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetVirtualCamStatusResponse, error) {
 	return (*Proxy)(p).GetVirtualCamStatus(ctx, req)
+}
+func (p *ClientAsServer) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtualCamStatusRequest) (*obsgrpc.GetVirtualCamStatusResponse, error) {
+	return p.OBSClient.GetVirtualCamStatus(ctx, req)
 }
 func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtualCamRequest) (*obsgrpc.ToggleVirtualCamResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1553,6 +1744,9 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 func (p *ProxyAsClient) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtualCamRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleVirtualCamResponse, error) {
 	return (*Proxy)(p).ToggleVirtualCam(ctx, req)
 }
+func (p *ClientAsServer) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtualCamRequest) (*obsgrpc.ToggleVirtualCamResponse, error) {
+	return p.OBSClient.ToggleVirtualCam(ctx, req)
+}
 func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCamRequest) (*obsgrpc.StartVirtualCamResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1572,6 +1766,9 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 func (p *ProxyAsClient) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCamRequest, opts ...grpc.CallOption) (*obsgrpc.StartVirtualCamResponse, error) {
 	return (*Proxy)(p).StartVirtualCam(ctx, req)
 }
+func (p *ClientAsServer) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCamRequest) (*obsgrpc.StartVirtualCamResponse, error) {
+	return p.OBSClient.StartVirtualCam(ctx, req)
+}
 func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamRequest) (*obsgrpc.StopVirtualCamResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1590,6 +1787,9 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 }
 func (p *ProxyAsClient) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamRequest, opts ...grpc.CallOption) (*obsgrpc.StopVirtualCamResponse, error) {
 	return (*Proxy)(p).StopVirtualCam(ctx, req)
+}
+func (p *ClientAsServer) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamRequest) (*obsgrpc.StopVirtualCamResponse, error) {
+	return p.OBSClient.StopVirtualCam(ctx, req)
 }
 func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetReplayBufferStatusRequest) (*obsgrpc.GetReplayBufferStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1612,6 +1812,9 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 func (p *ProxyAsClient) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetReplayBufferStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetReplayBufferStatusResponse, error) {
 	return (*Proxy)(p).GetReplayBufferStatus(ctx, req)
 }
+func (p *ClientAsServer) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetReplayBufferStatusRequest) (*obsgrpc.GetReplayBufferStatusResponse, error) {
+	return p.OBSClient.GetReplayBufferStatus(ctx, req)
+}
 func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleReplayBufferRequest) (*obsgrpc.ToggleReplayBufferResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1633,6 +1836,9 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 func (p *ProxyAsClient) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleReplayBufferRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleReplayBufferResponse, error) {
 	return (*Proxy)(p).ToggleReplayBuffer(ctx, req)
 }
+func (p *ClientAsServer) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleReplayBufferRequest) (*obsgrpc.ToggleReplayBufferResponse, error) {
+	return p.OBSClient.ToggleReplayBuffer(ctx, req)
+}
 func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayBufferRequest) (*obsgrpc.StartReplayBufferResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1651,6 +1857,9 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 }
 func (p *ProxyAsClient) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayBufferRequest, opts ...grpc.CallOption) (*obsgrpc.StartReplayBufferResponse, error) {
 	return (*Proxy)(p).StartReplayBuffer(ctx, req)
+}
+func (p *ClientAsServer) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayBufferRequest) (*obsgrpc.StartReplayBufferResponse, error) {
+	return p.OBSClient.StartReplayBuffer(ctx, req)
 }
 func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBufferRequest) (*obsgrpc.StopReplayBufferResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1671,6 +1880,9 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 func (p *ProxyAsClient) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBufferRequest, opts ...grpc.CallOption) (*obsgrpc.StopReplayBufferResponse, error) {
 	return (*Proxy)(p).StopReplayBuffer(ctx, req)
 }
+func (p *ClientAsServer) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBufferRequest) (*obsgrpc.StopReplayBufferResponse, error) {
+	return p.OBSClient.StopReplayBuffer(ctx, req)
+}
 func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBufferRequest) (*obsgrpc.SaveReplayBufferResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1689,6 +1901,9 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 }
 func (p *ProxyAsClient) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBufferRequest, opts ...grpc.CallOption) (*obsgrpc.SaveReplayBufferResponse, error) {
 	return (*Proxy)(p).SaveReplayBuffer(ctx, req)
+}
+func (p *ClientAsServer) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBufferRequest) (*obsgrpc.SaveReplayBufferResponse, error) {
+	return p.OBSClient.SaveReplayBuffer(ctx, req)
 }
 func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetLastReplayBufferReplayRequest) (*obsgrpc.GetLastReplayBufferReplayResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1711,6 +1926,9 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 func (p *ProxyAsClient) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetLastReplayBufferReplayRequest, opts ...grpc.CallOption) (*obsgrpc.GetLastReplayBufferReplayResponse, error) {
 	return (*Proxy)(p).GetLastReplayBufferReplay(ctx, req)
 }
+func (p *ClientAsServer) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetLastReplayBufferReplayRequest) (*obsgrpc.GetLastReplayBufferReplayResponse, error) {
+	return p.OBSClient.GetLastReplayBufferReplay(ctx, req)
+}
 func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListRequest) (*obsgrpc.GetOutputListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1731,6 +1949,9 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 }
 func (p *ProxyAsClient) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListRequest, opts ...grpc.CallOption) (*obsgrpc.GetOutputListResponse, error) {
 	return (*Proxy)(p).GetOutputList(ctx, req)
+}
+func (p *ClientAsServer) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListRequest) (*obsgrpc.GetOutputListResponse, error) {
+	return p.OBSClient.GetOutputList(ctx, req)
 }
 func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatusRequest) (*obsgrpc.GetOutputStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1762,6 +1983,9 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 func (p *ProxyAsClient) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetOutputStatusResponse, error) {
 	return (*Proxy)(p).GetOutputStatus(ctx, req)
 }
+func (p *ClientAsServer) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatusRequest) (*obsgrpc.GetOutputStatusResponse, error) {
+	return p.OBSClient.GetOutputStatus(ctx, req)
+}
 func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputRequest) (*obsgrpc.ToggleOutputResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1785,6 +2009,9 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 func (p *ProxyAsClient) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleOutputResponse, error) {
 	return (*Proxy)(p).ToggleOutput(ctx, req)
 }
+func (p *ClientAsServer) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputRequest) (*obsgrpc.ToggleOutputResponse, error) {
+	return p.OBSClient.ToggleOutput(ctx, req)
+}
 func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest) (*obsgrpc.StartOutputResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1806,6 +2033,9 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 func (p *ProxyAsClient) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest, opts ...grpc.CallOption) (*obsgrpc.StartOutputResponse, error) {
 	return (*Proxy)(p).StartOutput(ctx, req)
 }
+func (p *ClientAsServer) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest) (*obsgrpc.StartOutputResponse, error) {
+	return p.OBSClient.StartOutput(ctx, req)
+}
 func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) (*obsgrpc.StopOutputResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1826,6 +2056,9 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 }
 func (p *ProxyAsClient) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest, opts ...grpc.CallOption) (*obsgrpc.StopOutputResponse, error) {
 	return (*Proxy)(p).StopOutput(ctx, req)
+}
+func (p *ClientAsServer) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) (*obsgrpc.StopOutputResponse, error) {
+	return p.OBSClient.StopOutput(ctx, req)
 }
 func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSettingsRequest) (*obsgrpc.GetOutputSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1850,6 +2083,9 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 func (p *ProxyAsClient) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.GetOutputSettingsResponse, error) {
 	return (*Proxy)(p).GetOutputSettings(ctx, req)
 }
+func (p *ClientAsServer) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSettingsRequest) (*obsgrpc.GetOutputSettingsResponse, error) {
+	return p.OBSClient.GetOutputSettings(ctx, req)
+}
 func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSettingsRequest) (*obsgrpc.SetOutputSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1871,6 +2107,9 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 }
 func (p *ProxyAsClient) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetOutputSettingsResponse, error) {
 	return (*Proxy)(p).SetOutputSettings(ctx, req)
+}
+func (p *ClientAsServer) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSettingsRequest) (*obsgrpc.SetOutputSettingsResponse, error) {
+	return p.OBSClient.SetOutputSettings(ctx, req)
 }
 func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatusRequest) (*obsgrpc.GetRecordStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1897,6 +2136,9 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 func (p *ProxyAsClient) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetRecordStatusResponse, error) {
 	return (*Proxy)(p).GetRecordStatus(ctx, req)
 }
+func (p *ClientAsServer) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatusRequest) (*obsgrpc.GetRecordStatusResponse, error) {
+	return p.OBSClient.GetRecordStatus(ctx, req)
+}
 func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordRequest) (*obsgrpc.ToggleRecordResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1918,6 +2160,9 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 func (p *ProxyAsClient) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleRecordResponse, error) {
 	return (*Proxy)(p).ToggleRecord(ctx, req)
 }
+func (p *ClientAsServer) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordRequest) (*obsgrpc.ToggleRecordResponse, error) {
+	return p.OBSClient.ToggleRecord(ctx, req)
+}
 func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest) (*obsgrpc.StartRecordResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1936,6 +2181,9 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 }
 func (p *ProxyAsClient) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest, opts ...grpc.CallOption) (*obsgrpc.StartRecordResponse, error) {
 	return (*Proxy)(p).StartRecord(ctx, req)
+}
+func (p *ClientAsServer) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest) (*obsgrpc.StartRecordResponse, error) {
+	return p.OBSClient.StartRecord(ctx, req)
 }
 func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) (*obsgrpc.StopRecordResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1958,6 +2206,9 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 func (p *ProxyAsClient) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest, opts ...grpc.CallOption) (*obsgrpc.StopRecordResponse, error) {
 	return (*Proxy)(p).StopRecord(ctx, req)
 }
+func (p *ClientAsServer) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) (*obsgrpc.StopRecordResponse, error) {
+	return p.OBSClient.StopRecord(ctx, req)
+}
 func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecordPauseRequest) (*obsgrpc.ToggleRecordPauseResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -1976,6 +2227,9 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 }
 func (p *ProxyAsClient) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecordPauseRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleRecordPauseResponse, error) {
 	return (*Proxy)(p).ToggleRecordPause(ctx, req)
+}
+func (p *ClientAsServer) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecordPauseRequest) (*obsgrpc.ToggleRecordPauseResponse, error) {
+	return p.OBSClient.ToggleRecordPause(ctx, req)
 }
 func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest) (*obsgrpc.PauseRecordResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -1996,6 +2250,9 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 func (p *ProxyAsClient) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest, opts ...grpc.CallOption) (*obsgrpc.PauseRecordResponse, error) {
 	return (*Proxy)(p).PauseRecord(ctx, req)
 }
+func (p *ClientAsServer) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest) (*obsgrpc.PauseRecordResponse, error) {
+	return p.OBSClient.PauseRecord(ctx, req)
+}
 func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordRequest) (*obsgrpc.ResumeRecordResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2015,6 +2272,9 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 func (p *ProxyAsClient) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordRequest, opts ...grpc.CallOption) (*obsgrpc.ResumeRecordResponse, error) {
 	return (*Proxy)(p).ResumeRecord(ctx, req)
 }
+func (p *ClientAsServer) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordRequest) (*obsgrpc.ResumeRecordResponse, error) {
+	return p.OBSClient.ResumeRecord(ctx, req)
+}
 func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFileRequest) (*obsgrpc.SplitRecordFileResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2033,6 +2293,9 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 }
 func (p *ProxyAsClient) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFileRequest, opts ...grpc.CallOption) (*obsgrpc.SplitRecordFileResponse, error) {
 	return (*Proxy)(p).SplitRecordFile(ctx, req)
+}
+func (p *ClientAsServer) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFileRequest) (*obsgrpc.SplitRecordFileResponse, error) {
+	return p.OBSClient.SplitRecordFile(ctx, req)
 }
 func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateRecordChapterRequest) (*obsgrpc.CreateRecordChapterResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2054,6 +2317,9 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 }
 func (p *ProxyAsClient) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateRecordChapterRequest, opts ...grpc.CallOption) (*obsgrpc.CreateRecordChapterResponse, error) {
 	return (*Proxy)(p).CreateRecordChapter(ctx, req)
+}
+func (p *ClientAsServer) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateRecordChapterRequest) (*obsgrpc.CreateRecordChapterResponse, error) {
+	return p.OBSClient.CreateRecordChapter(ctx, req)
 }
 func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemListRequest) (*obsgrpc.GetSceneItemListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2079,6 +2345,9 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 func (p *ProxyAsClient) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemListResponse, error) {
 	return (*Proxy)(p).GetSceneItemList(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemListRequest) (*obsgrpc.GetSceneItemListResponse, error) {
+	return p.OBSClient.GetSceneItemList(ctx, req)
+}
 func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroupSceneItemListRequest) (*obsgrpc.GetGroupSceneItemListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2102,6 +2371,9 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 }
 func (p *ProxyAsClient) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroupSceneItemListRequest, opts ...grpc.CallOption) (*obsgrpc.GetGroupSceneItemListResponse, error) {
 	return (*Proxy)(p).GetGroupSceneItemList(ctx, req)
+}
+func (p *ClientAsServer) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroupSceneItemListRequest) (*obsgrpc.GetGroupSceneItemListResponse, error) {
+	return p.OBSClient.GetGroupSceneItemList(ctx, req)
 }
 func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdRequest) (*obsgrpc.GetSceneItemIdResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2129,6 +2401,9 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 func (p *ProxyAsClient) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemIdResponse, error) {
 	return (*Proxy)(p).GetSceneItemId(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdRequest) (*obsgrpc.GetSceneItemIdResponse, error) {
+	return p.OBSClient.GetSceneItemId(ctx, req)
+}
 func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneItemSourceRequest) (*obsgrpc.GetSceneItemSourceResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2154,6 +2429,9 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 }
 func (p *ProxyAsClient) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneItemSourceRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemSourceResponse, error) {
 	return (*Proxy)(p).GetSceneItemSource(ctx, req)
+}
+func (p *ClientAsServer) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneItemSourceRequest) (*obsgrpc.GetSceneItemSourceResponse, error) {
+	return p.OBSClient.GetSceneItemSource(ctx, req)
 }
 func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneItemRequest) (*obsgrpc.CreateSceneItemResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2182,6 +2460,9 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 func (p *ProxyAsClient) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneItemRequest, opts ...grpc.CallOption) (*obsgrpc.CreateSceneItemResponse, error) {
 	return (*Proxy)(p).CreateSceneItem(ctx, req)
 }
+func (p *ClientAsServer) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneItemRequest) (*obsgrpc.CreateSceneItemResponse, error) {
+	return p.OBSClient.CreateSceneItem(ctx, req)
+}
 func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneItemRequest) (*obsgrpc.RemoveSceneItemResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2204,6 +2485,9 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 }
 func (p *ProxyAsClient) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneItemRequest, opts ...grpc.CallOption) (*obsgrpc.RemoveSceneItemResponse, error) {
 	return (*Proxy)(p).RemoveSceneItem(ctx, req)
+}
+func (p *ClientAsServer) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneItemRequest) (*obsgrpc.RemoveSceneItemResponse, error) {
+	return p.OBSClient.RemoveSceneItem(ctx, req)
 }
 func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSceneItemRequest) (*obsgrpc.DuplicateSceneItemResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2232,6 +2516,9 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 func (p *ProxyAsClient) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSceneItemRequest, opts ...grpc.CallOption) (*obsgrpc.DuplicateSceneItemResponse, error) {
 	return (*Proxy)(p).DuplicateSceneItem(ctx, req)
 }
+func (p *ClientAsServer) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSceneItemRequest) (*obsgrpc.DuplicateSceneItemResponse, error) {
+	return p.OBSClient.DuplicateSceneItem(ctx, req)
+}
 func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetSceneItemTransformRequest) (*obsgrpc.GetSceneItemTransformResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2257,6 +2544,9 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 func (p *ProxyAsClient) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetSceneItemTransformRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemTransformResponse, error) {
 	return (*Proxy)(p).GetSceneItemTransform(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetSceneItemTransformRequest) (*obsgrpc.GetSceneItemTransformResponse, error) {
+	return p.OBSClient.GetSceneItemTransform(ctx, req)
+}
 func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetSceneItemTransformRequest) (*obsgrpc.SetSceneItemTransformResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2280,6 +2570,9 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 }
 func (p *ProxyAsClient) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetSceneItemTransformRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneItemTransformResponse, error) {
 	return (*Proxy)(p).SetSceneItemTransform(ctx, req)
+}
+func (p *ClientAsServer) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetSceneItemTransformRequest) (*obsgrpc.SetSceneItemTransformResponse, error) {
+	return p.OBSClient.SetSceneItemTransform(ctx, req)
 }
 func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneItemEnabledRequest) (*obsgrpc.GetSceneItemEnabledResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2306,6 +2599,9 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 func (p *ProxyAsClient) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneItemEnabledRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemEnabledResponse, error) {
 	return (*Proxy)(p).GetSceneItemEnabled(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneItemEnabledRequest) (*obsgrpc.GetSceneItemEnabledResponse, error) {
+	return p.OBSClient.GetSceneItemEnabled(ctx, req)
+}
 func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneItemEnabledRequest) (*obsgrpc.SetSceneItemEnabledResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2329,6 +2625,9 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 }
 func (p *ProxyAsClient) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneItemEnabledRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneItemEnabledResponse, error) {
 	return (*Proxy)(p).SetSceneItemEnabled(ctx, req)
+}
+func (p *ClientAsServer) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneItemEnabledRequest) (*obsgrpc.SetSceneItemEnabledResponse, error) {
+	return p.OBSClient.SetSceneItemEnabled(ctx, req)
 }
 func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneItemLockedRequest) (*obsgrpc.GetSceneItemLockedResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2355,6 +2654,9 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 func (p *ProxyAsClient) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneItemLockedRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemLockedResponse, error) {
 	return (*Proxy)(p).GetSceneItemLocked(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneItemLockedRequest) (*obsgrpc.GetSceneItemLockedResponse, error) {
+	return p.OBSClient.GetSceneItemLocked(ctx, req)
+}
 func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneItemLockedRequest) (*obsgrpc.SetSceneItemLockedResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2378,6 +2680,9 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 }
 func (p *ProxyAsClient) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneItemLockedRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneItemLockedResponse, error) {
 	return (*Proxy)(p).SetSceneItemLocked(ctx, req)
+}
+func (p *ClientAsServer) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneItemLockedRequest) (*obsgrpc.SetSceneItemLockedResponse, error) {
+	return p.OBSClient.SetSceneItemLocked(ctx, req)
 }
 func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItemIndexRequest) (*obsgrpc.GetSceneItemIndexResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2404,6 +2709,9 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 func (p *ProxyAsClient) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItemIndexRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemIndexResponse, error) {
 	return (*Proxy)(p).GetSceneItemIndex(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItemIndexRequest) (*obsgrpc.GetSceneItemIndexResponse, error) {
+	return p.OBSClient.GetSceneItemIndex(ctx, req)
+}
 func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItemIndexRequest) (*obsgrpc.SetSceneItemIndexResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2427,6 +2735,9 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 }
 func (p *ProxyAsClient) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItemIndexRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneItemIndexResponse, error) {
 	return (*Proxy)(p).SetSceneItemIndex(ctx, req)
+}
+func (p *ClientAsServer) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItemIndexRequest) (*obsgrpc.SetSceneItemIndexResponse, error) {
+	return p.OBSClient.SetSceneItemIndex(ctx, req)
 }
 func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetSceneItemBlendModeRequest) (*obsgrpc.GetSceneItemBlendModeResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2453,6 +2764,9 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 func (p *ProxyAsClient) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetSceneItemBlendModeRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneItemBlendModeResponse, error) {
 	return (*Proxy)(p).GetSceneItemBlendMode(ctx, req)
 }
+func (p *ClientAsServer) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetSceneItemBlendModeRequest) (*obsgrpc.GetSceneItemBlendModeResponse, error) {
+	return p.OBSClient.GetSceneItemBlendMode(ctx, req)
+}
 func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetSceneItemBlendModeRequest) (*obsgrpc.SetSceneItemBlendModeResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2476,6 +2790,9 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 }
 func (p *ProxyAsClient) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetSceneItemBlendModeRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneItemBlendModeResponse, error) {
 	return (*Proxy)(p).SetSceneItemBlendMode(ctx, req)
+}
+func (p *ClientAsServer) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetSceneItemBlendModeRequest) (*obsgrpc.SetSceneItemBlendModeResponse, error) {
+	return p.OBSClient.SetSceneItemBlendMode(ctx, req)
 }
 func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListRequest) (*obsgrpc.GetSceneListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2502,6 +2819,9 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 func (p *ProxyAsClient) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneListResponse, error) {
 	return (*Proxy)(p).GetSceneList(ctx, req)
 }
+func (p *ClientAsServer) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListRequest) (*obsgrpc.GetSceneListResponse, error) {
+	return p.OBSClient.GetSceneList(ctx, req)
+}
 func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListRequest) (*obsgrpc.GetGroupListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2522,6 +2842,9 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 }
 func (p *ProxyAsClient) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListRequest, opts ...grpc.CallOption) (*obsgrpc.GetGroupListResponse, error) {
 	return (*Proxy)(p).GetGroupList(ctx, req)
+}
+func (p *ClientAsServer) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListRequest) (*obsgrpc.GetGroupListResponse, error) {
+	return p.OBSClient.GetGroupList(ctx, req)
 }
 func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurrentProgramSceneRequest) (*obsgrpc.GetCurrentProgramSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2547,6 +2870,9 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 func (p *ProxyAsClient) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurrentProgramSceneRequest, opts ...grpc.CallOption) (*obsgrpc.GetCurrentProgramSceneResponse, error) {
 	return (*Proxy)(p).GetCurrentProgramScene(ctx, req)
 }
+func (p *ClientAsServer) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurrentProgramSceneRequest) (*obsgrpc.GetCurrentProgramSceneResponse, error) {
+	return p.OBSClient.GetCurrentProgramScene(ctx, req)
+}
 func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurrentProgramSceneRequest) (*obsgrpc.SetCurrentProgramSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2568,6 +2894,9 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 }
 func (p *ProxyAsClient) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurrentProgramSceneRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentProgramSceneResponse, error) {
 	return (*Proxy)(p).SetCurrentProgramScene(ctx, req)
+}
+func (p *ClientAsServer) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurrentProgramSceneRequest) (*obsgrpc.SetCurrentProgramSceneResponse, error) {
+	return p.OBSClient.SetCurrentProgramScene(ctx, req)
 }
 func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurrentPreviewSceneRequest) (*obsgrpc.GetCurrentPreviewSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2593,6 +2922,9 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 func (p *ProxyAsClient) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurrentPreviewSceneRequest, opts ...grpc.CallOption) (*obsgrpc.GetCurrentPreviewSceneResponse, error) {
 	return (*Proxy)(p).GetCurrentPreviewScene(ctx, req)
 }
+func (p *ClientAsServer) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurrentPreviewSceneRequest) (*obsgrpc.GetCurrentPreviewSceneResponse, error) {
+	return p.OBSClient.GetCurrentPreviewScene(ctx, req)
+}
 func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurrentPreviewSceneRequest) (*obsgrpc.SetCurrentPreviewSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2614,6 +2946,9 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 }
 func (p *ProxyAsClient) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurrentPreviewSceneRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentPreviewSceneResponse, error) {
 	return (*Proxy)(p).SetCurrentPreviewScene(ctx, req)
+}
+func (p *ClientAsServer) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurrentPreviewSceneRequest) (*obsgrpc.SetCurrentPreviewSceneResponse, error) {
+	return p.OBSClient.SetCurrentPreviewScene(ctx, req)
 }
 func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest) (*obsgrpc.CreateSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2638,6 +2973,9 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 func (p *ProxyAsClient) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest, opts ...grpc.CallOption) (*obsgrpc.CreateSceneResponse, error) {
 	return (*Proxy)(p).CreateScene(ctx, req)
 }
+func (p *ClientAsServer) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest) (*obsgrpc.CreateSceneResponse, error) {
+	return p.OBSClient.CreateScene(ctx, req)
+}
 func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest) (*obsgrpc.RemoveSceneResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2659,6 +2997,9 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 }
 func (p *ProxyAsClient) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest, opts ...grpc.CallOption) (*obsgrpc.RemoveSceneResponse, error) {
 	return (*Proxy)(p).RemoveScene(ctx, req)
+}
+func (p *ClientAsServer) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest) (*obsgrpc.RemoveSceneResponse, error) {
+	return p.OBSClient.RemoveScene(ctx, req)
 }
 func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameRequest) (*obsgrpc.SetSceneNameResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2682,6 +3023,9 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 }
 func (p *ProxyAsClient) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneNameResponse, error) {
 	return (*Proxy)(p).SetSceneName(ctx, req)
+}
+func (p *ClientAsServer) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameRequest) (*obsgrpc.SetSceneNameResponse, error) {
+	return p.OBSClient.SetSceneName(ctx, req)
 }
 func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.GetSceneSceneTransitionOverrideRequest) (*obsgrpc.GetSceneSceneTransitionOverrideResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2708,6 +3052,9 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 func (p *ProxyAsClient) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.GetSceneSceneTransitionOverrideRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneSceneTransitionOverrideResponse, error) {
 	return (*Proxy)(p).GetSceneSceneTransitionOverride(ctx, req)
 }
+func (p *ClientAsServer) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.GetSceneSceneTransitionOverrideRequest) (*obsgrpc.GetSceneSceneTransitionOverrideResponse, error) {
+	return p.OBSClient.GetSceneSceneTransitionOverride(ctx, req)
+}
 func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.SetSceneSceneTransitionOverrideRequest) (*obsgrpc.SetSceneSceneTransitionOverrideResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2731,6 +3078,9 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 }
 func (p *ProxyAsClient) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.SetSceneSceneTransitionOverrideRequest, opts ...grpc.CallOption) (*obsgrpc.SetSceneSceneTransitionOverrideResponse, error) {
 	return (*Proxy)(p).SetSceneSceneTransitionOverride(ctx, req)
+}
+func (p *ClientAsServer) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrpc.SetSceneSceneTransitionOverrideRequest) (*obsgrpc.SetSceneSceneTransitionOverrideResponse, error) {
+	return p.OBSClient.SetSceneSceneTransitionOverride(ctx, req)
 }
 func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiveRequest) (*obsgrpc.GetSourceActiveResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2756,6 +3106,9 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 }
 func (p *ProxyAsClient) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiveRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceActiveResponse, error) {
 	return (*Proxy)(p).GetSourceActive(ctx, req)
+}
+func (p *ClientAsServer) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiveRequest) (*obsgrpc.GetSourceActiveResponse, error) {
+	return p.OBSClient.GetSourceActive(ctx, req)
 }
 func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceScreenshotRequest) (*obsgrpc.GetSourceScreenshotResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2785,6 +3138,9 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 func (p *ProxyAsClient) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceScreenshotRequest, opts ...grpc.CallOption) (*obsgrpc.GetSourceScreenshotResponse, error) {
 	return (*Proxy)(p).GetSourceScreenshot(ctx, req)
 }
+func (p *ClientAsServer) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceScreenshotRequest) (*obsgrpc.GetSourceScreenshotResponse, error) {
+	return p.OBSClient.GetSourceScreenshot(ctx, req)
+}
 func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourceScreenshotRequest) (*obsgrpc.SaveSourceScreenshotResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2811,6 +3167,9 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 }
 func (p *ProxyAsClient) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourceScreenshotRequest, opts ...grpc.CallOption) (*obsgrpc.SaveSourceScreenshotResponse, error) {
 	return (*Proxy)(p).SaveSourceScreenshot(ctx, req)
+}
+func (p *ClientAsServer) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourceScreenshotRequest) (*obsgrpc.SaveSourceScreenshotResponse, error) {
+	return p.OBSClient.SaveSourceScreenshot(ctx, req)
 }
 func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatusRequest) (*obsgrpc.GetStreamStatusResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2840,6 +3199,9 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 func (p *ProxyAsClient) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatusRequest, opts ...grpc.CallOption) (*obsgrpc.GetStreamStatusResponse, error) {
 	return (*Proxy)(p).GetStreamStatus(ctx, req)
 }
+func (p *ClientAsServer) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatusRequest) (*obsgrpc.GetStreamStatusResponse, error) {
+	return p.OBSClient.GetStreamStatus(ctx, req)
+}
 func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamRequest) (*obsgrpc.ToggleStreamResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2861,6 +3223,9 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 func (p *ProxyAsClient) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamRequest, opts ...grpc.CallOption) (*obsgrpc.ToggleStreamResponse, error) {
 	return (*Proxy)(p).ToggleStream(ctx, req)
 }
+func (p *ClientAsServer) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamRequest) (*obsgrpc.ToggleStreamResponse, error) {
+	return p.OBSClient.ToggleStream(ctx, req)
+}
 func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest) (*obsgrpc.StartStreamResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2880,6 +3245,9 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 func (p *ProxyAsClient) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest, opts ...grpc.CallOption) (*obsgrpc.StartStreamResponse, error) {
 	return (*Proxy)(p).StartStream(ctx, req)
 }
+func (p *ClientAsServer) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest) (*obsgrpc.StartStreamResponse, error) {
+	return p.OBSClient.StartStream(ctx, req)
+}
 func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) (*obsgrpc.StopStreamResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2898,6 +3266,9 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 }
 func (p *ProxyAsClient) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest, opts ...grpc.CallOption) (*obsgrpc.StopStreamResponse, error) {
 	return (*Proxy)(p).StopStream(ctx, req)
+}
+func (p *ClientAsServer) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) (*obsgrpc.StopStreamResponse, error) {
+	return p.OBSClient.StopStream(ctx, req)
 }
 func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCaptionRequest) (*obsgrpc.SendStreamCaptionResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2920,6 +3291,9 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 func (p *ProxyAsClient) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCaptionRequest, opts ...grpc.CallOption) (*obsgrpc.SendStreamCaptionResponse, error) {
 	return (*Proxy)(p).SendStreamCaption(ctx, req)
 }
+func (p *ClientAsServer) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCaptionRequest) (*obsgrpc.SendStreamCaptionResponse, error) {
+	return p.OBSClient.SendStreamCaption(ctx, req)
+}
 func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTransitionKindListRequest) (*obsgrpc.GetTransitionKindListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -2940,6 +3314,9 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 }
 func (p *ProxyAsClient) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTransitionKindListRequest, opts ...grpc.CallOption) (*obsgrpc.GetTransitionKindListResponse, error) {
 	return (*Proxy)(p).GetTransitionKindList(ctx, req)
+}
+func (p *ClientAsServer) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTransitionKindListRequest) (*obsgrpc.GetTransitionKindListResponse, error) {
+	return p.OBSClient.GetTransitionKindList(ctx, req)
 }
 func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetSceneTransitionListRequest) (*obsgrpc.GetSceneTransitionListResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2964,6 +3341,9 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 }
 func (p *ProxyAsClient) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetSceneTransitionListRequest, opts ...grpc.CallOption) (*obsgrpc.GetSceneTransitionListResponse, error) {
 	return (*Proxy)(p).GetSceneTransitionList(ctx, req)
+}
+func (p *ClientAsServer) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetSceneTransitionListRequest) (*obsgrpc.GetSceneTransitionListResponse, error) {
+	return p.OBSClient.GetSceneTransitionList(ctx, req)
 }
 func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionRequest) (*obsgrpc.GetCurrentSceneTransitionResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -2992,6 +3372,9 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 func (p *ProxyAsClient) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionRequest, opts ...grpc.CallOption) (*obsgrpc.GetCurrentSceneTransitionResponse, error) {
 	return (*Proxy)(p).GetCurrentSceneTransition(ctx, req)
 }
+func (p *ClientAsServer) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionRequest) (*obsgrpc.GetCurrentSceneTransitionResponse, error) {
+	return p.OBSClient.GetCurrentSceneTransition(ctx, req)
+}
 func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionRequest) (*obsgrpc.SetCurrentSceneTransitionResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3013,6 +3396,9 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 func (p *ProxyAsClient) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentSceneTransitionResponse, error) {
 	return (*Proxy)(p).SetCurrentSceneTransition(ctx, req)
 }
+func (p *ClientAsServer) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionRequest) (*obsgrpc.SetCurrentSceneTransitionResponse, error) {
+	return p.OBSClient.SetCurrentSceneTransition(ctx, req)
+}
 func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionDurationRequest) (*obsgrpc.SetCurrentSceneTransitionDurationResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3033,6 +3419,9 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 }
 func (p *ProxyAsClient) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionDurationRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentSceneTransitionDurationResponse, error) {
 	return (*Proxy)(p).SetCurrentSceneTransitionDuration(ctx, req)
+}
+func (p *ClientAsServer) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionDurationRequest) (*obsgrpc.SetCurrentSceneTransitionDurationResponse, error) {
+	return p.OBSClient.SetCurrentSceneTransitionDuration(ctx, req)
 }
 func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionSettingsRequest) (*obsgrpc.SetCurrentSceneTransitionSettingsResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -3056,6 +3445,9 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 func (p *ProxyAsClient) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionSettingsRequest, opts ...grpc.CallOption) (*obsgrpc.SetCurrentSceneTransitionSettingsResponse, error) {
 	return (*Proxy)(p).SetCurrentSceneTransitionSettings(ctx, req)
 }
+func (p *ClientAsServer) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsgrpc.SetCurrentSceneTransitionSettingsRequest) (*obsgrpc.SetCurrentSceneTransitionSettingsResponse, error) {
+	return p.OBSClient.SetCurrentSceneTransitionSettings(ctx, req)
+}
 func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionCursorRequest) (*obsgrpc.GetCurrentSceneTransitionCursorResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3077,6 +3469,9 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 func (p *ProxyAsClient) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionCursorRequest, opts ...grpc.CallOption) (*obsgrpc.GetCurrentSceneTransitionCursorResponse, error) {
 	return (*Proxy)(p).GetCurrentSceneTransitionCursor(ctx, req)
 }
+func (p *ClientAsServer) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrpc.GetCurrentSceneTransitionCursorRequest) (*obsgrpc.GetCurrentSceneTransitionCursorResponse, error) {
+	return p.OBSClient.GetCurrentSceneTransitionCursor(ctx, req)
+}
 func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.TriggerStudioModeTransitionRequest) (*obsgrpc.TriggerStudioModeTransitionResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3095,6 +3490,9 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 }
 func (p *ProxyAsClient) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.TriggerStudioModeTransitionRequest, opts ...grpc.CallOption) (*obsgrpc.TriggerStudioModeTransitionResponse, error) {
 	return (*Proxy)(p).TriggerStudioModeTransition(ctx, req)
+}
+func (p *ClientAsServer) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.TriggerStudioModeTransitionRequest) (*obsgrpc.TriggerStudioModeTransitionResponse, error) {
+	return p.OBSClient.TriggerStudioModeTransition(ctx, req)
 }
 func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositionRequest) (*obsgrpc.SetTBarPositionResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -3118,6 +3516,9 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 func (p *ProxyAsClient) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositionRequest, opts ...grpc.CallOption) (*obsgrpc.SetTBarPositionResponse, error) {
 	return (*Proxy)(p).SetTBarPosition(ctx, req)
 }
+func (p *ClientAsServer) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositionRequest) (*obsgrpc.SetTBarPositionResponse, error) {
+	return p.OBSClient.SetTBarPosition(ctx, req)
+}
 func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudioModeEnabledRequest) (*obsgrpc.GetStudioModeEnabledResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3139,6 +3540,9 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 func (p *ProxyAsClient) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudioModeEnabledRequest, opts ...grpc.CallOption) (*obsgrpc.GetStudioModeEnabledResponse, error) {
 	return (*Proxy)(p).GetStudioModeEnabled(ctx, req)
 }
+func (p *ClientAsServer) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudioModeEnabledRequest) (*obsgrpc.GetStudioModeEnabledResponse, error) {
+	return p.OBSClient.GetStudioModeEnabled(ctx, req)
+}
 func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudioModeEnabledRequest) (*obsgrpc.SetStudioModeEnabledResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3159,6 +3563,9 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 }
 func (p *ProxyAsClient) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudioModeEnabledRequest, opts ...grpc.CallOption) (*obsgrpc.SetStudioModeEnabledResponse, error) {
 	return (*Proxy)(p).SetStudioModeEnabled(ctx, req)
+}
+func (p *ClientAsServer) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudioModeEnabledRequest) (*obsgrpc.SetStudioModeEnabledResponse, error) {
+	return p.OBSClient.SetStudioModeEnabled(ctx, req)
 }
 func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.OpenInputPropertiesDialogRequest) (*obsgrpc.OpenInputPropertiesDialogResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -3182,6 +3589,9 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 func (p *ProxyAsClient) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.OpenInputPropertiesDialogRequest, opts ...grpc.CallOption) (*obsgrpc.OpenInputPropertiesDialogResponse, error) {
 	return (*Proxy)(p).OpenInputPropertiesDialog(ctx, req)
 }
+func (p *ClientAsServer) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.OpenInputPropertiesDialogRequest) (*obsgrpc.OpenInputPropertiesDialogResponse, error) {
+	return p.OBSClient.OpenInputPropertiesDialog(ctx, req)
+}
 func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInputFiltersDialogRequest) (*obsgrpc.OpenInputFiltersDialogResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3203,6 +3613,9 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 }
 func (p *ProxyAsClient) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInputFiltersDialogRequest, opts ...grpc.CallOption) (*obsgrpc.OpenInputFiltersDialogResponse, error) {
 	return (*Proxy)(p).OpenInputFiltersDialog(ctx, req)
+}
+func (p *ClientAsServer) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInputFiltersDialogRequest) (*obsgrpc.OpenInputFiltersDialogResponse, error) {
+	return p.OBSClient.OpenInputFiltersDialog(ctx, req)
 }
 func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenInputInteractDialogRequest) (*obsgrpc.OpenInputInteractDialogResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -3226,6 +3639,9 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 func (p *ProxyAsClient) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenInputInteractDialogRequest, opts ...grpc.CallOption) (*obsgrpc.OpenInputInteractDialogResponse, error) {
 	return (*Proxy)(p).OpenInputInteractDialog(ctx, req)
 }
+func (p *ClientAsServer) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenInputInteractDialogRequest) (*obsgrpc.OpenInputInteractDialogResponse, error) {
+	return p.OBSClient.OpenInputInteractDialog(ctx, req)
+}
 func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListRequest) (*obsgrpc.GetMonitorListResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3246,6 +3662,9 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 }
 func (p *ProxyAsClient) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListRequest, opts ...grpc.CallOption) (*obsgrpc.GetMonitorListResponse, error) {
 	return (*Proxy)(p).GetMonitorList(ctx, req)
+}
+func (p *ClientAsServer) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListRequest) (*obsgrpc.GetMonitorListResponse, error) {
+	return p.OBSClient.GetMonitorList(ctx, req)
 }
 func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVideoMixProjectorRequest) (*obsgrpc.OpenVideoMixProjectorResponse, error) {
 	client, onFinish, err := p.GetClient()
@@ -3270,6 +3689,9 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 func (p *ProxyAsClient) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVideoMixProjectorRequest, opts ...grpc.CallOption) (*obsgrpc.OpenVideoMixProjectorResponse, error) {
 	return (*Proxy)(p).OpenVideoMixProjector(ctx, req)
 }
+func (p *ClientAsServer) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVideoMixProjectorRequest) (*obsgrpc.OpenVideoMixProjectorResponse, error) {
+	return p.OBSClient.OpenVideoMixProjector(ctx, req)
+}
 func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSourceProjectorRequest) (*obsgrpc.OpenSourceProjectorResponse, error) {
 	client, onFinish, err := p.GetClient()
 	if onFinish != nil {
@@ -3293,4 +3715,7 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 }
 func (p *ProxyAsClient) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSourceProjectorRequest, opts ...grpc.CallOption) (*obsgrpc.OpenSourceProjectorResponse, error) {
 	return (*Proxy)(p).OpenSourceProjector(ctx, req)
+}
+func (p *ClientAsServer) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSourceProjectorRequest) (*obsgrpc.OpenSourceProjectorResponse, error) {
+	return p.OBSClient.OpenSourceProjector(ctx, req)
 }

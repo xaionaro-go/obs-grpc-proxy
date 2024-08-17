@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	goobs "github.com/andreykaipov/goobs"
+	"github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 	obsgrpc "github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 )
 
@@ -24,6 +25,13 @@ var _ obsgrpc.OBSServer = (*Proxy)(nil)
 type ProxyAsClient Proxy
 
 var _ obsgrpc.OBSClient = (*ProxyAsClient)(nil)
+
+type ClientAsServer struct {
+	obs_grpc.UnimplementedOBSServer
+	obs_grpc.OBSClient
+}
+
+var _ obsgrpc.OBSServer = (*ClientAsServer)(nil)
 
 func New(getClient GetClientFunc) *Proxy {
 	return &Proxy{

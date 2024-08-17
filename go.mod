@@ -5,7 +5,6 @@ go 1.22.1
 require (
 	github.com/andreykaipov/goobs v1.4.1
 	github.com/facebookincubator/go-belt v0.0.0-20240707112111-9cf347bf49e2
-	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.1
@@ -19,6 +18,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/mmcloughlin/profile v0.1.1 // indirect
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 )
 
 require (
