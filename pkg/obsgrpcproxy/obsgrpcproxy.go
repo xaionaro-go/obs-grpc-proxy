@@ -76,6 +76,10 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 		result.Union = &obsgrpc.Any_Float{Float: float64(in)}
 	case bool:
 		result.Union = &obsgrpc.Any_Bool{Bool: in}
+	case map[string]any:
+		result.Union = &obsgrpc.Any_Object{
+			Object: toAbstractObject(in),
+		}
 	default:
 		panic(fmt.Errorf("unexpected type %T", in))
 	}
