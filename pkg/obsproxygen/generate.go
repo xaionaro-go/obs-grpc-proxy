@@ -264,13 +264,13 @@ func generateRequest(
 		jen.Id("_ret").Op("*").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Response"),
 		jen.Id("_err").Error(),
 	).Block(
-		jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Debugf").Call(jen.Id("ctx"), jen.Lit(request.RequestType)),
+		jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Tracef").Call(jen.Id("ctx"), jen.Lit(request.RequestType)),
 		jen.Defer().Func().Params().Block(
 			jen.Id("r").Op(":=").Id("recover").Call(),
 			jen.If(jen.Id("r").Op("!=").Nil()).Block(
 				jen.Id("_err").Op("=").Qual("fmt", "Errorf").Call(jen.Lit("got panic: %v\n\n%s"), jen.Id("r"), jen.Qual("runtime/debug", "Stack").Call()),
 			),
-			jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Debugf").Call(jen.Id("ctx"), jen.Lit("/"+request.RequestType+": %v"), jen.Id("_err")),
+			jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Tracef").Call(jen.Id("ctx"), jen.Lit("/"+request.RequestType+": %v"), jen.Id("_err")),
 		).Call(),
 		jen.List(jen.Id("client"), jen.Id("onFinish"), jen.Id("err")).Op(":=").Id("p").Dot("GetClient").Call(),
 		jen.If(jen.Id("onFinish").Op("!=").Nil()).Block(
