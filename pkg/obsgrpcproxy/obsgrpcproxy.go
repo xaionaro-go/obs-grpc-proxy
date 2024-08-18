@@ -78,7 +78,7 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 		result.Union = &obsgrpc.Any_Bool{Bool: in}
 	case map[string]any:
 		result.Union = &obsgrpc.Any_Object{
-			Object: toAbstractObject(in),
+			Object: ToAbstractObject(in),
 		}
 	default:
 		panic(fmt.Errorf("unexpected type %T", in))
@@ -97,16 +97,16 @@ func anyProtobuf2Go(in *obsgrpc.Any) any {
 	case *obsgrpc.Any_Bool:
 		return in.Bool
 	case *obsgrpc.Any_Object:
-		return fromAbstractObject[map[string]any](in.Object)
+		return FromAbstractObject[map[string]any](in.Object)
 	default:
 		panic(fmt.Errorf("unexpected type: %T", in))
 	}
 }
 
-func toAbstractObjects[T any](in []T) []*obsgrpc.AbstractObject {
+func ToAbstractObjects[T any](in []T) []*obsgrpc.AbstractObject {
 	result := make([]*obsgrpc.AbstractObject, 0, len(in))
 	for _, item := range in {
-		result = append(result, toAbstractObject(item))
+		result = append(result, ToAbstractObject(item))
 	}
 	return result
 }
@@ -137,7 +137,7 @@ func ptrInt64ToInt(in *int64) *int {
 	return &i
 }
 
-func toAbstractObject[T any](in T) *obsgrpc.AbstractObject {
+func ToAbstractObject[T any](in T) *obsgrpc.AbstractObject {
 	return toAbstractObjectViaJSON(in)
 }
 
@@ -161,7 +161,7 @@ func toAbstractObjectViaJSON[T any](in T) *obsgrpc.AbstractObject {
 	return result
 }
 
-func fromAbstractObject[T any](in *obsgrpc.AbstractObject) T {
+func FromAbstractObject[T any](in *obsgrpc.AbstractObject) T {
 	return fromAbstractObjectViaJSON[T](in)
 }
 

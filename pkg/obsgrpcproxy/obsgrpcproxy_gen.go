@@ -5,6 +5,8 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
+	"runtime/debug"
+
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
@@ -22,7 +24,6 @@ import (
 	logger "github.com/facebookincubator/go-belt/tool/logger"
 	obsgrpc "github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 	grpc "google.golang.org/grpc"
-	"runtime/debug"
 )
 
 var _ = (*typedefs.Input)(nil)
@@ -573,7 +574,7 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 	}
 	result := &obsgrpc.GetStreamServiceSettingsResponse{
 		StreamServiceType:     ([]byte)(resp.StreamServiceType),
-		StreamServiceSettings: toAbstractObject[*typedefs.StreamServiceSettings](resp.StreamServiceSettings),
+		StreamServiceSettings: ToAbstractObject[*typedefs.StreamServiceSettings](resp.StreamServiceSettings),
 	}
 	return result, nil
 }
@@ -603,7 +604,7 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 	if req != nil {
 		params = &config.SetStreamServiceSettingsParams{
 			StreamServiceType:     ptr((string)(req.StreamServiceType)),
-			StreamServiceSettings: fromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
+			StreamServiceSettings: FromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
 		}
 	}
 	resp, err := client.Config.SetStreamServiceSettings(params)
@@ -767,7 +768,7 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterListResponse{
-		Filters: toAbstractObjects[*typedefs.Filter](resp.Filters),
+		Filters: ToAbstractObjects[*typedefs.Filter](resp.Filters),
 	}
 	return result, nil
 }
@@ -807,7 +808,7 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterDefaultSettingsResponse{
-		DefaultFilterSettings: toAbstractObject[map[string]any](resp.DefaultFilterSettings),
+		DefaultFilterSettings: ToAbstractObject[map[string]any](resp.DefaultFilterSettings),
 	}
 	return result, nil
 }
@@ -840,7 +841,7 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 			SourceUuid:     req.SourceUUID,
 			FilterName:     ptr(req.FilterName),
 			FilterKind:     ptr(req.FilterKind),
-			FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
+			FilterSettings: FromAbstractObject[map[string]any](req.FilterSettings),
 		}
 	}
 	resp, err := client.Filters.CreateSourceFilter(params)
@@ -975,7 +976,7 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 		FilterEnabled:  resp.FilterEnabled,
 		FilterIndex:    (int64)(resp.FilterIndex),
 		FilterKind:     resp.FilterKind,
-		FilterSettings: toAbstractObject[map[string]any](resp.FilterSettings),
+		FilterSettings: ToAbstractObject[map[string]any](resp.FilterSettings),
 	}
 	return result, nil
 }
@@ -1048,7 +1049,7 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 			SourceName:     req.SourceName,
 			SourceUuid:     req.SourceUUID,
 			FilterName:     ptr(req.FilterName),
-			FilterSettings: fromAbstractObject[map[string]any](req.FilterSettings),
+			FilterSettings: FromAbstractObject[map[string]any](req.FilterSettings),
 			Overlay:        req.Overlay,
 		}
 	}
@@ -1220,7 +1221,7 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 	params := &general.BroadcastCustomEventParams{}
 	if req != nil {
 		params = &general.BroadcastCustomEventParams{
-			EventData: fromAbstractObject[map[string]any](req.EventData),
+			EventData: FromAbstractObject[map[string]any](req.EventData),
 		}
 	}
 	resp, err := client.General.BroadcastCustomEvent(params)
@@ -1260,7 +1261,7 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 		params = &general.CallVendorRequestParams{
 			VendorName:  ptr(req.VendorName),
 			RequestType: ptr((string)(req.RequestType)),
-			RequestData: fromAbstractObject[map[string]any](req.RequestData),
+			RequestData: FromAbstractObject[map[string]any](req.RequestData),
 		}
 	}
 	resp, err := client.General.CallVendorRequest(params)
@@ -1273,7 +1274,7 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 	result := &obsgrpc.CallVendorRequestResponse{
 		VendorName:   resp.VendorName,
 		RequestType:  ([]byte)(resp.RequestType),
-		ResponseData: toAbstractObject[map[string]any](resp.ResponseData),
+		ResponseData: ToAbstractObject[map[string]any](resp.ResponseData),
 	}
 	return result, nil
 }
@@ -1380,7 +1381,7 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 	if req != nil {
 		params = &general.TriggerHotkeyByKeySequenceParams{
 			KeyId:        req.KeyID,
-			KeyModifiers: fromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
+			KeyModifiers: FromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
 		}
 	}
 	resp, err := client.General.TriggerHotkeyByKeySequence(params)
@@ -1468,7 +1469,7 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputListResponse{
-		Inputs: toAbstractObjects[*typedefs.Input](resp.Inputs),
+		Inputs: ToAbstractObjects[*typedefs.Input](resp.Inputs),
 	}
 	return result, nil
 }
@@ -1584,7 +1585,7 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 			SceneUuid:        req.SceneUUID,
 			InputName:        ptr(req.InputName),
 			InputKind:        ptr(req.InputKind),
-			InputSettings:    fromAbstractObject[map[string]any](req.InputSettings),
+			InputSettings:    FromAbstractObject[map[string]any](req.InputSettings),
 			SceneItemEnabled: req.SceneItemEnabled,
 		}
 	}
@@ -1716,7 +1717,7 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputDefaultSettingsResponse{
-		DefaultInputSettings: toAbstractObject[map[string]any](resp.DefaultInputSettings),
+		DefaultInputSettings: ToAbstractObject[map[string]any](resp.DefaultInputSettings),
 	}
 	return result, nil
 }
@@ -1757,7 +1758,7 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputSettingsResponse{
-		InputSettings: toAbstractObject[map[string]any](resp.InputSettings),
+		InputSettings: ToAbstractObject[map[string]any](resp.InputSettings),
 		InputKind:     resp.InputKind,
 	}
 	return result, nil
@@ -1789,7 +1790,7 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 		params = &inputs.SetInputSettingsParams{
 			InputName:     req.InputName,
 			InputUuid:     req.InputUUID,
-			InputSettings: fromAbstractObject[map[string]any](req.InputSettings),
+			InputSettings: FromAbstractObject[map[string]any](req.InputSettings),
 			Overlay:       req.Overlay,
 		}
 	}
@@ -2288,7 +2289,7 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputAudioTracksResponse{
-		InputAudioTracks: toAbstractObject[*typedefs.InputAudioTracks](resp.InputAudioTracks),
+		InputAudioTracks: ToAbstractObject[*typedefs.InputAudioTracks](resp.InputAudioTracks),
 	}
 	return result, nil
 }
@@ -2319,7 +2320,7 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 		params = &inputs.SetInputAudioTracksParams{
 			InputName:        req.InputName,
 			InputUuid:        req.InputUUID,
-			InputAudioTracks: fromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
+			InputAudioTracks: FromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
 		}
 	}
 	resp, err := client.Inputs.SetInputAudioTracks(params)
@@ -2370,7 +2371,7 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputPropertiesListPropertyItemsResponse{
-		PropertyItems: toAbstractObjects[*typedefs.PropertyItem](resp.PropertyItems),
+		PropertyItems: ToAbstractObjects[*typedefs.PropertyItem](resp.PropertyItems),
 	}
 	return result, nil
 }
@@ -2981,7 +2982,7 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetOutputListResponse{
-		Outputs: toAbstractObjects[*typedefs.Output](resp.Outputs),
+		Outputs: ToAbstractObjects[*typedefs.Output](resp.Outputs),
 	}
 	return result, nil
 }
@@ -3184,7 +3185,7 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetOutputSettingsResponse{
-		OutputSettings: toAbstractObject[map[string]any](resp.OutputSettings),
+		OutputSettings: ToAbstractObject[map[string]any](resp.OutputSettings),
 	}
 	return result, nil
 }
@@ -3214,7 +3215,7 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 	if req != nil {
 		params = &outputs.SetOutputSettingsParams{
 			OutputName:     ptr(req.OutputName),
-			OutputSettings: fromAbstractObject[map[string]any](req.OutputSettings),
+			OutputSettings: FromAbstractObject[map[string]any](req.OutputSettings),
 		}
 	}
 	resp, err := client.Outputs.SetOutputSettings(params)
@@ -3600,7 +3601,7 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemListResponse{
-		SceneItems: toAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
+		SceneItems: ToAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
 	}
 	return result, nil
 }
@@ -3641,7 +3642,7 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetGroupSceneItemListResponse{
-		SceneItems: toAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
+		SceneItems: ToAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
 	}
 	return result, nil
 }
@@ -3897,7 +3898,7 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemTransformResponse{
-		SceneItemTransform: toAbstractObject[*typedefs.SceneItemTransform](resp.SceneItemTransform),
+		SceneItemTransform: ToAbstractObject[*typedefs.SceneItemTransform](resp.SceneItemTransform),
 	}
 	return result, nil
 }
@@ -3929,7 +3930,7 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 			SceneName:          req.SceneName,
 			SceneUuid:          req.SceneUUID,
 			SceneItemId:        ptr((int)(req.SceneItemID)),
-			SceneItemTransform: fromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
+			SceneItemTransform: FromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
 		}
 	}
 	resp, err := client.SceneItems.SetSceneItemTransform(params)
@@ -4312,7 +4313,7 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 		CurrentProgramSceneUUID: resp.CurrentProgramSceneUuid,
 		CurrentPreviewSceneName: resp.CurrentPreviewSceneName,
 		CurrentPreviewSceneUUID: resp.CurrentPreviewSceneUuid,
-		Scenes:                  toAbstractObjects[*typedefs.Scene](resp.Scenes),
+		Scenes:                  ToAbstractObjects[*typedefs.Scene](resp.Scenes),
 	}
 	return result, nil
 }
@@ -5115,7 +5116,7 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 		CurrentSceneTransitionName: resp.CurrentSceneTransitionName,
 		CurrentSceneTransitionUUID: resp.CurrentSceneTransitionUuid,
 		CurrentSceneTransitionKind: resp.CurrentSceneTransitionKind,
-		Transitions:                toAbstractObjects[*typedefs.Transition](resp.Transitions),
+		Transitions:                ToAbstractObjects[*typedefs.Transition](resp.Transitions),
 	}
 	return result, nil
 }
@@ -5159,7 +5160,7 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 		TransitionFixed:        resp.TransitionFixed,
 		TransitionDuration:     (int64)(resp.TransitionDuration),
 		TransitionConfigurable: resp.TransitionConfigurable,
-		TransitionSettings:     toAbstractObject[map[string]any](resp.TransitionSettings),
+		TransitionSettings:     ToAbstractObject[map[string]any](resp.TransitionSettings),
 	}
 	return result, nil
 }
@@ -5264,7 +5265,7 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 	params := &transitions.SetCurrentSceneTransitionSettingsParams{}
 	if req != nil {
 		params = &transitions.SetCurrentSceneTransitionSettingsParams{
-			TransitionSettings: fromAbstractObject[map[string]any](req.TransitionSettings),
+			TransitionSettings: FromAbstractObject[map[string]any](req.TransitionSettings),
 			Overlay:            req.Overlay,
 		}
 	}
@@ -5618,7 +5619,7 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetMonitorListResponse{
-		Monitors: toAbstractObjects[*typedefs.Monitor](resp.Monitors),
+		Monitors: ToAbstractObjects[*typedefs.Monitor](resp.Monitors),
 	}
 	return result, nil
 }

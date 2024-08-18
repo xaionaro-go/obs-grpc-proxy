@@ -161,7 +161,7 @@ func generateRequest(
 			} else {
 				typeName = "map[string]any"
 			}
-			convertFunc = fmt.Sprintf("fromAbstractObject[%s]", typeName)
+			convertFunc = fmt.Sprintf("FromAbstractObject[%s]", typeName)
 		}
 		if castToType != "" {
 			src = jen.Params(jen.Id(castToType)).Params(src)
@@ -212,9 +212,9 @@ func generateRequest(
 			}
 
 			if strings.HasPrefix(field.ValueType, "Array<") {
-				src = jen.Id(fmt.Sprintf("toAbstractObjects[%s]", typeName)).Call(src)
+				src = jen.Id(fmt.Sprintf("ToAbstractObjects[%s]", typeName)).Call(src)
 			} else {
-				src = jen.Id(fmt.Sprintf("toAbstractObject[%s]", typeName)).Call(src)
+				src = jen.Id(fmt.Sprintf("ToAbstractObject[%s]", typeName)).Call(src)
 			}
 		}
 		assignField = assignField.Add(src).Op(",")
