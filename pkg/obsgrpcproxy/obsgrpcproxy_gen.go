@@ -602,9 +602,13 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 	}
 	params := &config.SetStreamServiceSettingsParams{}
 	if req != nil {
+		streamServiceSettings, err := FromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "StreamServiceSettings", err)
+		}
 		params = &config.SetStreamServiceSettingsParams{
 			StreamServiceType:     ptr((string)(req.StreamServiceType)),
-			StreamServiceSettings: FromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings),
+			StreamServiceSettings: streamServiceSettings,
 		}
 	}
 	resp, err := client.Config.SetStreamServiceSettings(params)
@@ -836,12 +840,16 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 	}
 	params := &filters.CreateSourceFilterParams{}
 	if req != nil {
+		filterSettings, err := FromAbstractObject[map[string]any](req.FilterSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "FilterSettings", err)
+		}
 		params = &filters.CreateSourceFilterParams{
 			SourceName:     req.SourceName,
 			SourceUuid:     req.SourceUUID,
 			FilterName:     ptr(req.FilterName),
 			FilterKind:     ptr(req.FilterKind),
-			FilterSettings: FromAbstractObject[map[string]any](req.FilterSettings),
+			FilterSettings: filterSettings,
 		}
 	}
 	resp, err := client.Filters.CreateSourceFilter(params)
@@ -1045,11 +1053,15 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 	}
 	params := &filters.SetSourceFilterSettingsParams{}
 	if req != nil {
+		filterSettings, err := FromAbstractObject[map[string]any](req.FilterSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "FilterSettings", err)
+		}
 		params = &filters.SetSourceFilterSettingsParams{
 			SourceName:     req.SourceName,
 			SourceUuid:     req.SourceUUID,
 			FilterName:     ptr(req.FilterName),
-			FilterSettings: FromAbstractObject[map[string]any](req.FilterSettings),
+			FilterSettings: filterSettings,
 			Overlay:        req.Overlay,
 		}
 	}
@@ -1220,8 +1232,12 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 	}
 	params := &general.BroadcastCustomEventParams{}
 	if req != nil {
+		eventData, err := FromAbstractObject[map[string]any](req.EventData)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "EventData", err)
+		}
 		params = &general.BroadcastCustomEventParams{
-			EventData: FromAbstractObject[map[string]any](req.EventData),
+			EventData: eventData,
 		}
 	}
 	resp, err := client.General.BroadcastCustomEvent(params)
@@ -1258,10 +1274,14 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 	}
 	params := &general.CallVendorRequestParams{}
 	if req != nil {
+		requestData, err := FromAbstractObject[map[string]any](req.RequestData)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "RequestData", err)
+		}
 		params = &general.CallVendorRequestParams{
 			VendorName:  ptr(req.VendorName),
 			RequestType: ptr((string)(req.RequestType)),
-			RequestData: FromAbstractObject[map[string]any](req.RequestData),
+			RequestData: requestData,
 		}
 	}
 	resp, err := client.General.CallVendorRequest(params)
@@ -1379,9 +1399,13 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 	}
 	params := &general.TriggerHotkeyByKeySequenceParams{}
 	if req != nil {
+		keyModifiers, err := FromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "KeyModifiers", err)
+		}
 		params = &general.TriggerHotkeyByKeySequenceParams{
 			KeyId:        req.KeyID,
-			KeyModifiers: FromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers),
+			KeyModifiers: keyModifiers,
 		}
 	}
 	resp, err := client.General.TriggerHotkeyByKeySequence(params)
@@ -1580,12 +1604,16 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 	}
 	params := &inputs.CreateInputParams{}
 	if req != nil {
+		inputSettings, err := FromAbstractObject[map[string]any](req.InputSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "InputSettings", err)
+		}
 		params = &inputs.CreateInputParams{
 			SceneName:        req.SceneName,
 			SceneUuid:        req.SceneUUID,
 			InputName:        ptr(req.InputName),
 			InputKind:        ptr(req.InputKind),
-			InputSettings:    FromAbstractObject[map[string]any](req.InputSettings),
+			InputSettings:    inputSettings,
 			SceneItemEnabled: req.SceneItemEnabled,
 		}
 	}
@@ -1787,10 +1815,14 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 	}
 	params := &inputs.SetInputSettingsParams{}
 	if req != nil {
+		inputSettings, err := FromAbstractObject[map[string]any](req.InputSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "InputSettings", err)
+		}
 		params = &inputs.SetInputSettingsParams{
 			InputName:     req.InputName,
 			InputUuid:     req.InputUUID,
-			InputSettings: FromAbstractObject[map[string]any](req.InputSettings),
+			InputSettings: inputSettings,
 			Overlay:       req.Overlay,
 		}
 	}
@@ -2317,10 +2349,14 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 	}
 	params := &inputs.SetInputAudioTracksParams{}
 	if req != nil {
+		inputAudioTracks, err := FromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "InputAudioTracks", err)
+		}
 		params = &inputs.SetInputAudioTracksParams{
 			InputName:        req.InputName,
 			InputUuid:        req.InputUUID,
-			InputAudioTracks: FromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks),
+			InputAudioTracks: inputAudioTracks,
 		}
 	}
 	resp, err := client.Inputs.SetInputAudioTracks(params)
@@ -3213,9 +3249,13 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 	}
 	params := &outputs.SetOutputSettingsParams{}
 	if req != nil {
+		outputSettings, err := FromAbstractObject[map[string]any](req.OutputSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "OutputSettings", err)
+		}
 		params = &outputs.SetOutputSettingsParams{
 			OutputName:     ptr(req.OutputName),
-			OutputSettings: FromAbstractObject[map[string]any](req.OutputSettings),
+			OutputSettings: outputSettings,
 		}
 	}
 	resp, err := client.Outputs.SetOutputSettings(params)
@@ -3926,11 +3966,15 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 	}
 	params := &sceneitems.SetSceneItemTransformParams{}
 	if req != nil {
+		sceneItemTransform, err := FromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "SceneItemTransform", err)
+		}
 		params = &sceneitems.SetSceneItemTransformParams{
 			SceneName:          req.SceneName,
 			SceneUuid:          req.SceneUUID,
 			SceneItemId:        ptr((int)(req.SceneItemID)),
-			SceneItemTransform: FromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform),
+			SceneItemTransform: sceneItemTransform,
 		}
 	}
 	resp, err := client.SceneItems.SetSceneItemTransform(params)
@@ -5264,8 +5308,12 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 	}
 	params := &transitions.SetCurrentSceneTransitionSettingsParams{}
 	if req != nil {
+		transitionSettings, err := FromAbstractObject[map[string]any](req.TransitionSettings)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert field %s: %w", "TransitionSettings", err)
+		}
 		params = &transitions.SetCurrentSceneTransitionSettingsParams{
-			TransitionSettings: FromAbstractObject[map[string]any](req.TransitionSettings),
+			TransitionSettings: transitionSettings,
 			Overlay:            req.Overlay,
 		}
 	}

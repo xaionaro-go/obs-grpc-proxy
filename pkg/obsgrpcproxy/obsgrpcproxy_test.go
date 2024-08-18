@@ -17,7 +17,8 @@ func TestAbstractObject(t *testing.T) {
 	}
 	abstractObj := ToAbstractObject(obj)
 
-	m := FromAbstractObject[map[string]string](abstractObj)
+	m, err := FromAbstractObject[map[string]string](abstractObj)
+	require.NoError(t, err)
 	require.Equal(t, map[string]string{
 		"A": "some string",
 		"B": "another string",

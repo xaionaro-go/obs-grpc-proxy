@@ -95,7 +95,11 @@ func AnyProtobuf2Go(in *obs_grpc.Any) any {
 	case *obs_grpc.Any_Bool:
 		return in.Bool
 	case *obs_grpc.Any_Object:
-		return FromAbstractObject[map[string]any](in.Object)
+		result, err := FromAbstractObject[map[string]any](in.Object)
+		if err != nil {
+			panic(err)
+		}
+		return result
 	default:
 		panic(fmt.Errorf("unexpected type: %T", in))
 	}
@@ -159,14 +163,14 @@ func toAbstractObjectViaJSON[T any](in T) *obs_grpc.AbstractObject {
 	return result
 }
 
-func FromAbstractObject[T any](in *obs_grpc.AbstractObject) T {
+func FromAbstractObject[T any](in *obs_grpc.AbstractObject) (T, error) {
 	return fromAbstractObjectViaJSON[T](in)
 }
 
-func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) T {
+func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) (T, error) {
 	var result T
 	if in == nil || in.Fields == nil {
-		return result
+		return result, nil
 	}
 
 	m := map[string]any{}
@@ -176,7 +180,7 @@ func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) T {
 
 	b, err := json.Marshal(m)
 	if err != nil {
-		panic(err)
+		return result, fmt.Errorf("unable to serialize to JSON: %w", err)
 	}
 
 	if reflect.TypeOf(result).Kind() == reflect.Map {
@@ -185,8 +189,8 @@ func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) T {
 
 	err = json.Unmarshal(b, &result)
 	if err != nil {
-		panic(err)
+		return result, fmt.Errorf("unable to deserialize from JSON: %w", err)
 	}
 
-	return result
+	return result, nil
 }

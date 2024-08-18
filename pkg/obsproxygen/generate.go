@@ -94,20 +94,27 @@ func goOBSIsFloatNumber(fieldName string) bool {
 	return false
 }
 
+func ptr[T any](in T) *T {
+	return &in
+}
+
 func generateRequest(
 	code *jen.File,
 	request obsdoc.Request,
 	existingObjectTypes map[string]struct{},
 ) error {
+	var requestFieldPreAssigns []jen.Code
 	var requestFieldAssigns []jen.Code
 	for _, field := range request.RequestFields {
 		if strings.Contains(field.ValueName, ".") {
 			continue
 		}
 		assignField := jen.Id(title(field.ValueName)).Op(":")
-		src := jen.Id("req").Dot(obsprotobufgen.FieldNameObs2Protobuf(title(field.ValueName)))
+		fieldNameSrc := obsprotobufgen.FieldNameObs2Protobuf(title(field.ValueName))
+		src := jen.Id("req").Dot(fieldNameSrc)
 		castToType := ""
 		convertFunc := ""
+		convertWithErrFunc := ""
 		switch field.ValueType {
 		case "String":
 			baseTypeFrom := obsprotobufgen.TypeNameObs2Protobuf(field.ValueType, field.ValueName, existingObjectTypes)
@@ -161,10 +168,29 @@ func generateRequest(
 			} else {
 				typeName = "map[string]any"
 			}
-			convertFunc = fmt.Sprintf("FromAbstractObject[%s]", typeName)
+			convertWithErrFunc = fmt.Sprintf("FromAbstractObject[%s]", typeName)
 		}
 		if castToType != "" {
 			src = jen.Params(jen.Id(castToType)).Params(src)
+		}
+		if convertWithErrFunc != "" {
+			requestFieldPreAssigns = append(
+				requestFieldPreAssigns,
+				jen.List(jen.Id(untitle(fieldNameSrc)), jen.Id("err")).Op(":=").Add(jen.Id(convertWithErrFunc).Call(src)),
+				jen.If(
+					jen.Id("err").Op("!=").Nil(),
+				).Block(
+					jen.Return(
+						jen.Nil(),
+						jen.Qual("fmt", "Errorf").Call(
+							jen.Lit("unable to convert field %s: %w"),
+							jen.Lit(fieldNameSrc),
+							jen.Id("err"),
+						),
+					),
+				),
+			)
+			src = jen.Id(untitle(fieldNameSrc))
 		}
 		if convertFunc != "" {
 			src = jen.Id(convertFunc).Call(src)
@@ -224,6 +250,13 @@ func generateRequest(
 		)
 	}
 
+	var requestFieldAssignCode []jen.Code
+
+	requestFieldAssignCode = append(requestFieldAssignCode, requestFieldPreAssigns...)
+	requestFieldAssignCode = append(requestFieldAssignCode, jen.Id("params").Op("=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(
+		requestFieldAssigns...,
+	))
+
 	code.Func().Params(jen.Id("p").Op("*").Id("Proxy")).Id(request.RequestType).Params(
 		jen.Id("ctx").Qual("context", "Context"),
 		jen.Id("req").Op("*").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Request"),
@@ -246,9 +279,7 @@ func generateRequest(
 		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Params(jen.Lit("unable to get a client: %w"), jen.Id("err"))))),
 		jen.Id("params").Op(":=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(),
 		jen.If(jen.Id("req").Op("!=").Nil()).Block(
-			jen.Id("params").Op("=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(
-				requestFieldAssigns...,
-			),
+			requestFieldAssignCode...,
 		),
 		jen.List(jen.Id("resp"), jen.Id("err")).Op(":=").Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
 			jen.Id("params"),
@@ -295,6 +326,14 @@ func title(s string) string {
 	}
 
 	return strings.ToUpper(s[:1]) + s[1:]
+}
+
+func untitle(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+
+	return strings.ToLower(s[:1]) + s[1:]
 }
 
 func categoryObs2Go(obsCat string) string {
