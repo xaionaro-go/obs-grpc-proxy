@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"reflect"
 
 	goobs "github.com/andreykaipov/goobs"
 	"github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
@@ -178,6 +179,10 @@ func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) T {
 	b, err := json.Marshal(m)
 	if err != nil {
 		panic(err)
+	}
+
+	if reflect.TypeOf(result).Kind() == reflect.Map {
+		result = reflect.MakeMap(reflect.TypeOf(result)).Interface().(T)
 	}
 
 	err = json.Unmarshal(b, &result)
