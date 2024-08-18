@@ -182,7 +182,7 @@ func generateRequest(
 		src := jen.Id("resp").Dot(title(field.ValueName))
 		switch field.ValueType {
 		case "Any":
-			src = jen.Id("anyGo2Protobuf").Call(src)
+			src = jen.Id("AnyGo2Protobuf").Call(src)
 		case "Boolean":
 		case "String":
 			typeName := obsprotobufgen.TypeNameObs2Protobuf(field.ValueType, field.ValueName, existingObjectTypes)

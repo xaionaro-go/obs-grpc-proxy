@@ -59,7 +59,7 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetPersistentDataResponse{
-		SlotValue: anyGo2Protobuf(resp.SlotValue),
+		SlotValue: AnyGo2Protobuf(resp.SlotValue),
 	}
 	return result, nil
 }

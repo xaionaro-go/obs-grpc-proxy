@@ -43,7 +43,7 @@ func ptr[T any](in T) *T {
 	return &in
 }
 
-func anyGo2Protobuf(in any) *obsgrpc.Any {
+func AnyGo2Protobuf(in any) *obsgrpc.Any {
 	var result obsgrpc.Any
 	switch in := in.(type) {
 	case []byte:
@@ -86,7 +86,7 @@ func anyGo2Protobuf(in any) *obsgrpc.Any {
 	return &result
 }
 
-func anyProtobuf2Go(in *obsgrpc.Any) any {
+func AnyProtobuf2Go(in *obsgrpc.Any) any {
 	switch in := in.Union.(type) {
 	case *obsgrpc.Any_Integer:
 		return in.Integer
@@ -156,7 +156,7 @@ func toAbstractObjectViaJSON[T any](in T) *obsgrpc.AbstractObject {
 		Fields: map[string]*obsgrpc.Any{},
 	}
 	for k, v := range m {
-		result.Fields[k] = anyGo2Protobuf(v)
+		result.Fields[k] = AnyGo2Protobuf(v)
 	}
 	return result
 }
@@ -173,7 +173,7 @@ func fromAbstractObjectViaJSON[T any](in *obsgrpc.AbstractObject) T {
 
 	m := map[string]any{}
 	for k, f := range in.Fields {
-		m[k] = anyProtobuf2Go(f)
+		m[k] = AnyProtobuf2Go(f)
 	}
 
 	b, err := json.Marshal(m)
