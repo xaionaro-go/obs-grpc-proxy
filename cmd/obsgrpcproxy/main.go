@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/andreykaipov/goobs"
+	"github.com/andreykaipov/goobs/api/events/subscriptions"
 	"github.com/facebookincubator/go-belt/tool/logger"
 	xlogrus "github.com/facebookincubator/go-belt/tool/logger/implementation/logrus"
 	"github.com/spf13/pflag"
@@ -29,14 +30,21 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	proxy := obsgrpcproxy.New(func() (*goobs.Client, context.CancelFunc, error) {
-		client, err := goobs.New(*obsWSAddr, goobs.WithPassword(*obsPassword))
-		logger.Debugf(ctx, "connection to OBS result: %v %v", client, err)
-		if err != nil {
-			return nil, nil, err
-		}
-		return client, func() { client.Disconnect() }, err
-	})
+	proxy := obsgrpcproxy.New(
+		context.Background(),
+		func(ctx context.Context) (*goobs.Client, context.CancelFunc, error) {
+			client, err := goobs.New(
+				*obsWSAddr,
+				goobs.WithPassword(*obsPassword),
+				goobs.WithEventSubscriptions(subscriptions.All|subscriptions.InputActiveStateChanged),
+			)
+			logger.Debugf(ctx, "connection to OBS result: %v %v", client, err)
+			if err != nil {
+				return nil, nil, err
+			}
+			return client, func() { client.Disconnect() }, err
+		},
+	)
 
 	grpcServer := grpc.NewServer()
 	obs_grpc.RegisterOBSServer(grpcServer, proxy)

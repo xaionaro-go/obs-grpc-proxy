@@ -5,8 +5,6 @@ package obsgrpcproxy
 import (
 	"context"
 	"fmt"
-	"runtime/debug"
-
 	config "github.com/andreykaipov/goobs/api/requests/config"
 	filters "github.com/andreykaipov/goobs/api/requests/filters"
 	general "github.com/andreykaipov/goobs/api/requests/general"
@@ -24,6 +22,7 @@ import (
 	logger "github.com/facebookincubator/go-belt/tool/logger"
 	obsgrpc "github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 	grpc "google.golang.org/grpc"
+	"runtime/debug"
 )
 
 var _ = (*typedefs.Input)(nil)
@@ -37,10 +36,7 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 		}
 		logger.Tracef(ctx, "/GetPersistentData: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -78,10 +74,7 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 		}
 		logger.Tracef(ctx, "/SetPersistentData: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -118,10 +111,7 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 		}
 		logger.Tracef(ctx, "/GetSceneCollectionList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -157,10 +147,7 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 		}
 		logger.Tracef(ctx, "/SetCurrentSceneCollection: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -195,10 +182,7 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 		}
 		logger.Tracef(ctx, "/CreateSceneCollection: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -233,10 +217,7 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 		}
 		logger.Tracef(ctx, "/GetProfileList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -272,10 +253,7 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 		}
 		logger.Tracef(ctx, "/SetCurrentProfile: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -310,10 +288,7 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 		}
 		logger.Tracef(ctx, "/CreateProfile: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -348,10 +323,7 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 		}
 		logger.Tracef(ctx, "/RemoveProfile: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -386,10 +358,7 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 		}
 		logger.Tracef(ctx, "/GetProfileParameter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -428,10 +397,7 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 		}
 		logger.Tracef(ctx, "/SetProfileParameter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -468,10 +434,7 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 		}
 		logger.Tracef(ctx, "/GetVideoSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -511,10 +474,7 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 		}
 		logger.Tracef(ctx, "/SetVideoSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -554,10 +514,7 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 		}
 		logger.Tracef(ctx, "/GetStreamServiceSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -593,10 +550,7 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 		}
 		logger.Tracef(ctx, "/SetStreamServiceSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -636,10 +590,7 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 		}
 		logger.Tracef(ctx, "/GetRecordDirectory: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -674,10 +625,7 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 		}
 		logger.Tracef(ctx, "/SetRecordDirectory: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -712,10 +660,7 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 		}
 		logger.Tracef(ctx, "/GetSourceFilterKindList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -750,10 +695,7 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 		}
 		logger.Tracef(ctx, "/GetSourceFilterList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -791,10 +733,7 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 		}
 		logger.Tracef(ctx, "/GetSourceFilterDefaultSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -831,10 +770,7 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 		}
 		logger.Tracef(ctx, "/CreateSourceFilter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -877,10 +813,7 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 		}
 		logger.Tracef(ctx, "/RemoveSourceFilter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -917,10 +850,7 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 		}
 		logger.Tracef(ctx, "/SetSourceFilterName: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -958,10 +888,7 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 		}
 		logger.Tracef(ctx, "/GetSourceFilter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1003,10 +930,7 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 		}
 		logger.Tracef(ctx, "/SetSourceFilterIndex: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1044,10 +968,7 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 		}
 		logger.Tracef(ctx, "/SetSourceFilterSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1090,10 +1011,7 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 		}
 		logger.Tracef(ctx, "/SetSourceFilterEnabled: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1131,10 +1049,7 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 		}
 		logger.Tracef(ctx, "/GetVersion: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1175,10 +1090,7 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (_re
 		}
 		logger.Tracef(ctx, "/GetStats: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1223,10 +1135,7 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 		}
 		logger.Tracef(ctx, "/BroadcastCustomEvent: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1265,10 +1174,7 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 		}
 		logger.Tracef(ctx, "/CallVendorRequest: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1313,10 +1219,7 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 		}
 		logger.Tracef(ctx, "/GetHotkeyList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1351,10 +1254,7 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 		}
 		logger.Tracef(ctx, "/TriggerHotkeyByName: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1390,10 +1290,7 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 		}
 		logger.Tracef(ctx, "/TriggerHotkeyByKeySequence: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1433,10 +1330,7 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (_ret *obs
 		}
 		logger.Tracef(ctx, "/Sleep: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1472,10 +1366,7 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 		}
 		logger.Tracef(ctx, "/GetInputList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1512,10 +1403,7 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 		}
 		logger.Tracef(ctx, "/GetInputKindList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1552,10 +1440,7 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 		}
 		logger.Tracef(ctx, "/GetSpecialInputs: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1595,10 +1480,7 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 		}
 		logger.Tracef(ctx, "/CreateInput: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1645,10 +1527,7 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 		}
 		logger.Tracef(ctx, "/RemoveInput: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1684,10 +1563,7 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 		}
 		logger.Tracef(ctx, "/SetInputName: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1724,10 +1600,7 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 		}
 		logger.Tracef(ctx, "/GetInputDefaultSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1764,10 +1637,7 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 		}
 		logger.Tracef(ctx, "/GetInputSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1806,10 +1676,7 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 		}
 		logger.Tracef(ctx, "/SetInputSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1851,10 +1718,7 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 		}
 		logger.Tracef(ctx, "/GetInputMute: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1892,10 +1756,7 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 		}
 		logger.Tracef(ctx, "/SetInputMute: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1932,10 +1793,7 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 		}
 		logger.Tracef(ctx, "/ToggleInputMute: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -1973,10 +1831,7 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 		}
 		logger.Tracef(ctx, "/GetInputVolume: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2015,10 +1870,7 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 		}
 		logger.Tracef(ctx, "/SetInputVolume: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2056,10 +1908,7 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 		}
 		logger.Tracef(ctx, "/GetInputAudioBalance: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2097,10 +1946,7 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 		}
 		logger.Tracef(ctx, "/SetInputAudioBalance: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2137,10 +1983,7 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 		}
 		logger.Tracef(ctx, "/GetInputAudioSyncOffset: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2178,10 +2021,7 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 		}
 		logger.Tracef(ctx, "/SetInputAudioSyncOffset: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2218,10 +2058,7 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 		}
 		logger.Tracef(ctx, "/GetInputAudioMonitorType: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2259,10 +2096,7 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 		}
 		logger.Tracef(ctx, "/SetInputAudioMonitorType: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2299,10 +2133,7 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 		}
 		logger.Tracef(ctx, "/GetInputAudioTracks: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2340,10 +2171,7 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 		}
 		logger.Tracef(ctx, "/SetInputAudioTracks: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2384,10 +2212,7 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 		}
 		logger.Tracef(ctx, "/GetInputPropertiesListPropertyItems: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2426,10 +2251,7 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 		}
 		logger.Tracef(ctx, "/PressInputPropertiesButton: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2466,10 +2288,7 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 		}
 		logger.Tracef(ctx, "/GetMediaInputStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2509,10 +2328,7 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 		}
 		logger.Tracef(ctx, "/SetMediaInputCursor: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2549,10 +2365,7 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 		}
 		logger.Tracef(ctx, "/OffsetMediaInputCursor: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2589,10 +2402,7 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 		}
 		logger.Tracef(ctx, "/TriggerMediaInputAction: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2629,10 +2439,7 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 		}
 		logger.Tracef(ctx, "/GetVirtualCamStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2667,10 +2474,7 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 		}
 		logger.Tracef(ctx, "/ToggleVirtualCam: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2705,10 +2509,7 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 		}
 		logger.Tracef(ctx, "/StartVirtualCam: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2741,10 +2542,7 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 		}
 		logger.Tracef(ctx, "/StopVirtualCam: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2777,10 +2575,7 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 		}
 		logger.Tracef(ctx, "/GetReplayBufferStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2815,10 +2610,7 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 		}
 		logger.Tracef(ctx, "/ToggleReplayBuffer: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2853,10 +2645,7 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 		}
 		logger.Tracef(ctx, "/StartReplayBuffer: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2889,10 +2678,7 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 		}
 		logger.Tracef(ctx, "/StopReplayBuffer: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2925,10 +2711,7 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 		}
 		logger.Tracef(ctx, "/SaveReplayBuffer: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2961,10 +2744,7 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 		}
 		logger.Tracef(ctx, "/GetLastReplayBufferReplay: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -2999,10 +2779,7 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 		}
 		logger.Tracef(ctx, "/GetOutputList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3037,10 +2814,7 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 		}
 		logger.Tracef(ctx, "/GetOutputStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3084,10 +2858,7 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 		}
 		logger.Tracef(ctx, "/ToggleOutput: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3124,10 +2895,7 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 		}
 		logger.Tracef(ctx, "/StartOutput: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3162,10 +2930,7 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 		}
 		logger.Tracef(ctx, "/StopOutput: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3200,10 +2965,7 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 		}
 		logger.Tracef(ctx, "/GetOutputSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3240,10 +3002,7 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 		}
 		logger.Tracef(ctx, "/SetOutputSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3283,10 +3042,7 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 		}
 		logger.Tracef(ctx, "/GetRecordStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3325,10 +3081,7 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 		}
 		logger.Tracef(ctx, "/ToggleRecord: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3363,10 +3116,7 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 		}
 		logger.Tracef(ctx, "/StartRecord: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3399,10 +3149,7 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 		}
 		logger.Tracef(ctx, "/StopRecord: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3437,10 +3184,7 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 		}
 		logger.Tracef(ctx, "/ToggleRecordPause: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3473,10 +3217,7 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 		}
 		logger.Tracef(ctx, "/PauseRecord: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3509,10 +3250,7 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 		}
 		logger.Tracef(ctx, "/ResumeRecord: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3545,10 +3283,7 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 		}
 		logger.Tracef(ctx, "/SplitRecordFile: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3581,10 +3316,7 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 		}
 		logger.Tracef(ctx, "/CreateRecordChapter: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3619,10 +3351,7 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 		}
 		logger.Tracef(ctx, "/GetSceneItemList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3660,10 +3389,7 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 		}
 		logger.Tracef(ctx, "/GetGroupSceneItemList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3701,10 +3427,7 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 		}
 		logger.Tracef(ctx, "/GetSceneItemId: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3744,10 +3467,7 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 		}
 		logger.Tracef(ctx, "/GetSceneItemSource: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3787,10 +3507,7 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 		}
 		logger.Tracef(ctx, "/CreateSceneItem: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3831,10 +3548,7 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 		}
 		logger.Tracef(ctx, "/RemoveSceneItem: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3871,10 +3585,7 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 		}
 		logger.Tracef(ctx, "/DuplicateSceneItem: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3915,10 +3626,7 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 		}
 		logger.Tracef(ctx, "/GetSceneItemTransform: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -3957,10 +3665,7 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 		}
 		logger.Tracef(ctx, "/SetSceneItemTransform: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4002,10 +3707,7 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 		}
 		logger.Tracef(ctx, "/GetSceneItemEnabled: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4044,10 +3746,7 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 		}
 		logger.Tracef(ctx, "/SetSceneItemEnabled: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4085,10 +3784,7 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 		}
 		logger.Tracef(ctx, "/GetSceneItemLocked: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4127,10 +3823,7 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 		}
 		logger.Tracef(ctx, "/SetSceneItemLocked: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4168,10 +3861,7 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 		}
 		logger.Tracef(ctx, "/GetSceneItemIndex: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4210,10 +3900,7 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 		}
 		logger.Tracef(ctx, "/SetSceneItemIndex: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4251,10 +3938,7 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 		}
 		logger.Tracef(ctx, "/GetSceneItemBlendMode: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4293,10 +3977,7 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 		}
 		logger.Tracef(ctx, "/SetSceneItemBlendMode: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4334,10 +4015,7 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 		}
 		logger.Tracef(ctx, "/GetSceneList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4376,10 +4054,7 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 		}
 		logger.Tracef(ctx, "/GetGroupList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4414,10 +4089,7 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 		}
 		logger.Tracef(ctx, "/GetCurrentProgramScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4455,10 +4127,7 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 		}
 		logger.Tracef(ctx, "/SetCurrentProgramScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4494,10 +4163,7 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 		}
 		logger.Tracef(ctx, "/GetCurrentPreviewScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4535,10 +4201,7 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 		}
 		logger.Tracef(ctx, "/SetCurrentPreviewScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4574,10 +4237,7 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 		}
 		logger.Tracef(ctx, "/CreateScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4614,10 +4274,7 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 		}
 		logger.Tracef(ctx, "/RemoveScene: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4653,10 +4310,7 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 		}
 		logger.Tracef(ctx, "/SetSceneName: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4693,10 +4347,7 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 		}
 		logger.Tracef(ctx, "/GetSceneSceneTransitionOverride: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4735,10 +4386,7 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 		}
 		logger.Tracef(ctx, "/SetSceneSceneTransitionOverride: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4776,10 +4424,7 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 		}
 		logger.Tracef(ctx, "/GetSourceActive: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4818,10 +4463,7 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 		}
 		logger.Tracef(ctx, "/GetSourceScreenshot: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4863,10 +4505,7 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 		}
 		logger.Tracef(ctx, "/SaveSourceScreenshot: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4907,10 +4546,7 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 		}
 		logger.Tracef(ctx, "/GetStreamStatus: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4952,10 +4588,7 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 		}
 		logger.Tracef(ctx, "/ToggleStream: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -4990,10 +4623,7 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 		}
 		logger.Tracef(ctx, "/StartStream: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5026,10 +4656,7 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 		}
 		logger.Tracef(ctx, "/StopStream: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5062,10 +4689,7 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 		}
 		logger.Tracef(ctx, "/SendStreamCaption: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5100,10 +4724,7 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 		}
 		logger.Tracef(ctx, "/GetTransitionKindList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5138,10 +4759,7 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 		}
 		logger.Tracef(ctx, "/GetSceneTransitionList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5179,10 +4797,7 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 		}
 		logger.Tracef(ctx, "/GetCurrentSceneTransition: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5223,10 +4838,7 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 		}
 		logger.Tracef(ctx, "/SetCurrentSceneTransition: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5261,10 +4873,7 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 		}
 		logger.Tracef(ctx, "/SetCurrentSceneTransitionDuration: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5299,10 +4908,7 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 		}
 		logger.Tracef(ctx, "/SetCurrentSceneTransitionSettings: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5342,10 +4948,7 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 		}
 		logger.Tracef(ctx, "/GetCurrentSceneTransitionCursor: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5380,10 +4983,7 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 		}
 		logger.Tracef(ctx, "/TriggerStudioModeTransition: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5416,10 +5016,7 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 		}
 		logger.Tracef(ctx, "/SetTBarPosition: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5455,10 +5052,7 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 		}
 		logger.Tracef(ctx, "/GetStudioModeEnabled: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5493,10 +5087,7 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 		}
 		logger.Tracef(ctx, "/SetStudioModeEnabled: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5531,10 +5122,7 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 		}
 		logger.Tracef(ctx, "/OpenInputPropertiesDialog: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5570,10 +5158,7 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 		}
 		logger.Tracef(ctx, "/OpenInputFiltersDialog: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5609,10 +5194,7 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 		}
 		logger.Tracef(ctx, "/OpenInputInteractDialog: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5648,10 +5230,7 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 		}
 		logger.Tracef(ctx, "/GetMonitorList: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5686,10 +5265,7 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 		}
 		logger.Tracef(ctx, "/OpenVideoMixProjector: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}
@@ -5726,10 +5302,7 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 		}
 		logger.Tracef(ctx, "/OpenSourceProjector: %v", _err)
 	}()
-	client, onFinish, err := p.GetClient()
-	if onFinish != nil {
-		defer onFinish()
-	}
+	client, err := p.getClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get a client: %w", err)
 	}

@@ -272,10 +272,7 @@ func generateRequest(
 			),
 			jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Tracef").Call(jen.Id("ctx"), jen.Lit("/"+request.RequestType+": %v"), jen.Id("_err")),
 		).Call(),
-		jen.List(jen.Id("client"), jen.Id("onFinish"), jen.Id("err")).Op(":=").Id("p").Dot("GetClient").Call(),
-		jen.If(jen.Id("onFinish").Op("!=").Nil()).Block(
-			jen.Defer().Id("onFinish").Call(),
-		),
+		jen.List(jen.Id("client"), jen.Id("err")).Op(":=").Id("p").Dot("getClient").Call(jen.Id("ctx")),
 		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Params(jen.Lit("unable to get a client: %w"), jen.Id("err"))))),
 		jen.Id("params").Op(":=").Op("&").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Params").Block(),
 		jen.If(jen.Id("req").Op("!=").Nil()).Block(

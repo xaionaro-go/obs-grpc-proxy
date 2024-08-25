@@ -5,17 +5,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"sync"
+	"time"
 
 	goobs "github.com/andreykaipov/goobs"
+	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 )
 
-type GetClientFunc func() (*goobs.Client, context.CancelFunc, error)
+type GetClientFunc func(ctx context.Context) (*goobs.Client, context.CancelFunc, error)
 
 type Proxy struct {
 	obs_grpc.UnimplementedOBSServer
 
-	GetClient GetClientFunc
+	GetClient    GetClientFunc
+	config       configT
+	client       *goobs.Client
+	clientCancel context.CancelFunc
+	clientLocker sync.Mutex
 }
 
 var _ obs_grpc.OBSServer = (*Proxy)(nil)
@@ -31,9 +38,87 @@ type ClientAsServer struct {
 
 var _ obs_grpc.OBSServer = (*ClientAsServer)(nil)
 
-func New(getClient GetClientFunc) *Proxy {
-	return &Proxy{
+func New(
+	ctx context.Context,
+	getClient GetClientFunc,
+	opts ...Option,
+) *Proxy {
+	proxy := &Proxy{
 		GetClient: getClient,
+		config:    Options(opts).config(),
+	}
+	go proxy.processEvents(ctx)
+	return proxy
+}
+
+func (proxy *Proxy) getClient(
+	ctx context.Context,
+) (*goobs.Client, error) {
+	proxy.clientLocker.Lock()
+	defer proxy.clientLocker.Unlock()
+	if proxy.client != nil {
+		return proxy.client, nil
+	}
+
+	var err error
+	proxy.client, proxy.clientCancel, err = proxy.GetClient(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get a client to OBS: %w", err)
+	}
+	return proxy.client, nil
+}
+
+func (proxy *Proxy) processEvents(ctx context.Context) {
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		default:
+		}
+
+		client, err := proxy.getClient(ctx)
+		if err != nil {
+			select {
+			case <-ctx.Done():
+				return
+			case <-time.After(time.Second):
+				continue
+			}
+		}
+
+		func() {
+			for {
+				select {
+				case <-ctx.Done():
+					return
+				case ev, ok := <-client.IncomingEvents:
+					if !ok {
+						return
+					}
+					proxy.processEvent(ctx, ev)
+				}
+			}
+		}()
+
+		func() {
+			proxy.clientLocker.Lock()
+			defer proxy.clientLocker.Unlock()
+			if proxy.clientCancel != nil {
+				proxy.clientCancel()
+			}
+			proxy.client = nil
+			proxy.clientCancel = nil
+		}()
+	}
+}
+
+func (proxy *Proxy) processEvent(
+	ctx context.Context,
+	ev any,
+) {
+	logger.Tracef(ctx, "received event: %T: %#+v", ev, ev)
+	for _, hook := range proxy.config.EventHooks {
+		hook.ProcessEvent(ctx, ev)
 	}
 }
 
