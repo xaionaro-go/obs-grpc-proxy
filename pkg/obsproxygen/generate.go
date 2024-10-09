@@ -278,10 +278,23 @@ func generateRequest(
 		jen.If(jen.Id("req").Op("!=").Nil()).Block(
 			requestFieldAssignCode...,
 		),
-		jen.List(jen.Id("resp"), jen.Id("err")).Op(":=").Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
-			jen.Id("params"),
+		jen.Var().Call(
+			jen.Id("resp").Op(" ").Op("*").Qual("github.com/andreykaipov/goobs/api/requests/"+categoryObs2GoPkgName(request.Category), request.RequestType+"Response"),
 		),
-		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Id("err")))),
+		jen.For().Block(
+			jen.List(jen.Id("resp"), jen.Id("err")).Op("=").Id("client").Dot(categoryObs2Go(request.Category)).Dot(request.RequestType).Call(
+				jen.Id("params"),
+			),
+			jen.If(jen.Id("err").Op("!=").Nil().Op("&&").Id("p").Dot("QueryErrorHandler").Op("!=").Nil()).Block(
+				jen.Id("fixErr").Op(":=").Id("p").Dot("QueryErrorHandler").Call(jen.Id("ctx"), jen.Id("err")),
+				jen.If(jen.Id("fixErr").Op("==").Nil()).Block(
+					jen.Qual("github.com/facebookincubator/go-belt/tool/logger", "Tracef").Call(jen.Id("ctx"), jen.Lit("there was error '%s', but it was handled"), jen.Id("err")),
+					jen.Continue(),
+				),
+			),
+			jen.Break(),
+		),
+		jen.If(jen.Id("err").Op("!=").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Params(jen.Lit("query error: %w"), jen.Id("err"))))),
 		jen.If(jen.Id("resp").Op("==").Nil()).Block(jen.Return(jen.List(jen.Nil(), jen.Qual("fmt", "Errorf").Call(jen.Lit("internal error: resp is nil"))))),
 		jen.Id("result").Op(":=").Op("&").Qual("github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc", request.RequestType+"Response").Block(responseFieldAssigns...),
 		jen.Return(jen.List(jen.Id("result"), jen.Nil())),

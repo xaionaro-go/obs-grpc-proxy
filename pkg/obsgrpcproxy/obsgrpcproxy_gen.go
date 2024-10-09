@@ -47,9 +47,22 @@ func (p *Proxy) GetPersistentData(ctx context.Context, req *obsgrpc.GetPersisten
 			SlotName: ptr(req.SlotName),
 		}
 	}
-	resp, err := client.Config.GetPersistentData(params)
+	var (
+		resp *config.GetPersistentDataResponse
+	)
+	for {
+		resp, err = client.Config.GetPersistentData(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -86,9 +99,22 @@ func (p *Proxy) SetPersistentData(ctx context.Context, req *obsgrpc.SetPersisten
 			SlotValue: req.SlotValue,
 		}
 	}
-	resp, err := client.Config.SetPersistentData(params)
+	var (
+		resp *config.SetPersistentDataResponse
+	)
+	for {
+		resp, err = client.Config.SetPersistentData(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -119,9 +145,22 @@ func (p *Proxy) GetSceneCollectionList(ctx context.Context, req *obsgrpc.GetScen
 	if req != nil {
 		params = &config.GetSceneCollectionListParams{}
 	}
-	resp, err := client.Config.GetSceneCollectionList(params)
+	var (
+		resp *config.GetSceneCollectionListResponse
+	)
+	for {
+		resp, err = client.Config.GetSceneCollectionList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -157,9 +196,22 @@ func (p *Proxy) SetCurrentSceneCollection(ctx context.Context, req *obsgrpc.SetC
 			SceneCollectionName: ptr(req.SceneCollectionName),
 		}
 	}
-	resp, err := client.Config.SetCurrentSceneCollection(params)
+	var (
+		resp *config.SetCurrentSceneCollectionResponse
+	)
+	for {
+		resp, err = client.Config.SetCurrentSceneCollection(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -192,9 +244,22 @@ func (p *Proxy) CreateSceneCollection(ctx context.Context, req *obsgrpc.CreateSc
 			SceneCollectionName: ptr(req.SceneCollectionName),
 		}
 	}
-	resp, err := client.Config.CreateSceneCollection(params)
+	var (
+		resp *config.CreateSceneCollectionResponse
+	)
+	for {
+		resp, err = client.Config.CreateSceneCollection(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -225,9 +290,22 @@ func (p *Proxy) GetProfileList(ctx context.Context, req *obsgrpc.GetProfileListR
 	if req != nil {
 		params = &config.GetProfileListParams{}
 	}
-	resp, err := client.Config.GetProfileList(params)
+	var (
+		resp *config.GetProfileListResponse
+	)
+	for {
+		resp, err = client.Config.GetProfileList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -263,9 +341,22 @@ func (p *Proxy) SetCurrentProfile(ctx context.Context, req *obsgrpc.SetCurrentPr
 			ProfileName: ptr(req.ProfileName),
 		}
 	}
-	resp, err := client.Config.SetCurrentProfile(params)
+	var (
+		resp *config.SetCurrentProfileResponse
+	)
+	for {
+		resp, err = client.Config.SetCurrentProfile(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -298,9 +389,22 @@ func (p *Proxy) CreateProfile(ctx context.Context, req *obsgrpc.CreateProfileReq
 			ProfileName: ptr(req.ProfileName),
 		}
 	}
-	resp, err := client.Config.CreateProfile(params)
+	var (
+		resp *config.CreateProfileResponse
+	)
+	for {
+		resp, err = client.Config.CreateProfile(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -333,9 +437,22 @@ func (p *Proxy) RemoveProfile(ctx context.Context, req *obsgrpc.RemoveProfileReq
 			ProfileName: ptr(req.ProfileName),
 		}
 	}
-	resp, err := client.Config.RemoveProfile(params)
+	var (
+		resp *config.RemoveProfileResponse
+	)
+	for {
+		resp, err = client.Config.RemoveProfile(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -369,9 +486,22 @@ func (p *Proxy) GetProfileParameter(ctx context.Context, req *obsgrpc.GetProfile
 			ParameterName:     ptr(req.ParameterName),
 		}
 	}
-	resp, err := client.Config.GetProfileParameter(params)
+	var (
+		resp *config.GetProfileParameterResponse
+	)
+	for {
+		resp, err = client.Config.GetProfileParameter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -409,9 +539,22 @@ func (p *Proxy) SetProfileParameter(ctx context.Context, req *obsgrpc.SetProfile
 			ParameterValue:    ptr((string)(req.ParameterValue)),
 		}
 	}
-	resp, err := client.Config.SetProfileParameter(params)
+	var (
+		resp *config.SetProfileParameterResponse
+	)
+	for {
+		resp, err = client.Config.SetProfileParameter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -442,9 +585,22 @@ func (p *Proxy) GetVideoSettings(ctx context.Context, req *obsgrpc.GetVideoSetti
 	if req != nil {
 		params = &config.GetVideoSettingsParams{}
 	}
-	resp, err := client.Config.GetVideoSettings(params)
+	var (
+		resp *config.GetVideoSettingsResponse
+	)
+	for {
+		resp, err = client.Config.GetVideoSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -489,9 +645,22 @@ func (p *Proxy) SetVideoSettings(ctx context.Context, req *obsgrpc.SetVideoSetti
 			OutputHeight:   ptrInt64ToFloat64(req.OutputHeight),
 		}
 	}
-	resp, err := client.Config.SetVideoSettings(params)
+	var (
+		resp *config.SetVideoSettingsResponse
+	)
+	for {
+		resp, err = client.Config.SetVideoSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -522,9 +691,22 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 	if req != nil {
 		params = &config.GetStreamServiceSettingsParams{}
 	}
-	resp, err := client.Config.GetStreamServiceSettings(params)
+	var (
+		resp *config.GetStreamServiceSettingsResponse
+	)
+	for {
+		resp, err = client.Config.GetStreamServiceSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -565,9 +747,22 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 			StreamServiceSettings: streamServiceSettings,
 		}
 	}
-	resp, err := client.Config.SetStreamServiceSettings(params)
+	var (
+		resp *config.SetStreamServiceSettingsResponse
+	)
+	for {
+		resp, err = client.Config.SetStreamServiceSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -598,9 +793,22 @@ func (p *Proxy) GetRecordDirectory(ctx context.Context, req *obsgrpc.GetRecordDi
 	if req != nil {
 		params = &config.GetRecordDirectoryParams{}
 	}
-	resp, err := client.Config.GetRecordDirectory(params)
+	var (
+		resp *config.GetRecordDirectoryResponse
+	)
+	for {
+		resp, err = client.Config.GetRecordDirectory(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -635,9 +843,22 @@ func (p *Proxy) SetRecordDirectory(ctx context.Context, req *obsgrpc.SetRecordDi
 			RecordDirectory: ptr((string)(req.RecordDirectory)),
 		}
 	}
-	resp, err := client.Config.SetRecordDirectory(params)
+	var (
+		resp *config.SetRecordDirectoryResponse
+	)
+	for {
+		resp, err = client.Config.SetRecordDirectory(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -668,9 +889,22 @@ func (p *Proxy) GetSourceFilterKindList(ctx context.Context, req *obsgrpc.GetSou
 	if req != nil {
 		params = &filters.GetSourceFilterKindListParams{}
 	}
-	resp, err := client.Filters.GetSourceFilterKindList(params)
+	var (
+		resp *filters.GetSourceFilterKindListResponse
+	)
+	for {
+		resp, err = client.Filters.GetSourceFilterKindList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -706,9 +940,22 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 			SourceUuid: req.SourceUUID,
 		}
 	}
-	resp, err := client.Filters.GetSourceFilterList(params)
+	var (
+		resp *filters.GetSourceFilterListResponse
+	)
+	for {
+		resp, err = client.Filters.GetSourceFilterList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -743,9 +990,22 @@ func (p *Proxy) GetSourceFilterDefaultSettings(ctx context.Context, req *obsgrpc
 			FilterKind: ptr(req.FilterKind),
 		}
 	}
-	resp, err := client.Filters.GetSourceFilterDefaultSettings(params)
+	var (
+		resp *filters.GetSourceFilterDefaultSettingsResponse
+	)
+	for {
+		resp, err = client.Filters.GetSourceFilterDefaultSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -788,9 +1048,22 @@ func (p *Proxy) CreateSourceFilter(ctx context.Context, req *obsgrpc.CreateSourc
 			FilterSettings: filterSettings,
 		}
 	}
-	resp, err := client.Filters.CreateSourceFilter(params)
+	var (
+		resp *filters.CreateSourceFilterResponse
+	)
+	for {
+		resp, err = client.Filters.CreateSourceFilter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -825,9 +1098,22 @@ func (p *Proxy) RemoveSourceFilter(ctx context.Context, req *obsgrpc.RemoveSourc
 			FilterName: ptr(req.FilterName),
 		}
 	}
-	resp, err := client.Filters.RemoveSourceFilter(params)
+	var (
+		resp *filters.RemoveSourceFilterResponse
+	)
+	for {
+		resp, err = client.Filters.RemoveSourceFilter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -863,9 +1149,22 @@ func (p *Proxy) SetSourceFilterName(ctx context.Context, req *obsgrpc.SetSourceF
 			NewFilterName: ptr(req.NewFilterName),
 		}
 	}
-	resp, err := client.Filters.SetSourceFilterName(params)
+	var (
+		resp *filters.SetSourceFilterNameResponse
+	)
+	for {
+		resp, err = client.Filters.SetSourceFilterName(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -900,9 +1199,22 @@ func (p *Proxy) GetSourceFilter(ctx context.Context, req *obsgrpc.GetSourceFilte
 			FilterName: ptr(req.FilterName),
 		}
 	}
-	resp, err := client.Filters.GetSourceFilter(params)
+	var (
+		resp *filters.GetSourceFilterResponse
+	)
+	for {
+		resp, err = client.Filters.GetSourceFilter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -943,9 +1255,22 @@ func (p *Proxy) SetSourceFilterIndex(ctx context.Context, req *obsgrpc.SetSource
 			FilterIndex: ptr((int)(req.FilterIndex)),
 		}
 	}
-	resp, err := client.Filters.SetSourceFilterIndex(params)
+	var (
+		resp *filters.SetSourceFilterIndexResponse
+	)
+	for {
+		resp, err = client.Filters.SetSourceFilterIndex(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -986,9 +1311,22 @@ func (p *Proxy) SetSourceFilterSettings(ctx context.Context, req *obsgrpc.SetSou
 			Overlay:        req.Overlay,
 		}
 	}
-	resp, err := client.Filters.SetSourceFilterSettings(params)
+	var (
+		resp *filters.SetSourceFilterSettingsResponse
+	)
+	for {
+		resp, err = client.Filters.SetSourceFilterSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1024,9 +1362,22 @@ func (p *Proxy) SetSourceFilterEnabled(ctx context.Context, req *obsgrpc.SetSour
 			FilterEnabled: ptr(req.FilterEnabled),
 		}
 	}
-	resp, err := client.Filters.SetSourceFilterEnabled(params)
+	var (
+		resp *filters.SetSourceFilterEnabledResponse
+	)
+	for {
+		resp, err = client.Filters.SetSourceFilterEnabled(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1057,9 +1408,22 @@ func (p *Proxy) GetVersion(ctx context.Context, req *obsgrpc.GetVersionRequest) 
 	if req != nil {
 		params = &general.GetVersionParams{}
 	}
-	resp, err := client.General.GetVersion(params)
+	var (
+		resp *general.GetVersionResponse
+	)
+	for {
+		resp, err = client.General.GetVersion(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1098,9 +1462,22 @@ func (p *Proxy) GetStats(ctx context.Context, req *obsgrpc.GetStatsRequest) (_re
 	if req != nil {
 		params = &general.GetStatsParams{}
 	}
-	resp, err := client.General.GetStats(params)
+	var (
+		resp *general.GetStatsResponse
+	)
+	for {
+		resp, err = client.General.GetStats(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1149,9 +1526,22 @@ func (p *Proxy) BroadcastCustomEvent(ctx context.Context, req *obsgrpc.Broadcast
 			EventData: eventData,
 		}
 	}
-	resp, err := client.General.BroadcastCustomEvent(params)
+	var (
+		resp *general.BroadcastCustomEventResponse
+	)
+	for {
+		resp, err = client.General.BroadcastCustomEvent(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1190,9 +1580,22 @@ func (p *Proxy) CallVendorRequest(ctx context.Context, req *obsgrpc.CallVendorRe
 			RequestData: requestData,
 		}
 	}
-	resp, err := client.General.CallVendorRequest(params)
+	var (
+		resp *general.CallVendorRequestResponse
+	)
+	for {
+		resp, err = client.General.CallVendorRequest(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1227,9 +1630,22 @@ func (p *Proxy) GetHotkeyList(ctx context.Context, req *obsgrpc.GetHotkeyListReq
 	if req != nil {
 		params = &general.GetHotkeyListParams{}
 	}
-	resp, err := client.General.GetHotkeyList(params)
+	var (
+		resp *general.GetHotkeyListResponse
+	)
+	for {
+		resp, err = client.General.GetHotkeyList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1265,9 +1681,22 @@ func (p *Proxy) TriggerHotkeyByName(ctx context.Context, req *obsgrpc.TriggerHot
 			ContextName: req.ContextName,
 		}
 	}
-	resp, err := client.General.TriggerHotkeyByName(params)
+	var (
+		resp *general.TriggerHotkeyByNameResponse
+	)
+	for {
+		resp, err = client.General.TriggerHotkeyByName(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1305,9 +1734,22 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 			KeyModifiers: keyModifiers,
 		}
 	}
-	resp, err := client.General.TriggerHotkeyByKeySequence(params)
+	var (
+		resp *general.TriggerHotkeyByKeySequenceResponse
+	)
+	for {
+		resp, err = client.General.TriggerHotkeyByKeySequence(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1341,9 +1783,22 @@ func (p *Proxy) Sleep(ctx context.Context, req *obsgrpc.SleepRequest) (_ret *obs
 			SleepFrames: ptrInt64ToFloat64(req.SleepFrames),
 		}
 	}
-	resp, err := client.General.Sleep(params)
+	var (
+		resp *general.SleepResponse
+	)
+	for {
+		resp, err = client.General.Sleep(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1376,9 +1831,22 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 			InputKind: req.InputKind,
 		}
 	}
-	resp, err := client.Inputs.GetInputList(params)
+	var (
+		resp *inputs.GetInputListResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1413,9 +1881,22 @@ func (p *Proxy) GetInputKindList(ctx context.Context, req *obsgrpc.GetInputKindL
 			Unversioned: req.Unversioned,
 		}
 	}
-	resp, err := client.Inputs.GetInputKindList(params)
+	var (
+		resp *inputs.GetInputKindListResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputKindList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1448,9 +1929,22 @@ func (p *Proxy) GetSpecialInputs(ctx context.Context, req *obsgrpc.GetSpecialInp
 	if req != nil {
 		params = &inputs.GetSpecialInputsParams{}
 	}
-	resp, err := client.Inputs.GetSpecialInputs(params)
+	var (
+		resp *inputs.GetSpecialInputsResponse
+	)
+	for {
+		resp, err = client.Inputs.GetSpecialInputs(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1499,9 +1993,22 @@ func (p *Proxy) CreateInput(ctx context.Context, req *obsgrpc.CreateInputRequest
 			SceneItemEnabled: req.SceneItemEnabled,
 		}
 	}
-	resp, err := client.Inputs.CreateInput(params)
+	var (
+		resp *inputs.CreateInputResponse
+	)
+	for {
+		resp, err = client.Inputs.CreateInput(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1538,9 +2045,22 @@ func (p *Proxy) RemoveInput(ctx context.Context, req *obsgrpc.RemoveInputRequest
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.RemoveInput(params)
+	var (
+		resp *inputs.RemoveInputResponse
+	)
+	for {
+		resp, err = client.Inputs.RemoveInput(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1575,9 +2095,22 @@ func (p *Proxy) SetInputName(ctx context.Context, req *obsgrpc.SetInputNameReque
 			NewInputName: ptr(req.NewInputName),
 		}
 	}
-	resp, err := client.Inputs.SetInputName(params)
+	var (
+		resp *inputs.SetInputNameResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputName(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1610,9 +2143,22 @@ func (p *Proxy) GetInputDefaultSettings(ctx context.Context, req *obsgrpc.GetInp
 			InputKind: ptr(req.InputKind),
 		}
 	}
-	resp, err := client.Inputs.GetInputDefaultSettings(params)
+	var (
+		resp *inputs.GetInputDefaultSettingsResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputDefaultSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1648,9 +2194,22 @@ func (p *Proxy) GetInputSettings(ctx context.Context, req *obsgrpc.GetInputSetti
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputSettings(params)
+	var (
+		resp *inputs.GetInputSettingsResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1693,9 +2252,22 @@ func (p *Proxy) SetInputSettings(ctx context.Context, req *obsgrpc.SetInputSetti
 			Overlay:       req.Overlay,
 		}
 	}
-	resp, err := client.Inputs.SetInputSettings(params)
+	var (
+		resp *inputs.SetInputSettingsResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1729,9 +2301,22 @@ func (p *Proxy) GetInputMute(ctx context.Context, req *obsgrpc.GetInputMuteReque
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputMute(params)
+	var (
+		resp *inputs.GetInputMuteResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputMute(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1768,9 +2353,22 @@ func (p *Proxy) SetInputMute(ctx context.Context, req *obsgrpc.SetInputMuteReque
 			InputMuted: ptr(req.InputMuted),
 		}
 	}
-	resp, err := client.Inputs.SetInputMute(params)
+	var (
+		resp *inputs.SetInputMuteResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputMute(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1804,9 +2402,22 @@ func (p *Proxy) ToggleInputMute(ctx context.Context, req *obsgrpc.ToggleInputMut
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.ToggleInputMute(params)
+	var (
+		resp *inputs.ToggleInputMuteResponse
+	)
+	for {
+		resp, err = client.Inputs.ToggleInputMute(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1842,9 +2453,22 @@ func (p *Proxy) GetInputVolume(ctx context.Context, req *obsgrpc.GetInputVolumeR
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputVolume(params)
+	var (
+		resp *inputs.GetInputVolumeResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputVolume(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1883,9 +2507,22 @@ func (p *Proxy) SetInputVolume(ctx context.Context, req *obsgrpc.SetInputVolumeR
 			InputVolumeDb:  ptrInt64ToFloat64(req.InputVolumeDb),
 		}
 	}
-	resp, err := client.Inputs.SetInputVolume(params)
+	var (
+		resp *inputs.SetInputVolumeResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputVolume(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1919,9 +2556,22 @@ func (p *Proxy) GetInputAudioBalance(ctx context.Context, req *obsgrpc.GetInputA
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputAudioBalance(params)
+	var (
+		resp *inputs.GetInputAudioBalanceResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputAudioBalance(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1958,9 +2608,22 @@ func (p *Proxy) SetInputAudioBalance(ctx context.Context, req *obsgrpc.SetInputA
 			InputAudioBalance: ptr(req.InputAudioBalance),
 		}
 	}
-	resp, err := client.Inputs.SetInputAudioBalance(params)
+	var (
+		resp *inputs.SetInputAudioBalanceResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputAudioBalance(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -1994,9 +2657,22 @@ func (p *Proxy) GetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.GetInp
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputAudioSyncOffset(params)
+	var (
+		resp *inputs.GetInputAudioSyncOffsetResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputAudioSyncOffset(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2033,9 +2709,22 @@ func (p *Proxy) SetInputAudioSyncOffset(ctx context.Context, req *obsgrpc.SetInp
 			InputAudioSyncOffset: ptr((float64)(req.InputAudioSyncOffset)),
 		}
 	}
-	resp, err := client.Inputs.SetInputAudioSyncOffset(params)
+	var (
+		resp *inputs.SetInputAudioSyncOffsetResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputAudioSyncOffset(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2069,9 +2758,22 @@ func (p *Proxy) GetInputAudioMonitorType(ctx context.Context, req *obsgrpc.GetIn
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputAudioMonitorType(params)
+	var (
+		resp *inputs.GetInputAudioMonitorTypeResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputAudioMonitorType(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2108,9 +2810,22 @@ func (p *Proxy) SetInputAudioMonitorType(ctx context.Context, req *obsgrpc.SetIn
 			MonitorType: ptr((string)(req.MonitorType)),
 		}
 	}
-	resp, err := client.Inputs.SetInputAudioMonitorType(params)
+	var (
+		resp *inputs.SetInputAudioMonitorTypeResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputAudioMonitorType(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2144,9 +2859,22 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Inputs.GetInputAudioTracks(params)
+	var (
+		resp *inputs.GetInputAudioTracksResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputAudioTracks(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2187,9 +2915,22 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 			InputAudioTracks: inputAudioTracks,
 		}
 	}
-	resp, err := client.Inputs.SetInputAudioTracks(params)
+	var (
+		resp *inputs.SetInputAudioTracksResponse
+	)
+	for {
+		resp, err = client.Inputs.SetInputAudioTracks(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2224,9 +2965,22 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 			PropertyName: ptr(req.PropertyName),
 		}
 	}
-	resp, err := client.Inputs.GetInputPropertiesListPropertyItems(params)
+	var (
+		resp *inputs.GetInputPropertiesListPropertyItemsResponse
+	)
+	for {
+		resp, err = client.Inputs.GetInputPropertiesListPropertyItems(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2263,9 +3017,22 @@ func (p *Proxy) PressInputPropertiesButton(ctx context.Context, req *obsgrpc.Pre
 			PropertyName: ptr(req.PropertyName),
 		}
 	}
-	resp, err := client.Inputs.PressInputPropertiesButton(params)
+	var (
+		resp *inputs.PressInputPropertiesButtonResponse
+	)
+	for {
+		resp, err = client.Inputs.PressInputPropertiesButton(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2299,9 +3066,22 @@ func (p *Proxy) GetMediaInputStatus(ctx context.Context, req *obsgrpc.GetMediaIn
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.MediaInputs.GetMediaInputStatus(params)
+	var (
+		resp *mediainputs.GetMediaInputStatusResponse
+	)
+	for {
+		resp, err = client.MediaInputs.GetMediaInputStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2340,9 +3120,22 @@ func (p *Proxy) SetMediaInputCursor(ctx context.Context, req *obsgrpc.SetMediaIn
 			MediaCursor: ptr((float64)(req.MediaCursor)),
 		}
 	}
-	resp, err := client.MediaInputs.SetMediaInputCursor(params)
+	var (
+		resp *mediainputs.SetMediaInputCursorResponse
+	)
+	for {
+		resp, err = client.MediaInputs.SetMediaInputCursor(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2377,9 +3170,22 @@ func (p *Proxy) OffsetMediaInputCursor(ctx context.Context, req *obsgrpc.OffsetM
 			MediaCursorOffset: ptr((float64)(req.MediaCursorOffset)),
 		}
 	}
-	resp, err := client.MediaInputs.OffsetMediaInputCursor(params)
+	var (
+		resp *mediainputs.OffsetMediaInputCursorResponse
+	)
+	for {
+		resp, err = client.MediaInputs.OffsetMediaInputCursor(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2414,9 +3220,22 @@ func (p *Proxy) TriggerMediaInputAction(ctx context.Context, req *obsgrpc.Trigge
 			MediaAction: ptr(req.MediaAction),
 		}
 	}
-	resp, err := client.MediaInputs.TriggerMediaInputAction(params)
+	var (
+		resp *mediainputs.TriggerMediaInputActionResponse
+	)
+	for {
+		resp, err = client.MediaInputs.TriggerMediaInputAction(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2447,9 +3266,22 @@ func (p *Proxy) GetVirtualCamStatus(ctx context.Context, req *obsgrpc.GetVirtual
 	if req != nil {
 		params = &outputs.GetVirtualCamStatusParams{}
 	}
-	resp, err := client.Outputs.GetVirtualCamStatus(params)
+	var (
+		resp *outputs.GetVirtualCamStatusResponse
+	)
+	for {
+		resp, err = client.Outputs.GetVirtualCamStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2482,9 +3314,22 @@ func (p *Proxy) ToggleVirtualCam(ctx context.Context, req *obsgrpc.ToggleVirtual
 	if req != nil {
 		params = &outputs.ToggleVirtualCamParams{}
 	}
-	resp, err := client.Outputs.ToggleVirtualCam(params)
+	var (
+		resp *outputs.ToggleVirtualCamResponse
+	)
+	for {
+		resp, err = client.Outputs.ToggleVirtualCam(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2517,9 +3362,22 @@ func (p *Proxy) StartVirtualCam(ctx context.Context, req *obsgrpc.StartVirtualCa
 	if req != nil {
 		params = &outputs.StartVirtualCamParams{}
 	}
-	resp, err := client.Outputs.StartVirtualCam(params)
+	var (
+		resp *outputs.StartVirtualCamResponse
+	)
+	for {
+		resp, err = client.Outputs.StartVirtualCam(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2550,9 +3408,22 @@ func (p *Proxy) StopVirtualCam(ctx context.Context, req *obsgrpc.StopVirtualCamR
 	if req != nil {
 		params = &outputs.StopVirtualCamParams{}
 	}
-	resp, err := client.Outputs.StopVirtualCam(params)
+	var (
+		resp *outputs.StopVirtualCamResponse
+	)
+	for {
+		resp, err = client.Outputs.StopVirtualCam(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2583,9 +3454,22 @@ func (p *Proxy) GetReplayBufferStatus(ctx context.Context, req *obsgrpc.GetRepla
 	if req != nil {
 		params = &outputs.GetReplayBufferStatusParams{}
 	}
-	resp, err := client.Outputs.GetReplayBufferStatus(params)
+	var (
+		resp *outputs.GetReplayBufferStatusResponse
+	)
+	for {
+		resp, err = client.Outputs.GetReplayBufferStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2618,9 +3502,22 @@ func (p *Proxy) ToggleReplayBuffer(ctx context.Context, req *obsgrpc.ToggleRepla
 	if req != nil {
 		params = &outputs.ToggleReplayBufferParams{}
 	}
-	resp, err := client.Outputs.ToggleReplayBuffer(params)
+	var (
+		resp *outputs.ToggleReplayBufferResponse
+	)
+	for {
+		resp, err = client.Outputs.ToggleReplayBuffer(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2653,9 +3550,22 @@ func (p *Proxy) StartReplayBuffer(ctx context.Context, req *obsgrpc.StartReplayB
 	if req != nil {
 		params = &outputs.StartReplayBufferParams{}
 	}
-	resp, err := client.Outputs.StartReplayBuffer(params)
+	var (
+		resp *outputs.StartReplayBufferResponse
+	)
+	for {
+		resp, err = client.Outputs.StartReplayBuffer(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2686,9 +3596,22 @@ func (p *Proxy) StopReplayBuffer(ctx context.Context, req *obsgrpc.StopReplayBuf
 	if req != nil {
 		params = &outputs.StopReplayBufferParams{}
 	}
-	resp, err := client.Outputs.StopReplayBuffer(params)
+	var (
+		resp *outputs.StopReplayBufferResponse
+	)
+	for {
+		resp, err = client.Outputs.StopReplayBuffer(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2719,9 +3642,22 @@ func (p *Proxy) SaveReplayBuffer(ctx context.Context, req *obsgrpc.SaveReplayBuf
 	if req != nil {
 		params = &outputs.SaveReplayBufferParams{}
 	}
-	resp, err := client.Outputs.SaveReplayBuffer(params)
+	var (
+		resp *outputs.SaveReplayBufferResponse
+	)
+	for {
+		resp, err = client.Outputs.SaveReplayBuffer(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2752,9 +3688,22 @@ func (p *Proxy) GetLastReplayBufferReplay(ctx context.Context, req *obsgrpc.GetL
 	if req != nil {
 		params = &outputs.GetLastReplayBufferReplayParams{}
 	}
-	resp, err := client.Outputs.GetLastReplayBufferReplay(params)
+	var (
+		resp *outputs.GetLastReplayBufferReplayResponse
+	)
+	for {
+		resp, err = client.Outputs.GetLastReplayBufferReplay(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2787,9 +3736,22 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 	if req != nil {
 		params = &outputs.GetOutputListParams{}
 	}
-	resp, err := client.Outputs.GetOutputList(params)
+	var (
+		resp *outputs.GetOutputListResponse
+	)
+	for {
+		resp, err = client.Outputs.GetOutputList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2824,9 +3786,22 @@ func (p *Proxy) GetOutputStatus(ctx context.Context, req *obsgrpc.GetOutputStatu
 			OutputName: ptr(req.OutputName),
 		}
 	}
-	resp, err := client.Outputs.GetOutputStatus(params)
+	var (
+		resp *outputs.GetOutputStatusResponse
+	)
+	for {
+		resp, err = client.Outputs.GetOutputStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2868,9 +3843,22 @@ func (p *Proxy) ToggleOutput(ctx context.Context, req *obsgrpc.ToggleOutputReque
 			OutputName: ptr(req.OutputName),
 		}
 	}
-	resp, err := client.Outputs.ToggleOutput(params)
+	var (
+		resp *outputs.ToggleOutputResponse
+	)
+	for {
+		resp, err = client.Outputs.ToggleOutput(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2905,9 +3893,22 @@ func (p *Proxy) StartOutput(ctx context.Context, req *obsgrpc.StartOutputRequest
 			OutputName: ptr(req.OutputName),
 		}
 	}
-	resp, err := client.Outputs.StartOutput(params)
+	var (
+		resp *outputs.StartOutputResponse
+	)
+	for {
+		resp, err = client.Outputs.StartOutput(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2940,9 +3941,22 @@ func (p *Proxy) StopOutput(ctx context.Context, req *obsgrpc.StopOutputRequest) 
 			OutputName: ptr(req.OutputName),
 		}
 	}
-	resp, err := client.Outputs.StopOutput(params)
+	var (
+		resp *outputs.StopOutputResponse
+	)
+	for {
+		resp, err = client.Outputs.StopOutput(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -2975,9 +3989,22 @@ func (p *Proxy) GetOutputSettings(ctx context.Context, req *obsgrpc.GetOutputSet
 			OutputName: ptr(req.OutputName),
 		}
 	}
-	resp, err := client.Outputs.GetOutputSettings(params)
+	var (
+		resp *outputs.GetOutputSettingsResponse
+	)
+	for {
+		resp, err = client.Outputs.GetOutputSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3017,9 +4044,22 @@ func (p *Proxy) SetOutputSettings(ctx context.Context, req *obsgrpc.SetOutputSet
 			OutputSettings: outputSettings,
 		}
 	}
-	resp, err := client.Outputs.SetOutputSettings(params)
+	var (
+		resp *outputs.SetOutputSettingsResponse
+	)
+	for {
+		resp, err = client.Outputs.SetOutputSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3050,9 +4090,22 @@ func (p *Proxy) GetRecordStatus(ctx context.Context, req *obsgrpc.GetRecordStatu
 	if req != nil {
 		params = &record.GetRecordStatusParams{}
 	}
-	resp, err := client.Record.GetRecordStatus(params)
+	var (
+		resp *record.GetRecordStatusResponse
+	)
+	for {
+		resp, err = client.Record.GetRecordStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3089,9 +4142,22 @@ func (p *Proxy) ToggleRecord(ctx context.Context, req *obsgrpc.ToggleRecordReque
 	if req != nil {
 		params = &record.ToggleRecordParams{}
 	}
-	resp, err := client.Record.ToggleRecord(params)
+	var (
+		resp *record.ToggleRecordResponse
+	)
+	for {
+		resp, err = client.Record.ToggleRecord(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3124,9 +4190,22 @@ func (p *Proxy) StartRecord(ctx context.Context, req *obsgrpc.StartRecordRequest
 	if req != nil {
 		params = &record.StartRecordParams{}
 	}
-	resp, err := client.Record.StartRecord(params)
+	var (
+		resp *record.StartRecordResponse
+	)
+	for {
+		resp, err = client.Record.StartRecord(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3157,9 +4236,22 @@ func (p *Proxy) StopRecord(ctx context.Context, req *obsgrpc.StopRecordRequest) 
 	if req != nil {
 		params = &record.StopRecordParams{}
 	}
-	resp, err := client.Record.StopRecord(params)
+	var (
+		resp *record.StopRecordResponse
+	)
+	for {
+		resp, err = client.Record.StopRecord(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3192,9 +4284,22 @@ func (p *Proxy) ToggleRecordPause(ctx context.Context, req *obsgrpc.ToggleRecord
 	if req != nil {
 		params = &record.ToggleRecordPauseParams{}
 	}
-	resp, err := client.Record.ToggleRecordPause(params)
+	var (
+		resp *record.ToggleRecordPauseResponse
+	)
+	for {
+		resp, err = client.Record.ToggleRecordPause(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3225,9 +4330,22 @@ func (p *Proxy) PauseRecord(ctx context.Context, req *obsgrpc.PauseRecordRequest
 	if req != nil {
 		params = &record.PauseRecordParams{}
 	}
-	resp, err := client.Record.PauseRecord(params)
+	var (
+		resp *record.PauseRecordResponse
+	)
+	for {
+		resp, err = client.Record.PauseRecord(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3258,9 +4376,22 @@ func (p *Proxy) ResumeRecord(ctx context.Context, req *obsgrpc.ResumeRecordReque
 	if req != nil {
 		params = &record.ResumeRecordParams{}
 	}
-	resp, err := client.Record.ResumeRecord(params)
+	var (
+		resp *record.ResumeRecordResponse
+	)
+	for {
+		resp, err = client.Record.ResumeRecord(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3291,9 +4422,22 @@ func (p *Proxy) SplitRecordFile(ctx context.Context, req *obsgrpc.SplitRecordFil
 	if req != nil {
 		params = &record.SplitRecordFileParams{}
 	}
-	resp, err := client.Record.SplitRecordFile(params)
+	var (
+		resp *record.SplitRecordFileResponse
+	)
+	for {
+		resp, err = client.Record.SplitRecordFile(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3326,9 +4470,22 @@ func (p *Proxy) CreateRecordChapter(ctx context.Context, req *obsgrpc.CreateReco
 			ChapterName: req.ChapterName,
 		}
 	}
-	resp, err := client.Record.CreateRecordChapter(params)
+	var (
+		resp *record.CreateRecordChapterResponse
+	)
+	for {
+		resp, err = client.Record.CreateRecordChapter(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3362,9 +4519,22 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemList(params)
+	var (
+		resp *sceneitems.GetSceneItemListResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3400,9 +4570,22 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.SceneItems.GetGroupSceneItemList(params)
+	var (
+		resp *sceneitems.GetGroupSceneItemListResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetGroupSceneItemList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3440,9 +4623,22 @@ func (p *Proxy) GetSceneItemId(ctx context.Context, req *obsgrpc.GetSceneItemIdR
 			SearchOffset: ptrInt64ToFloat64(req.SearchOffset),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemId(params)
+	var (
+		resp *sceneitems.GetSceneItemIdResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemId(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3479,9 +4675,22 @@ func (p *Proxy) GetSceneItemSource(ctx context.Context, req *obsgrpc.GetSceneIte
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemSource(params)
+	var (
+		resp *sceneitems.GetSceneItemSourceResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemSource(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3521,9 +4730,22 @@ func (p *Proxy) CreateSceneItem(ctx context.Context, req *obsgrpc.CreateSceneIte
 			SceneItemEnabled: req.SceneItemEnabled,
 		}
 	}
-	resp, err := client.SceneItems.CreateSceneItem(params)
+	var (
+		resp *sceneitems.CreateSceneItemResponse
+	)
+	for {
+		resp, err = client.SceneItems.CreateSceneItem(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3560,9 +4782,22 @@ func (p *Proxy) RemoveSceneItem(ctx context.Context, req *obsgrpc.RemoveSceneIte
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.RemoveSceneItem(params)
+	var (
+		resp *sceneitems.RemoveSceneItemResponse
+	)
+	for {
+		resp, err = client.SceneItems.RemoveSceneItem(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3599,9 +4834,22 @@ func (p *Proxy) DuplicateSceneItem(ctx context.Context, req *obsgrpc.DuplicateSc
 			DestinationSceneUuid: req.DestinationSceneUUID,
 		}
 	}
-	resp, err := client.SceneItems.DuplicateSceneItem(params)
+	var (
+		resp *sceneitems.DuplicateSceneItemResponse
+	)
+	for {
+		resp, err = client.SceneItems.DuplicateSceneItem(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3638,9 +4886,22 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemTransform(params)
+	var (
+		resp *sceneitems.GetSceneItemTransformResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemTransform(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3682,9 +4943,22 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 			SceneItemTransform: sceneItemTransform,
 		}
 	}
-	resp, err := client.SceneItems.SetSceneItemTransform(params)
+	var (
+		resp *sceneitems.SetSceneItemTransformResponse
+	)
+	for {
+		resp, err = client.SceneItems.SetSceneItemTransform(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3719,9 +4993,22 @@ func (p *Proxy) GetSceneItemEnabled(ctx context.Context, req *obsgrpc.GetSceneIt
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemEnabled(params)
+	var (
+		resp *sceneitems.GetSceneItemEnabledResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemEnabled(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3759,9 +5046,22 @@ func (p *Proxy) SetSceneItemEnabled(ctx context.Context, req *obsgrpc.SetSceneIt
 			SceneItemEnabled: ptr(req.SceneItemEnabled),
 		}
 	}
-	resp, err := client.SceneItems.SetSceneItemEnabled(params)
+	var (
+		resp *sceneitems.SetSceneItemEnabledResponse
+	)
+	for {
+		resp, err = client.SceneItems.SetSceneItemEnabled(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3796,9 +5096,22 @@ func (p *Proxy) GetSceneItemLocked(ctx context.Context, req *obsgrpc.GetSceneIte
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemLocked(params)
+	var (
+		resp *sceneitems.GetSceneItemLockedResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemLocked(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3836,9 +5149,22 @@ func (p *Proxy) SetSceneItemLocked(ctx context.Context, req *obsgrpc.SetSceneIte
 			SceneItemLocked: ptr(req.SceneItemLocked),
 		}
 	}
-	resp, err := client.SceneItems.SetSceneItemLocked(params)
+	var (
+		resp *sceneitems.SetSceneItemLockedResponse
+	)
+	for {
+		resp, err = client.SceneItems.SetSceneItemLocked(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3873,9 +5199,22 @@ func (p *Proxy) GetSceneItemIndex(ctx context.Context, req *obsgrpc.GetSceneItem
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemIndex(params)
+	var (
+		resp *sceneitems.GetSceneItemIndexResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemIndex(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3913,9 +5252,22 @@ func (p *Proxy) SetSceneItemIndex(ctx context.Context, req *obsgrpc.SetSceneItem
 			SceneItemIndex: ptr((int)(req.SceneItemIndex)),
 		}
 	}
-	resp, err := client.SceneItems.SetSceneItemIndex(params)
+	var (
+		resp *sceneitems.SetSceneItemIndexResponse
+	)
+	for {
+		resp, err = client.SceneItems.SetSceneItemIndex(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3950,9 +5302,22 @@ func (p *Proxy) GetSceneItemBlendMode(ctx context.Context, req *obsgrpc.GetScene
 			SceneItemId: ptr((int)(req.SceneItemID)),
 		}
 	}
-	resp, err := client.SceneItems.GetSceneItemBlendMode(params)
+	var (
+		resp *sceneitems.GetSceneItemBlendModeResponse
+	)
+	for {
+		resp, err = client.SceneItems.GetSceneItemBlendMode(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -3990,9 +5355,22 @@ func (p *Proxy) SetSceneItemBlendMode(ctx context.Context, req *obsgrpc.SetScene
 			SceneItemBlendMode: ptr((string)(req.SceneItemBlendMode)),
 		}
 	}
-	resp, err := client.SceneItems.SetSceneItemBlendMode(params)
+	var (
+		resp *sceneitems.SetSceneItemBlendModeResponse
+	)
+	for {
+		resp, err = client.SceneItems.SetSceneItemBlendMode(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4023,9 +5401,22 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 	if req != nil {
 		params = &scenes.GetSceneListParams{}
 	}
-	resp, err := client.Scenes.GetSceneList(params)
+	var (
+		resp *scenes.GetSceneListResponse
+	)
+	for {
+		resp, err = client.Scenes.GetSceneList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4062,9 +5453,22 @@ func (p *Proxy) GetGroupList(ctx context.Context, req *obsgrpc.GetGroupListReque
 	if req != nil {
 		params = &scenes.GetGroupListParams{}
 	}
-	resp, err := client.Scenes.GetGroupList(params)
+	var (
+		resp *scenes.GetGroupListResponse
+	)
+	for {
+		resp, err = client.Scenes.GetGroupList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4097,9 +5501,22 @@ func (p *Proxy) GetCurrentProgramScene(ctx context.Context, req *obsgrpc.GetCurr
 	if req != nil {
 		params = &scenes.GetCurrentProgramSceneParams{}
 	}
-	resp, err := client.Scenes.GetCurrentProgramScene(params)
+	var (
+		resp *scenes.GetCurrentProgramSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.GetCurrentProgramScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4138,9 +5555,22 @@ func (p *Proxy) SetCurrentProgramScene(ctx context.Context, req *obsgrpc.SetCurr
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.Scenes.SetCurrentProgramScene(params)
+	var (
+		resp *scenes.SetCurrentProgramSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.SetCurrentProgramScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4171,9 +5601,22 @@ func (p *Proxy) GetCurrentPreviewScene(ctx context.Context, req *obsgrpc.GetCurr
 	if req != nil {
 		params = &scenes.GetCurrentPreviewSceneParams{}
 	}
-	resp, err := client.Scenes.GetCurrentPreviewScene(params)
+	var (
+		resp *scenes.GetCurrentPreviewSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.GetCurrentPreviewScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4212,9 +5655,22 @@ func (p *Proxy) SetCurrentPreviewScene(ctx context.Context, req *obsgrpc.SetCurr
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.Scenes.SetCurrentPreviewScene(params)
+	var (
+		resp *scenes.SetCurrentPreviewSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.SetCurrentPreviewScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4247,9 +5703,22 @@ func (p *Proxy) CreateScene(ctx context.Context, req *obsgrpc.CreateSceneRequest
 			SceneName: ptr(req.SceneName),
 		}
 	}
-	resp, err := client.Scenes.CreateScene(params)
+	var (
+		resp *scenes.CreateSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.CreateScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4285,9 +5754,22 @@ func (p *Proxy) RemoveScene(ctx context.Context, req *obsgrpc.RemoveSceneRequest
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.Scenes.RemoveScene(params)
+	var (
+		resp *scenes.RemoveSceneResponse
+	)
+	for {
+		resp, err = client.Scenes.RemoveScene(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4322,9 +5804,22 @@ func (p *Proxy) SetSceneName(ctx context.Context, req *obsgrpc.SetSceneNameReque
 			NewSceneName: ptr(req.NewSceneName),
 		}
 	}
-	resp, err := client.Scenes.SetSceneName(params)
+	var (
+		resp *scenes.SetSceneNameResponse
+	)
+	for {
+		resp, err = client.Scenes.SetSceneName(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4358,9 +5853,22 @@ func (p *Proxy) GetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 			SceneUuid: req.SceneUUID,
 		}
 	}
-	resp, err := client.Scenes.GetSceneSceneTransitionOverride(params)
+	var (
+		resp *scenes.GetSceneSceneTransitionOverrideResponse
+	)
+	for {
+		resp, err = client.Scenes.GetSceneSceneTransitionOverride(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4399,9 +5907,22 @@ func (p *Proxy) SetSceneSceneTransitionOverride(ctx context.Context, req *obsgrp
 			TransitionDuration: ptrInt64ToFloat64(req.TransitionDuration),
 		}
 	}
-	resp, err := client.Scenes.SetSceneSceneTransitionOverride(params)
+	var (
+		resp *scenes.SetSceneSceneTransitionOverrideResponse
+	)
+	for {
+		resp, err = client.Scenes.SetSceneSceneTransitionOverride(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4435,9 +5956,22 @@ func (p *Proxy) GetSourceActive(ctx context.Context, req *obsgrpc.GetSourceActiv
 			SourceUuid: req.SourceUUID,
 		}
 	}
-	resp, err := client.Sources.GetSourceActive(params)
+	var (
+		resp *sources.GetSourceActiveResponse
+	)
+	for {
+		resp, err = client.Sources.GetSourceActive(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4478,9 +6012,22 @@ func (p *Proxy) GetSourceScreenshot(ctx context.Context, req *obsgrpc.GetSourceS
 			ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
 		}
 	}
-	resp, err := client.Sources.GetSourceScreenshot(params)
+	var (
+		resp *sources.GetSourceScreenshotResponse
+	)
+	for {
+		resp, err = client.Sources.GetSourceScreenshot(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4521,9 +6068,22 @@ func (p *Proxy) SaveSourceScreenshot(ctx context.Context, req *obsgrpc.SaveSourc
 			ImageCompressionQuality: ptrInt64ToFloat64(req.ImageCompressionQuality),
 		}
 	}
-	resp, err := client.Sources.SaveSourceScreenshot(params)
+	var (
+		resp *sources.SaveSourceScreenshotResponse
+	)
+	for {
+		resp, err = client.Sources.SaveSourceScreenshot(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4554,9 +6114,22 @@ func (p *Proxy) GetStreamStatus(ctx context.Context, req *obsgrpc.GetStreamStatu
 	if req != nil {
 		params = &stream.GetStreamStatusParams{}
 	}
-	resp, err := client.Stream.GetStreamStatus(params)
+	var (
+		resp *stream.GetStreamStatusResponse
+	)
+	for {
+		resp, err = client.Stream.GetStreamStatus(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4596,9 +6169,22 @@ func (p *Proxy) ToggleStream(ctx context.Context, req *obsgrpc.ToggleStreamReque
 	if req != nil {
 		params = &stream.ToggleStreamParams{}
 	}
-	resp, err := client.Stream.ToggleStream(params)
+	var (
+		resp *stream.ToggleStreamResponse
+	)
+	for {
+		resp, err = client.Stream.ToggleStream(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4631,9 +6217,22 @@ func (p *Proxy) StartStream(ctx context.Context, req *obsgrpc.StartStreamRequest
 	if req != nil {
 		params = &stream.StartStreamParams{}
 	}
-	resp, err := client.Stream.StartStream(params)
+	var (
+		resp *stream.StartStreamResponse
+	)
+	for {
+		resp, err = client.Stream.StartStream(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4664,9 +6263,22 @@ func (p *Proxy) StopStream(ctx context.Context, req *obsgrpc.StopStreamRequest) 
 	if req != nil {
 		params = &stream.StopStreamParams{}
 	}
-	resp, err := client.Stream.StopStream(params)
+	var (
+		resp *stream.StopStreamResponse
+	)
+	for {
+		resp, err = client.Stream.StopStream(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4699,9 +6311,22 @@ func (p *Proxy) SendStreamCaption(ctx context.Context, req *obsgrpc.SendStreamCa
 			CaptionText: ptr((string)(req.CaptionText)),
 		}
 	}
-	resp, err := client.Stream.SendStreamCaption(params)
+	var (
+		resp *stream.SendStreamCaptionResponse
+	)
+	for {
+		resp, err = client.Stream.SendStreamCaption(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4732,9 +6357,22 @@ func (p *Proxy) GetTransitionKindList(ctx context.Context, req *obsgrpc.GetTrans
 	if req != nil {
 		params = &transitions.GetTransitionKindListParams{}
 	}
-	resp, err := client.Transitions.GetTransitionKindList(params)
+	var (
+		resp *transitions.GetTransitionKindListResponse
+	)
+	for {
+		resp, err = client.Transitions.GetTransitionKindList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4767,9 +6405,22 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 	if req != nil {
 		params = &transitions.GetSceneTransitionListParams{}
 	}
-	resp, err := client.Transitions.GetSceneTransitionList(params)
+	var (
+		resp *transitions.GetSceneTransitionListResponse
+	)
+	for {
+		resp, err = client.Transitions.GetSceneTransitionList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4805,9 +6456,22 @@ func (p *Proxy) GetCurrentSceneTransition(ctx context.Context, req *obsgrpc.GetC
 	if req != nil {
 		params = &transitions.GetCurrentSceneTransitionParams{}
 	}
-	resp, err := client.Transitions.GetCurrentSceneTransition(params)
+	var (
+		resp *transitions.GetCurrentSceneTransitionResponse
+	)
+	for {
+		resp, err = client.Transitions.GetCurrentSceneTransition(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4848,9 +6512,22 @@ func (p *Proxy) SetCurrentSceneTransition(ctx context.Context, req *obsgrpc.SetC
 			TransitionName: ptr(req.TransitionName),
 		}
 	}
-	resp, err := client.Transitions.SetCurrentSceneTransition(params)
+	var (
+		resp *transitions.SetCurrentSceneTransitionResponse
+	)
+	for {
+		resp, err = client.Transitions.SetCurrentSceneTransition(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4883,9 +6560,22 @@ func (p *Proxy) SetCurrentSceneTransitionDuration(ctx context.Context, req *obsg
 			TransitionDuration: ptr((float64)(req.TransitionDuration)),
 		}
 	}
-	resp, err := client.Transitions.SetCurrentSceneTransitionDuration(params)
+	var (
+		resp *transitions.SetCurrentSceneTransitionDurationResponse
+	)
+	for {
+		resp, err = client.Transitions.SetCurrentSceneTransitionDuration(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4923,9 +6613,22 @@ func (p *Proxy) SetCurrentSceneTransitionSettings(ctx context.Context, req *obsg
 			Overlay:            req.Overlay,
 		}
 	}
-	resp, err := client.Transitions.SetCurrentSceneTransitionSettings(params)
+	var (
+		resp *transitions.SetCurrentSceneTransitionSettingsResponse
+	)
+	for {
+		resp, err = client.Transitions.SetCurrentSceneTransitionSettings(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4956,9 +6659,22 @@ func (p *Proxy) GetCurrentSceneTransitionCursor(ctx context.Context, req *obsgrp
 	if req != nil {
 		params = &transitions.GetCurrentSceneTransitionCursorParams{}
 	}
-	resp, err := client.Transitions.GetCurrentSceneTransitionCursor(params)
+	var (
+		resp *transitions.GetCurrentSceneTransitionCursorResponse
+	)
+	for {
+		resp, err = client.Transitions.GetCurrentSceneTransitionCursor(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -4991,9 +6707,22 @@ func (p *Proxy) TriggerStudioModeTransition(ctx context.Context, req *obsgrpc.Tr
 	if req != nil {
 		params = &transitions.TriggerStudioModeTransitionParams{}
 	}
-	resp, err := client.Transitions.TriggerStudioModeTransition(params)
+	var (
+		resp *transitions.TriggerStudioModeTransitionResponse
+	)
+	for {
+		resp, err = client.Transitions.TriggerStudioModeTransition(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5027,9 +6756,22 @@ func (p *Proxy) SetTBarPosition(ctx context.Context, req *obsgrpc.SetTBarPositio
 			Release:  req.Release,
 		}
 	}
-	resp, err := client.Transitions.SetTBarPosition(params)
+	var (
+		resp *transitions.SetTBarPositionResponse
+	)
+	for {
+		resp, err = client.Transitions.SetTBarPosition(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5060,9 +6802,22 @@ func (p *Proxy) GetStudioModeEnabled(ctx context.Context, req *obsgrpc.GetStudio
 	if req != nil {
 		params = &ui.GetStudioModeEnabledParams{}
 	}
-	resp, err := client.Ui.GetStudioModeEnabled(params)
+	var (
+		resp *ui.GetStudioModeEnabledResponse
+	)
+	for {
+		resp, err = client.Ui.GetStudioModeEnabled(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5097,9 +6852,22 @@ func (p *Proxy) SetStudioModeEnabled(ctx context.Context, req *obsgrpc.SetStudio
 			StudioModeEnabled: ptr(req.StudioModeEnabled),
 		}
 	}
-	resp, err := client.Ui.SetStudioModeEnabled(params)
+	var (
+		resp *ui.SetStudioModeEnabledResponse
+	)
+	for {
+		resp, err = client.Ui.SetStudioModeEnabled(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5133,9 +6901,22 @@ func (p *Proxy) OpenInputPropertiesDialog(ctx context.Context, req *obsgrpc.Open
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Ui.OpenInputPropertiesDialog(params)
+	var (
+		resp *ui.OpenInputPropertiesDialogResponse
+	)
+	for {
+		resp, err = client.Ui.OpenInputPropertiesDialog(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5169,9 +6950,22 @@ func (p *Proxy) OpenInputFiltersDialog(ctx context.Context, req *obsgrpc.OpenInp
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Ui.OpenInputFiltersDialog(params)
+	var (
+		resp *ui.OpenInputFiltersDialogResponse
+	)
+	for {
+		resp, err = client.Ui.OpenInputFiltersDialog(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5205,9 +6999,22 @@ func (p *Proxy) OpenInputInteractDialog(ctx context.Context, req *obsgrpc.OpenIn
 			InputUuid: req.InputUUID,
 		}
 	}
-	resp, err := client.Ui.OpenInputInteractDialog(params)
+	var (
+		resp *ui.OpenInputInteractDialogResponse
+	)
+	for {
+		resp, err = client.Ui.OpenInputInteractDialog(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5238,9 +7045,22 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 	if req != nil {
 		params = &ui.GetMonitorListParams{}
 	}
-	resp, err := client.Ui.GetMonitorList(params)
+	var (
+		resp *ui.GetMonitorListResponse
+	)
+	for {
+		resp, err = client.Ui.GetMonitorList(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5277,9 +7097,22 @@ func (p *Proxy) OpenVideoMixProjector(ctx context.Context, req *obsgrpc.OpenVide
 			ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
 		}
 	}
-	resp, err := client.Ui.OpenVideoMixProjector(params)
+	var (
+		resp *ui.OpenVideoMixProjectorResponse
+	)
+	for {
+		resp, err = client.Ui.OpenVideoMixProjector(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")
@@ -5315,9 +7148,22 @@ func (p *Proxy) OpenSourceProjector(ctx context.Context, req *obsgrpc.OpenSource
 			ProjectorGeometry: ptr((string)(req.ProjectorGeometry)),
 		}
 	}
-	resp, err := client.Ui.OpenSourceProjector(params)
+	var (
+		resp *ui.OpenSourceProjectorResponse
+	)
+	for {
+		resp, err = client.Ui.OpenSourceProjector(params)
+		if err != nil && p.QueryErrorHandler != nil {
+			fixErr := p.QueryErrorHandler(ctx, err)
+			if fixErr == nil {
+				logger.Tracef(ctx, "there was error '%s', but it was handled", err)
+				continue
+			}
+		}
+		break
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	if resp == nil {
 		return nil, fmt.Errorf("internal error: resp is nil")

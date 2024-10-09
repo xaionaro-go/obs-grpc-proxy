@@ -14,15 +14,17 @@ import (
 )
 
 type GetClientFunc func(ctx context.Context) (*goobs.Client, context.CancelFunc, error)
+type QueryErrorHandler func(ctx context.Context, err error) error
 
 type Proxy struct {
 	obs_grpc.UnimplementedOBSServer
 
-	GetClient    GetClientFunc
-	config       configT
-	client       *goobs.Client
-	clientCancel context.CancelFunc
-	clientLocker sync.Mutex
+	GetClient         GetClientFunc
+	QueryErrorHandler QueryErrorHandler
+	config            configT
+	client            *goobs.Client
+	clientCancel      context.CancelFunc
+	clientLocker      sync.Mutex
 }
 
 var _ obs_grpc.OBSServer = (*Proxy)(nil)
