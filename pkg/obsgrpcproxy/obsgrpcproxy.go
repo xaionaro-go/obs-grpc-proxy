@@ -9,6 +9,7 @@ import (
 	"time"
 
 	goobs "github.com/andreykaipov/goobs"
+	typedefs "github.com/andreykaipov/goobs/api/typedefs"
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/obs-grpc-proxy/protobuf/go/obs_grpc"
 )
@@ -280,4 +281,167 @@ func fromAbstractObjectViaJSON[T any](in *obs_grpc.AbstractObject) (T, error) {
 	}
 
 	return result, nil
+}
+
+func FromAbstractObjects[T any](in []*obs_grpc.AbstractObject) ([]T, error) {
+	result := make([]T, 0, len(in))
+	for idx, item := range in {
+		itemConverted, err := FromAbstractObject[T](item)
+		if err != nil {
+			return nil, fmt.Errorf("unable to convert item #%d (%#+v): %w", idx, item, err)
+		}
+		result = append(result, itemConverted)
+	}
+	return result, nil
+}
+
+func must[T any](in T, err error) T {
+	if err != nil {
+		panic(err)
+	}
+	return in
+}
+
+func StreamServiceSettingsGo2Protobuf(
+	in *typedefs.StreamServiceSettings,
+) *obs_grpc.StreamServiceSettings {
+	return must(FromAbstractObject[*obs_grpc.StreamServiceSettings](ToAbstractObject[*typedefs.StreamServiceSettings](in)))
+}
+
+func StreamServiceSettingsProtobuf2Go(
+	in *obs_grpc.StreamServiceSettings,
+) (*typedefs.StreamServiceSettings, error) {
+	return FromAbstractObject[*typedefs.StreamServiceSettings](ToAbstractObject[*obs_grpc.StreamServiceSettings](in))
+}
+
+func FiltersGo2Protobuf(
+	in []*typedefs.Filter,
+) []*obs_grpc.Filter {
+	return must(FromAbstractObjects[*obs_grpc.Filter](ToAbstractObjects[*typedefs.Filter](in)))
+}
+
+func FiltersProtobuf2Go(
+	in []*obs_grpc.Filter,
+) ([]*typedefs.Filter, error) {
+	return FromAbstractObjects[*typedefs.Filter](ToAbstractObjects[*obs_grpc.Filter](in))
+}
+
+func KeyModifiersGo2Protobuf(
+	in *typedefs.KeyModifiers,
+) *obs_grpc.KeyModifiers {
+	return must(FromAbstractObject[*obs_grpc.KeyModifiers](ToAbstractObject[*typedefs.KeyModifiers](in)))
+}
+
+func KeyModifiersProtobuf2Go(
+	in *obs_grpc.KeyModifiers,
+) (*typedefs.KeyModifiers, error) {
+	return FromAbstractObject[*typedefs.KeyModifiers](ToAbstractObject[*obs_grpc.KeyModifiers](in))
+}
+
+func InputsGo2Protobuf(
+	in []*typedefs.Input,
+) []*obs_grpc.Input {
+	return must(FromAbstractObjects[*obs_grpc.Input](ToAbstractObjects[*typedefs.Input](in)))
+}
+
+func InputsProtobuf2Go(
+	in []*obs_grpc.Input,
+) ([]*typedefs.Input, error) {
+	return FromAbstractObjects[*typedefs.Input](ToAbstractObjects[*obs_grpc.Input](in))
+}
+
+func InputAudioTracksGo2Protobuf(
+	in *typedefs.InputAudioTracks,
+) *obs_grpc.InputAudioTracks {
+	return must(FromAbstractObject[*obs_grpc.InputAudioTracks](ToAbstractObject[*typedefs.InputAudioTracks](in)))
+}
+
+func InputAudioTracksProtobuf2Go(
+	in *obs_grpc.InputAudioTracks,
+) (*typedefs.InputAudioTracks, error) {
+	return FromAbstractObject[*typedefs.InputAudioTracks](ToAbstractObject[*obs_grpc.InputAudioTracks](in))
+}
+
+func PropertyItemsGo2Protobuf(
+	in []*typedefs.PropertyItem,
+) []*obs_grpc.PropertyItem {
+	return must(FromAbstractObjects[*obs_grpc.PropertyItem](ToAbstractObjects[*typedefs.PropertyItem](in)))
+}
+
+func PropertyItemsProtobuf2Go(
+	in []*obs_grpc.PropertyItem,
+) ([]*typedefs.PropertyItem, error) {
+	return FromAbstractObjects[*typedefs.PropertyItem](ToAbstractObjects[*obs_grpc.PropertyItem](in))
+}
+
+func OutputsGo2Protobuf(
+	in []*typedefs.Output,
+) []*obs_grpc.Output {
+	return must(FromAbstractObjects[*obs_grpc.Output](ToAbstractObjects[*typedefs.Output](in)))
+}
+
+func OutputsProtobuf2Go(
+	in []*obs_grpc.Output,
+) ([]*typedefs.Output, error) {
+	return FromAbstractObjects[*typedefs.Output](ToAbstractObjects[*obs_grpc.Output](in))
+}
+
+func SceneItemsGo2Protobuf(
+	in []*typedefs.SceneItem,
+) []*obs_grpc.SceneItem {
+	return must(FromAbstractObjects[*obs_grpc.SceneItem](ToAbstractObjects[*typedefs.SceneItem](in)))
+}
+
+func SceneItemsProtobuf2Go(
+	in []*obs_grpc.SceneItem,
+) ([]*typedefs.SceneItem, error) {
+	return FromAbstractObjects[*typedefs.SceneItem](ToAbstractObjects[*obs_grpc.SceneItem](in))
+}
+
+func SceneItemTransformGo2Protobuf(
+	in *typedefs.SceneItemTransform,
+) *obs_grpc.SceneItemTransform {
+	return must(FromAbstractObject[*obs_grpc.SceneItemTransform](ToAbstractObject[*typedefs.SceneItemTransform](in)))
+}
+
+func SceneItemTransformProtobuf2Go(
+	in *obs_grpc.SceneItemTransform,
+) (*typedefs.SceneItemTransform, error) {
+	return FromAbstractObject[*typedefs.SceneItemTransform](ToAbstractObject[*obs_grpc.SceneItemTransform](in))
+}
+
+func ScenesGo2Protobuf(
+	in []*typedefs.Scene,
+) []*obs_grpc.Scene {
+	return must(FromAbstractObjects[*obs_grpc.Scene](ToAbstractObjects[*typedefs.Scene](in)))
+}
+
+func ScenesProtobuf2Go(
+	in []*obs_grpc.Scene,
+) ([]*typedefs.Scene, error) {
+	return FromAbstractObjects[*typedefs.Scene](ToAbstractObjects[*obs_grpc.Scene](in))
+}
+
+func TransitionsGo2Protobuf(
+	in []*typedefs.Transition,
+) []*obs_grpc.Transition {
+	return must(FromAbstractObjects[*obs_grpc.Transition](ToAbstractObjects[*typedefs.Transition](in)))
+}
+
+func TransitionsProtobuf2Go(
+	in []*obs_grpc.Transition,
+) ([]*typedefs.Transition, error) {
+	return FromAbstractObjects[*typedefs.Transition](ToAbstractObjects[*obs_grpc.Transition](in))
+}
+
+func MonitorsGo2Protobuf(
+	in []*typedefs.Monitor,
+) []*obs_grpc.Monitor {
+	return must(FromAbstractObjects[*obs_grpc.Monitor](ToAbstractObjects[*typedefs.Monitor](in)))
+}
+
+func MonitorsProtobuf2Go(
+	in []*obs_grpc.Monitor,
+) ([]*typedefs.Monitor, error) {
+	return FromAbstractObjects[*typedefs.Monitor](ToAbstractObjects[*obs_grpc.Monitor](in))
 }

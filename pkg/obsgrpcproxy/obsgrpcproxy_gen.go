@@ -713,7 +713,7 @@ func (p *Proxy) GetStreamServiceSettings(ctx context.Context, req *obsgrpc.GetSt
 	}
 	result := &obsgrpc.GetStreamServiceSettingsResponse{
 		StreamServiceType:     ([]byte)(resp.StreamServiceType),
-		StreamServiceSettings: ToAbstractObject[*typedefs.StreamServiceSettings](resp.StreamServiceSettings),
+		StreamServiceSettings: StreamServiceSettingsGo2Protobuf(resp.StreamServiceSettings),
 	}
 	return result, nil
 }
@@ -738,7 +738,7 @@ func (p *Proxy) SetStreamServiceSettings(ctx context.Context, req *obsgrpc.SetSt
 	}
 	params := &config.SetStreamServiceSettingsParams{}
 	if req != nil {
-		streamServiceSettings, err := FromAbstractObject[*typedefs.StreamServiceSettings](req.StreamServiceSettings)
+		streamServiceSettings, err := StreamServiceSettingsProtobuf2Go(req.StreamServiceSettings)
 		if err != nil {
 			return nil, fmt.Errorf("unable to convert field %s: %w", "StreamServiceSettings", err)
 		}
@@ -961,7 +961,7 @@ func (p *Proxy) GetSourceFilterList(ctx context.Context, req *obsgrpc.GetSourceF
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSourceFilterListResponse{
-		Filters: ToAbstractObjects[*typedefs.Filter](resp.Filters),
+		Filters: FiltersGo2Protobuf(resp.Filters),
 	}
 	return result, nil
 }
@@ -1725,7 +1725,7 @@ func (p *Proxy) TriggerHotkeyByKeySequence(ctx context.Context, req *obsgrpc.Tri
 	}
 	params := &general.TriggerHotkeyByKeySequenceParams{}
 	if req != nil {
-		keyModifiers, err := FromAbstractObject[*typedefs.KeyModifiers](req.KeyModifiers)
+		keyModifiers, err := KeyModifiersProtobuf2Go(req.KeyModifiers)
 		if err != nil {
 			return nil, fmt.Errorf("unable to convert field %s: %w", "KeyModifiers", err)
 		}
@@ -1852,7 +1852,7 @@ func (p *Proxy) GetInputList(ctx context.Context, req *obsgrpc.GetInputListReque
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputListResponse{
-		Inputs: ToAbstractObjects[*typedefs.Input](resp.Inputs),
+		Inputs: InputsGo2Protobuf(resp.Inputs),
 	}
 	return result, nil
 }
@@ -2880,7 +2880,7 @@ func (p *Proxy) GetInputAudioTracks(ctx context.Context, req *obsgrpc.GetInputAu
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputAudioTracksResponse{
-		InputAudioTracks: ToAbstractObject[*typedefs.InputAudioTracks](resp.InputAudioTracks),
+		InputAudioTracks: InputAudioTracksGo2Protobuf(resp.InputAudioTracks),
 	}
 	return result, nil
 }
@@ -2905,7 +2905,7 @@ func (p *Proxy) SetInputAudioTracks(ctx context.Context, req *obsgrpc.SetInputAu
 	}
 	params := &inputs.SetInputAudioTracksParams{}
 	if req != nil {
-		inputAudioTracks, err := FromAbstractObject[*typedefs.InputAudioTracks](req.InputAudioTracks)
+		inputAudioTracks, err := InputAudioTracksProtobuf2Go(req.InputAudioTracks)
 		if err != nil {
 			return nil, fmt.Errorf("unable to convert field %s: %w", "InputAudioTracks", err)
 		}
@@ -2986,7 +2986,7 @@ func (p *Proxy) GetInputPropertiesListPropertyItems(ctx context.Context, req *ob
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetInputPropertiesListPropertyItemsResponse{
-		PropertyItems: ToAbstractObjects[*typedefs.PropertyItem](resp.PropertyItems),
+		PropertyItems: PropertyItemsGo2Protobuf(resp.PropertyItems),
 	}
 	return result, nil
 }
@@ -3757,7 +3757,7 @@ func (p *Proxy) GetOutputList(ctx context.Context, req *obsgrpc.GetOutputListReq
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetOutputListResponse{
-		Outputs: ToAbstractObjects[*typedefs.Output](resp.Outputs),
+		Outputs: OutputsGo2Protobuf(resp.Outputs),
 	}
 	return result, nil
 }
@@ -4540,7 +4540,7 @@ func (p *Proxy) GetSceneItemList(ctx context.Context, req *obsgrpc.GetSceneItemL
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemListResponse{
-		SceneItems: ToAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
+		SceneItems: SceneItemsGo2Protobuf(resp.SceneItems),
 	}
 	return result, nil
 }
@@ -4591,7 +4591,7 @@ func (p *Proxy) GetGroupSceneItemList(ctx context.Context, req *obsgrpc.GetGroup
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetGroupSceneItemListResponse{
-		SceneItems: ToAbstractObjects[*typedefs.SceneItem](resp.SceneItems),
+		SceneItems: SceneItemsGo2Protobuf(resp.SceneItems),
 	}
 	return result, nil
 }
@@ -4907,7 +4907,7 @@ func (p *Proxy) GetSceneItemTransform(ctx context.Context, req *obsgrpc.GetScene
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetSceneItemTransformResponse{
-		SceneItemTransform: ToAbstractObject[*typedefs.SceneItemTransform](resp.SceneItemTransform),
+		SceneItemTransform: SceneItemTransformGo2Protobuf(resp.SceneItemTransform),
 	}
 	return result, nil
 }
@@ -4932,7 +4932,7 @@ func (p *Proxy) SetSceneItemTransform(ctx context.Context, req *obsgrpc.SetScene
 	}
 	params := &sceneitems.SetSceneItemTransformParams{}
 	if req != nil {
-		sceneItemTransform, err := FromAbstractObject[*typedefs.SceneItemTransform](req.SceneItemTransform)
+		sceneItemTransform, err := SceneItemTransformProtobuf2Go(req.SceneItemTransform)
 		if err != nil {
 			return nil, fmt.Errorf("unable to convert field %s: %w", "SceneItemTransform", err)
 		}
@@ -5426,7 +5426,7 @@ func (p *Proxy) GetSceneList(ctx context.Context, req *obsgrpc.GetSceneListReque
 		CurrentProgramSceneUUID: resp.CurrentProgramSceneUuid,
 		CurrentPreviewSceneName: resp.CurrentPreviewSceneName,
 		CurrentPreviewSceneUUID: resp.CurrentPreviewSceneUuid,
-		Scenes:                  ToAbstractObjects[*typedefs.Scene](resp.Scenes),
+		Scenes:                  ScenesGo2Protobuf(resp.Scenes),
 	}
 	return result, nil
 }
@@ -6429,7 +6429,7 @@ func (p *Proxy) GetSceneTransitionList(ctx context.Context, req *obsgrpc.GetScen
 		CurrentSceneTransitionName: resp.CurrentSceneTransitionName,
 		CurrentSceneTransitionUUID: resp.CurrentSceneTransitionUuid,
 		CurrentSceneTransitionKind: resp.CurrentSceneTransitionKind,
-		Transitions:                ToAbstractObjects[*typedefs.Transition](resp.Transitions),
+		Transitions:                TransitionsGo2Protobuf(resp.Transitions),
 	}
 	return result, nil
 }
@@ -7066,7 +7066,7 @@ func (p *Proxy) GetMonitorList(ctx context.Context, req *obsgrpc.GetMonitorListR
 		return nil, fmt.Errorf("internal error: resp is nil")
 	}
 	result := &obsgrpc.GetMonitorListResponse{
-		Monitors: ToAbstractObjects[*typedefs.Monitor](resp.Monitors),
+		Monitors: MonitorsGo2Protobuf(resp.Monitors),
 	}
 	return result, nil
 }

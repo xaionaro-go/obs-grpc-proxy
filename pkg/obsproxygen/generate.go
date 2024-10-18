@@ -159,16 +159,15 @@ func generateRequest(
 			}
 		case "Object":
 			fieldName := title(field.ValueName)
+			objectTypeName := fieldName
 			if strings.HasPrefix(field.ValueType, "Array<") {
-				fieldName = fieldName[:len(fieldName)-1]
+				objectTypeName = objectTypeName[:len(objectTypeName)-1]
 			}
-			var typeName string
-			if _, ok := existingObjectTypes[fieldName]; ok {
-				typeName = jen.Id("*").Qual("github.com/andreykaipov/goobs/api/typedefs", fieldName).GoString()
+			if _, ok := existingObjectTypes[objectTypeName]; ok {
+				convertWithErrFunc = fmt.Sprintf("%sProtobuf2Go", fieldName)
 			} else {
-				typeName = "map[string]any"
+				convertWithErrFunc = fmt.Sprintf("FromAbstractObject[map[string]any]")
 			}
-			convertWithErrFunc = fmt.Sprintf("FromAbstractObject[%s]", typeName)
 		}
 		if castToType != "" {
 			src = jen.Params(jen.Id(castToType)).Params(src)
@@ -227,21 +226,21 @@ func generateRequest(
 			}
 		default:
 			fieldName := title(field.ValueName)
+			objectTypeName := fieldName
 			if strings.HasPrefix(field.ValueType, "Array<") {
-				fieldName = fieldName[:len(fieldName)-1]
+				objectTypeName = objectTypeName[:len(objectTypeName)-1]
 			}
-			var typeName string
-			if _, ok := existingObjectTypes[fieldName]; ok {
-				typeName = jen.Id("*").Qual("github.com/andreykaipov/goobs/api/typedefs", fieldName).GoString()
+			if _, ok := existingObjectTypes[objectTypeName]; ok {
+				src = jen.Id(fmt.Sprintf("%sGo2Protobuf", fieldName)).Call(src)
 			} else {
-				typeName = "map[string]any"
+				typeName := "map[string]any"
+				if strings.HasPrefix(field.ValueType, "Array<") {
+					src = jen.Id(fmt.Sprintf("ToAbstractObjects[%s]", typeName)).Call(src)
+				} else {
+					src = jen.Id(fmt.Sprintf("ToAbstractObject[%s]", typeName)).Call(src)
+				}
 			}
 
-			if strings.HasPrefix(field.ValueType, "Array<") {
-				src = jen.Id(fmt.Sprintf("ToAbstractObjects[%s]", typeName)).Call(src)
-			} else {
-				src = jen.Id(fmt.Sprintf("ToAbstractObject[%s]", typeName)).Call(src)
-			}
 		}
 		assignField = assignField.Add(src).Op(",")
 		responseFieldAssigns = append(
