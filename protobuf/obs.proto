@@ -280,7 +280,7 @@ message EventSceneItemRemoved {
 message EventSceneItemListReindexed {
 	string sceneName = 1;
 	string sceneUUID = 2;
-	repeated AbstractObject sceneItems = 3;
+	repeated SceneItem sceneItems = 3;
 }
 message EventSceneItemEnableStateChanged {
 	string sceneName = 1;
@@ -1250,7 +1250,7 @@ message GetSceneListResponse {
 	string currentProgramSceneUUID = 2;
 	string currentPreviewSceneName = 3;
 	string currentPreviewSceneUUID = 4;
-	repeated AbstractObject scenes = 5;
+	repeated Scene scenes = 5;
 }
 message GetGroupListRequest {
 }
@@ -1391,7 +1391,7 @@ message GetSceneTransitionListResponse {
 	string currentSceneTransitionName = 1;
 	string currentSceneTransitionUUID = 2;
 	string currentSceneTransitionKind = 3;
-	repeated AbstractObject transitions = 4;
+	repeated Transition transitions = 4;
 }
 message GetCurrentSceneTransitionRequest {
 }
